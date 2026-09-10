@@ -15,6 +15,7 @@ import { HotkeyModal } from '../components/modals/HotkeyModal';
 import { LicenseModal } from '../components/modals/LicenseModal';
 import { QrModal } from '../components/modals/QrModal';
 import { ServerInfoModal } from '../components/modals/ServerInfoModal';
+import { OAB_FONT_FAMILY, oabBlue, oabRed } from '../defaults/oab';
 import { useLocalState } from '../states/LocalState';
 import { LanguageContext } from './LanguageContext';
 import { colorSchema } from './colorSchema';
@@ -29,10 +30,34 @@ export function ThemeContext({
   // Theme
   try {
     customUserTheme = createTheme({
+      // Paleta institucional da OAB-MA (ver defaults/oab.tsx)
+      colors: {
+        oabBlue: oabBlue,
+        oabRed: oabRed
+      },
       primaryColor: userTheme.primaryColor,
+      // O índice 6 das paletas carrega o Pantone oficial
+      primaryShade: 6,
+      fontFamily: OAB_FONT_FAMILY,
+      fontFamilyMonospace: "'Barlow', ui-monospace, monospace",
       white: userTheme.whiteColor,
       black: userTheme.blackColor,
       defaultRadius: userTheme.radius,
+      // Sombras discretas no lugar de bordas duras: o sistema e usado o dia
+      // inteiro, entao o contorno dos blocos precisa ser suave.
+      shadows: {
+        xs: '0 1px 2px rgba(13, 63, 124, 0.06), 0 1px 3px rgba(13, 63, 124, 0.04)',
+        sm: '0 1px 3px rgba(13, 63, 124, 0.08), 0 4px 12px rgba(13, 63, 124, 0.05)'
+      },
+      headings: {
+        fontFamily: OAB_FONT_FAMILY,
+        fontWeight: '600'
+      },
+      components: {
+        Card: { defaultProps: { shadow: 'xs', radius: 'md' } },
+        Paper: { defaultProps: { shadow: 'xs', radius: 'md' } },
+        Button: { defaultProps: { radius: 'md' } }
+      },
       breakpoints: {
         xs: '30em',
         sm: '48em',

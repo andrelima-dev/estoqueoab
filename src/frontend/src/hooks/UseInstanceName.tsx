@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { OAB_SYSTEM_SHORT_NAME } from '../defaults/oab';
 import { useGlobalSettingsState } from '../states/SettingsStates';
 
 /**
@@ -9,6 +10,9 @@ export default function useInstanceName(): string {
   const globalSettings = useGlobalSettingsState();
 
   return useMemo(() => {
-    return globalSettings.getSetting('INVENTREE_INSTANCE', 'InvenTree');
+    return globalSettings.getSetting(
+      'INVENTREE_INSTANCE',
+      OAB_SYSTEM_SHORT_NAME
+    );
   }, [globalSettings]);
 }

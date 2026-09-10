@@ -3,7 +3,7 @@
 {% spa_bundle as bundle %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8" />
@@ -15,13 +15,13 @@
 <body>
   <div id="root">
     <div id="update-warning" style="display: none;">
-      If you see this text there might be an issue with your update.
-      <br>
-      See <a href="https://docs.inventree.org/en/stable/settings/error_codes/#inve-e1">INVE-E1</a> in the docs for help.
+      Não foi possível carregar o sistema. Recarregue a página; se o problema
+      continuar, procure o setor de tecnologia da Seccional.
     </div>
     <div id="no-javascript-warning" style="display: none;">
       <hr>
-      This application requires JavaScript to function correctly. Please enable JavaScript in your browser settings.
+      Este sistema precisa de JavaScript para funcionar. Ative o JavaScript nas
+      configurações do navegador.
     </div>
     <noscript>
       <!-- fallback if javascript is blocked -->
@@ -45,9 +45,10 @@
   {% if bundle == "NOT_FOUND" %}
   <div id="spa_bundle_error">
     <div>
-      <h1>INVE-E1 - No frontend included</h1>
-      <p>The frontend bundle could not be found. Please check that your deployment method includes the bundle or check the <a href="https://docs.inventree.org/en/stable/faq/">FAQ</a>.<br/>
-        <span>Install method: <code>{% inventree_installer %}</code></span></p>
+      <h1>Interface não encontrada</h1>
+      <p>Os arquivos da interface não foram encontrados no servidor. Refaça o
+        build do frontend e execute <code>collectstatic</code>.<br/>
+        <span>Método de instalação: <code>{% inventree_installer %}</code></span></p>
   </div>
   {% else %}
   <div id="spa_bundle">{{ bundle }}</div>

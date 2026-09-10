@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react';
+import { OAB_SYSTEM_SHORT_NAME } from '../../defaults/oab';
 import { useGlobalSettingsState } from '../../states/SettingsStates';
 
 /**
@@ -16,7 +17,7 @@ export default function PageTitle({
   const pageTitle = useMemo(() => {
     const instanceName = globalSettings.getSetting(
       'INVENTREE_INSTANCE',
-      'InvenTree'
+      OAB_SYSTEM_SHORT_NAME
     );
     const useInstanceName = globalSettings.isSet(
       'INVENTREE_INSTANCE_TITLE',

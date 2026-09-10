@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" role="img" aria-label="OAB Maranhão">
+  <title>OAB Maranhão</title>
+  <!--
+    Marca da OAB na forma simplificada, permitida pelo Manual de Identidade
+    Visual (pág. 9), recortada em quadrado para uso como ícone do navegador.
+    Fundo no vermelho Pantone 200 C, letras em branco.
+  -->
+  <rect width="150" height="150" fill="#BA0C2F" />
+  <g fill="#FFFFFF" transform="translate(-5.98 12.06) scale(0.839)">
+    <circle cx="58" cy="75" r="33" />
+    <path d="M114 42 L144 108 L84 108 Z" />
+    <path d="M142 42 L162 42 A16.5 16.5 0 0 1 162 75 L168 75 A16.5 16.5 0 0 1 168 108 L142 108 Z" />
+  </g>
+</svg>

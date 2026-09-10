@@ -1,13 +1,12 @@
-import { Group, Paper, Space, Stack, Text } from '@mantine/core';
-
-import { StylishText } from '@lib/components/StylishText';
 import { useInvenTreeHotkeys } from '@lib/functions/Events';
 import { shortenString } from '@lib/functions/String';
 import { t } from '@lingui/core/macro';
+import { Group, Paper, Space, Stack, Text, Title } from '@mantine/core';
 import { Fragment, type ReactNode, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDetailNavigation } from '../../hooks/UseDetailNavigation';
 import { usePluginUIFeature } from '../../hooks/UsePluginUIFeature';
+import * as classes from '../../main.css';
 import { useUserSettingsState } from '../../states/SettingsStates';
 import PrimaryActionButton from '../buttons/PrimaryActionButton';
 import { ApiImage } from '../images/ApiImage';
@@ -142,7 +141,7 @@ export function PageDetail({
           breadcrumbs={computedBreadcrumbs ?? []}
           detailNavigation={detailNavigation}
         />
-        <Paper p='xs' radius='xs' shadow='xs'>
+        <Paper p='md' radius='md' shadow='xs'>
           <Group
             justify='space-between'
             gap='xs'
@@ -167,12 +166,18 @@ export function PageDetail({
                     visibleFrom='sm'
                   />
                 )}
-                <Stack gap='xs'>
-                  {title && <StylishText size='lg'>{title}</StylishText>}
+                <Stack gap={2} className={classes.pageHeading}>
+                  {title && (
+                    <Title order={3} fw={650}>
+                      {title}
+                    </Title>
+                  )}
                   {subtitle && (
                     <Group gap='xs'>
                       {icon}
-                      <Text size='sm'>{description}</Text>
+                      <Text size='sm' c='dimmed'>
+                        {description}
+                      </Text>
                     </Group>
                   )}
                 </Stack>

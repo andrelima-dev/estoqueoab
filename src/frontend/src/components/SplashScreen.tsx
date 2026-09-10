@@ -1,6 +1,7 @@
 import { BackgroundImage } from '@mantine/core';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
+import { isDefaultInvenTreeAsset } from '../defaults/oab';
 import { generateUrl } from '../functions/urls';
 import { useServerApiState } from '../states/ServerApiState';
 import { useUserState } from '../states/UserState';
@@ -27,11 +28,13 @@ export default function SplashScreen({
     }
   }, [server]);
 
-  if (server.customize?.splash && checked_login) {
+  // Só exibimos uma imagem de fundo quando o administrador enviou uma:
+  // a imagem padrão da plataforma não faz parte da identidade da OAB-MA.
+  const splash = server.customize?.splash;
+
+  if (!!splash && !isDefaultInvenTreeAsset(splash) && checked_login) {
     return (
-      <BackgroundImage src={generateUrl(server.customize.splash)}>
-        {children}
-      </BackgroundImage>
+      <BackgroundImage src={generateUrl(splash)}>{children}</BackgroundImage>
     );
   } else {
     return <>{children}</>;

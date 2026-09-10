@@ -8,10 +8,13 @@ import {
   Group,
   Loader,
   Paper,
-  Stack
+  Stack,
+  Text
 } from '@mantine/core';
 import { Outlet, useNavigate } from 'react-router-dom';
 import SplashScreen from '../../components/SplashScreen';
+import { OabLogo } from '../../components/items/OabLogo';
+import { OAB_LOGIN_SUBTITLE, OAB_ORGANIZATION } from '../../defaults/oab';
 import { doLogout } from '../../functions/auth';
 
 export default function LoginLayoutComponent() {
@@ -19,7 +22,16 @@ export default function LoginLayoutComponent() {
     <SplashScreen>
       <Center mih='100vh' p='lg'>
         <Container>
-          <Outlet />
+          <Stack align='center' gap='lg'>
+            <Stack align='center' gap={4}>
+              <OabLogo height={64} />
+              <StylishText size='xl'>{OAB_ORGANIZATION}</StylishText>
+              <Text size='sm' c='dimmed'>
+                {OAB_LOGIN_SUBTITLE}
+              </Text>
+            </Stack>
+            <Outlet />
+          </Stack>
         </Container>
       </Center>
     </SplashScreen>

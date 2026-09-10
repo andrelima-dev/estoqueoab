@@ -6,6 +6,7 @@ import { apiUrl } from '@lib/functions/Api';
 import type { UserTheme } from '@lib/types/Core';
 import type { HostList } from '@lib/types/Server';
 import { api } from '../App';
+import { OAB_PRIMARY_COLOR } from '../defaults/oab';
 import { useUserState } from './UserState';
 
 interface LocalStateProps {
@@ -105,10 +106,10 @@ export const useLocalState = create<LocalStateProps>()(
         if (!noPatch) patchUser('language', newLanguage);
       },
       userTheme: {
-        primaryColor: 'indigo',
+        primaryColor: OAB_PRIMARY_COLOR,
         whiteColor: '#fff',
         blackColor: '#000',
-        radius: 'xs',
+        radius: 'md',
         loader: 'oval'
       },
       setTheme: (newValues, noPatch = false) => {

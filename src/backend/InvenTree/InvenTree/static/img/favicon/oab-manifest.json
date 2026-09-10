@@ -1,0 +1,19 @@
+{
+  "name": "Estoque OAB-MA",
+  "short_name": "Estoque OAB-MA",
+  "theme_color": "#004B87",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "oab-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "oab-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

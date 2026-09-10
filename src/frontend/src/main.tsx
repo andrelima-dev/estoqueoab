@@ -1,3 +1,9 @@
+// Barlow: fonte oficial da identidade visual da OAB, servida pelo proprio
+// pacote (sem depender de acesso externo a fontes na rede da Seccional).
+import '@fontsource/barlow/400.css';
+import '@fontsource/barlow/500.css';
+import '@fontsource/barlow/600.css';
+import '@fontsource/barlow/700.css';
 import '@mantine/carousel/styles.css';
 import '@mantine/charts/styles.css';
 import '@mantine/core/styles.css';
