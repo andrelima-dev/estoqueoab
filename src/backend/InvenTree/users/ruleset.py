@@ -111,6 +111,8 @@ def get_ruleset_models() -> dict:
             'django_mailbox_mailbox',
             'django_mailbox_messageattachment',
             'django_mailbox_message',
+            # OAB-MA: cadastro de setores/departamentos
+            'oab_sector',
         ],
         RuleSetEnum.BOM: ['part_bomitem', 'part_bomitemsubstitute'],
         RuleSetEnum.BUILD: [
@@ -147,6 +149,8 @@ def get_ruleset_models() -> dict:
             'stock_stockitem',
             'stock_stockitemtracking',
             'stock_stockitemtestresult',
+            # OAB-MA: registro institucional das movimentações
+            'oab_stockmovement',
         ],
         RuleSetEnum.PURCHASE_ORDER: [
             'company_company',

@@ -320,6 +320,7 @@ INSTALLED_APPS = [
     'stock.apps.StockConfig',
     'users.apps.UsersConfig',
     'machine.apps.MachineConfig',
+    'oab.apps.OabConfig',  # Customização institucional OAB-MA
     'data_exporter.apps.DataExporterConfig',
     'importer.apps.ImporterConfig',
     'web',

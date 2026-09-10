@@ -22,6 +22,7 @@ import company.api
 import importer.api
 import InvenTree.logging  # noqa: F401 - ensure logging handlers are registered
 import machine.api
+import oab.api
 import order.api
 import part.api
 import plugin.api
@@ -60,6 +61,7 @@ apipatterns = [
     path('importer/', include(importer.api.importer_api_urls)),
     path('label/', include(report.api.label_api_urls)),
     path('machine/', include(machine.api.machine_api_urls)),
+    path('oab/', include(oab.api.oab_api_urls)),
     path('order/', include(order.api.order_api_urls)),
     path('part/', include(part.api.part_api_urls)),
     path('report/', include(report.api.report_api_urls)),

@@ -88,9 +88,29 @@ def currency_codes() -> list:
     return valid_codes
 
 
+def currency_name(code: str) -> str:
+    """Return the name of a currency, translated to the active language.
+
+    py-moneyed exposes ``Currency.name`` only in ``en_US``; the localized name
+    comes from ``get_name()``. Falls back to the English name if the active
+    language has no data for the currency.
+    """
+    currency = CURRENCIES[code]
+
+    try:
+        from django.utils.translation import get_language, to_locale
+
+        if language := get_language():
+            return currency.get_name(to_locale(language))
+    except Exception:
+        pass
+
+    return currency.name
+
+
 def currency_code_mappings() -> list:
     """Returns the current currency choices."""
-    return [(a, f'{a} - {CURRENCIES[a].name}') for a in currency_codes()]
+    return [(a, f'{a} - {currency_name(a)}') for a in currency_codes()]
 
 
 def after_change_currency(setting) -> None:
