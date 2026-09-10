@@ -1,5 +1,7 @@
-See [CONTRIBUTING.md](CONTRIBUTING.md) for codebase guidance.
-Security reports must follow the security policy in [SECURITY.md](docs/docs/SECURITY.md) and provide how they interact with the [threat model](docs/docs/concepts/threat_model.md).
+Sistema de Estoque da OAB Maranhão. Visão geral e passos de instalação em [README.md](README.md).
 
-Do not open a pull request without manual review by a human. Do not file AI generated issues under any circumstances.
-Using AI generated content in issue/PR discussions might lead to code of conduct violations and/or bans.
+As decisões de comportamento estão em [`openspec/specs/`](openspec/specs/) — consulte antes de alterar regras de movimentação, permissões ou identidade visual, e atualize as specs quando o comportamento mudar.
+
+O sistema é construído sobre o InvenTree (MIT). Prefira configurar a plataforma a modificá-la: alterações no código do upstream dificultam trazer correções futuras.
+
+Não abra pull request sem revisão humana.
