@@ -77,7 +77,7 @@ console_log: True
 language: pt-br
 
 # System time-zone (default is UTC). Reference: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone: UTC
+timezone: America/Fortaleza
 
 # Email backend configuration
 # See https://docs.inventree.org/en/stable/settings/email for more information on email configuration

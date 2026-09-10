@@ -217,6 +217,27 @@ editando registros anteriores.
 - **AND** registra uma movimentação do tipo AJUSTE com justificativa
   obrigatória
 
+### Requirement: Horário no fuso da Seccional
+
+O servidor SHALL operar no fuso do Maranhão (`timezone: America/Fortaleza`, UTC−3
+sem horário de verão). O padrão do InvenTree é UTC, que adianta os registros em
+três horas.
+
+A conversão MUST ser feita pelo servidor: o formato de data da API
+(`DATETIME_FORMAT = '%Y-%m-%d %H:%M'`) não carrega o fuso, então o horário
+precisa chegar à interface já convertido — não há como o navegador corrigi-lo.
+
+Isso vale também para os contadores de "hoje": em UTC o dia virava às 21h,
+hora local, e movimentações da noite entravam no dia seguinte.
+
+Os registros continuam gravados em UTC no banco. Trocar o fuso muda a
+apresentação, não o dado.
+
+#### Scenario: Horário confere com o relógio
+
+- **WHEN** uma movimentação é registrada às 17h49 no Maranhão
+- **THEN** o histórico exibe 17:49
+
 ### Requirement: Histórico filtrável por período
 
 O histórico SHALL oferecer atalhos de período — hoje, 7 dias e 30 dias — junto

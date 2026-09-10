@@ -70,7 +70,9 @@ Dois passos são fáceis de esquecer e quebram a interface em silêncio:
    python src/backend/InvenTree/manage.py collectstatic --noinput
    ```
 
-O idioma padrão vem do servidor: `language: pt-br` em `config/config.yaml`.
+O idioma padrão e o fuso vêm do servidor, em `config/config.yaml`:
+`language: pt-br` e `timezone: America/Fortaleza`. O padrão do InvenTree é
+UTC, que exibiria as movimentações três horas adiantadas.
 
 ## Especificações
 
