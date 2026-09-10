@@ -18,6 +18,7 @@ import {
   IconClipboardList,
   IconCurrencyDollar,
   IconExclamationCircle,
+  IconHistory,
   IconInfoCircle,
   IconLayersLinked,
   IconListDetails,
@@ -70,6 +71,10 @@ import { RenderPart } from '../../components/render/Part';
 import OrderPartsWizard from '../../components/wizards/OrderPartsWizard';
 import { useApi } from '../../contexts/ApiContext';
 import { formatDecimal } from '../../defaults/formatters';
+import {
+  OAB_ENABLE_INDUSTRIAL_MODULES,
+  OAB_PART_PANELS
+} from '../../defaults/oab';
 import { usePartFields } from '../../forms/PartForms';
 import { useFindSerialNumberForm } from '../../forms/StockForms';
 import {
@@ -89,6 +94,7 @@ import { BomTable } from '../../tables/bom/BomTable';
 import { UsedInTable } from '../../tables/bom/UsedInTable';
 import { BuildOrderTable } from '../../tables/build/BuildOrderTable';
 import { ParameterTable } from '../../tables/general/ParameterTable';
+import { MovementTable } from '../../tables/oab/MovementTable';
 import PartPurchaseOrdersTable from '../../tables/part/PartPurchaseOrdersTable';
 import PartSalesOrdersTable from '../../tables/part/PartSalesOrdersTable';
 import PartTestResultTable from '../../tables/part/PartTestResultTable';
@@ -285,10 +291,10 @@ export default function PartDetail() {
 
   // Part data panels (recalculate when part data changes)
   const partPanels: PanelType[] = useMemo(() => {
-    return [
+    const panels: PanelType[] = [
       {
         name: 'details',
-        label: t`Part Details`,
+        label: t`Detalhes do Material`,
         icon: <IconInfoCircle />,
         content: (
           <PartDetailsPanel
@@ -307,7 +313,8 @@ export default function PartDetail() {
         content: part.pk ? (
           <StockItemTable
             tableName='part-stock'
-            allowAdd
+            allowAdd={OAB_ENABLE_INDUSTRIAL_MODULES}
+            enableActions={OAB_ENABLE_INDUSTRIAL_MODULES}
             params={{
               part: part.pk
             }}
@@ -514,6 +521,20 @@ export default function PartDetail() {
           </>
         )
       },
+      {
+        name: 'movements',
+        label: t`Movimentações`,
+        icon: <IconHistory />,
+        hidden: !user.hasViewRole(UserRoles.stock),
+        content: part.pk ? (
+          <MovementTable
+            tableName='part-movements'
+            params={{ part: part.pk }}
+          />
+        ) : (
+          <Skeleton />
+        )
+      },
       AttachmentPanel({
         model_type: ModelType.part,
         model_id: part?.pk,
@@ -525,6 +546,14 @@ export default function PartDetail() {
         note_count: instanceInfo.note_count
       })
     ];
+
+    if (OAB_ENABLE_INDUSTRIAL_MODULES) {
+      return panels;
+    }
+
+    // OAB-MA: o almoxarifado é de uso próprio - não há compras, vendas,
+    // fabricação, precificação nem estrutura de produto.
+    return panels.filter((panel) => OAB_PART_PANELS.includes(panel.name));
   }, [
     id,
     part,
@@ -539,7 +568,7 @@ export default function PartDetail() {
 
   const breadcrumbs = useMemo(() => {
     return [
-      { name: t`Parts`, url: '/part' },
+      { name: t`Materiais`, url: '/materiais' },
       ...(part.category_path ?? []).map((c: any) => ({
         name: c.name,
         url: getDetailUrl(ModelType.partcategory, c.pk)
@@ -805,7 +834,7 @@ export default function PartDetail() {
         <Stack gap='xs'>
           {user.hasViewRole(UserRoles.part_category) && (
             <NavigationTree
-              title={t`Part Categories`}
+              title={t`Categorias`}
               childIdentifier='subcategories'
               modelType={ModelType.partcategory}
               endpoint={ApiEndpoints.category_tree}
@@ -817,7 +846,7 @@ export default function PartDetail() {
             />
           )}
           <PageDetail
-            title={`${t`Part`}: ${part.full_name}`}
+            title={`${t`Material`}: ${part.full_name}`}
             icon={
               lockingEnabled ? (
                 <ActionIcon

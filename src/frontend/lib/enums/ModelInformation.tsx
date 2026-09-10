@@ -58,9 +58,9 @@ export function registerModelRenderers(
 
 export const ModelInformationDict: ModelDict = {
   part: {
-    label: () => t`Part`,
-    label_multiple: () => t`Parts`,
-    url_overview: '/part/category/index/parts',
+    label: () => t`Material`,
+    label_multiple: () => t`Materiais`,
+    url_overview: '/materiais',
     url_detail: '/part/:pk/',
     api_endpoint: ApiEndpoints.part_list,
     admin_url: '/part/part/',
@@ -114,8 +114,8 @@ export const ModelInformationDict: ModelDict = {
     default_query_params: { part_detail: true, manufacturer_detail: true }
   },
   partcategory: {
-    label: () => t`Part Category`,
-    label_multiple: () => t`Part Categories`,
+    label: () => t`Categoria`,
+    label_multiple: () => t`Categorias`,
     url_overview: '/part/category/parts/subcategories',
     url_detail: '/part/category/:pk/',
     api_endpoint: ApiEndpoints.category_list,
@@ -123,9 +123,9 @@ export const ModelInformationDict: ModelDict = {
     icon: 'category'
   },
   stockitem: {
-    label: () => t`Stock Item`,
-    label_multiple: () => t`Stock Items`,
-    url_overview: '/stock/location/index/stock-items',
+    label: () => t`Item em Estoque`,
+    label_multiple: () => t`Itens em Estoque`,
+    url_overview: '/estoque/atual',
     url_detail: '/stock/item/:pk/',
     api_endpoint: ApiEndpoints.stock_item_list,
     admin_url: '/stock/stockitem/',
@@ -134,8 +134,8 @@ export const ModelInformationDict: ModelDict = {
     default_query_params: { part_detail: true }
   },
   stocklocation: {
-    label: () => t`Stock Location`,
-    label_multiple: () => t`Stock Locations`,
+    label: () => t`Local de Estoque`,
+    label_multiple: () => t`Locais de Estoque`,
     url_overview: '/stock/location',
     url_detail: '/stock/location/:pk/',
     api_endpoint: ApiEndpoints.stock_location_list,
@@ -150,8 +150,8 @@ export const ModelInformationDict: ModelDict = {
     icon: 'location'
   },
   stockhistory: {
-    label: () => t`Stock History`,
-    label_multiple: () => t`Stock Histories`,
+    label: () => t`Movimentação`,
+    label_multiple: () => t`Movimentações`,
     api_endpoint: ApiEndpoints.stock_tracking_list,
     icon: 'history'
   },
@@ -289,15 +289,15 @@ export const ModelInformationDict: ModelDict = {
     icon: 'group'
   },
   user: {
-    label: () => t`User`,
-    label_multiple: () => t`Users`,
+    label: () => t`Usuário`,
+    label_multiple: () => t`Usuários`,
     url_detail: '/core/user/:pk/',
     api_endpoint: ApiEndpoints.user_list,
     icon: 'user'
   },
   group: {
-    label: () => t`Group`,
-    label_multiple: () => t`Groups`,
+    label: () => t`Grupo`,
+    label_multiple: () => t`Grupos`,
     url_detail: '/core/group/:pk/',
     api_endpoint: ApiEndpoints.group_list,
     admin_url: '/auth/group/',

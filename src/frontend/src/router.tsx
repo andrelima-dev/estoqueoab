@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
+import { OAB_ENABLE_INDUSTRIAL_MODULES } from './defaults/oab';
 import { EagerLoadable, Loadable } from './functions/loading';
 import { onLocaleReady } from './functions/localeReady';
 
@@ -15,7 +16,36 @@ export const LoginLayoutComponent = EagerLoadable(
   () => import('./pages/Auth/Layout')
 );
 
-export const Home = Loadable(lazy(() => import('./pages/Index/Home')));
+export const Home = Loadable(lazy(() => import('./pages/oab/Dashboard')));
+
+// OAB-MA: páginas do almoxarifado institucional
+export const MaterialsPage = Loadable(
+  lazy(() => import('./pages/oab/MaterialsPage'))
+);
+export const CurrentStockPage = Loadable(
+  lazy(() => import('./pages/oab/CurrentStockPage'))
+);
+export const StockEntryPage = Loadable(
+  lazy(() => import('./pages/oab/StockEntryPage'))
+);
+export const StockIssuePage = Loadable(
+  lazy(() => import('./pages/oab/StockIssuePage'))
+);
+export const StockTransferPage = Loadable(
+  lazy(() => import('./pages/oab/StockTransferPage'))
+);
+export const StockAdjustPage = Loadable(
+  lazy(() => import('./pages/oab/StockAdjustPage'))
+);
+export const MovementHistoryPage = Loadable(
+  lazy(() => import('./pages/oab/MovementHistoryPage'))
+);
+export const ReportsPage = Loadable(
+  lazy(() => import('./pages/oab/ReportsPage'))
+);
+export const SectorsPage = Loadable(
+  lazy(() => import('./pages/oab/SectorsPage'))
+);
 
 export const CompanyDetail = Loadable(
   lazy(() => import('./pages/company/CompanyDetail'))
@@ -171,6 +201,28 @@ export const routes = (
       <Route path='home/' element={<Home />} />,
       <Route path='notifications/*' element={<Notifications />} />,
       <Route path='scan/' element={<Scan />} />,
+      {/* OAB-MA: fluxos do almoxarifado */}
+      <Route path='materiais/' element={<MaterialsPage />} />
+      <Route path='estoque/'>
+        <Route index element={<Navigate to='atual' />} />
+        <Route path='atual' element={<CurrentStockPage />} />
+      </Route>
+      <Route path='movimentacoes/'>
+        <Route index element={<Navigate to='historico' />} />
+        <Route path='entrada' element={<StockEntryPage />} />
+        <Route path='saida' element={<StockIssuePage />} />
+        <Route path='transferencia' element={<StockTransferPage />} />
+        <Route path='ajuste' element={<StockAdjustPage />} />
+        <Route path='historico' element={<MovementHistoryPage />} />
+      </Route>
+      <Route path='relatorios/'>
+        <Route index element={<Navigate to='estoque' />} />
+        <Route path=':report' element={<ReportsPage />} />
+      </Route>
+      <Route path='administracao/'>
+        <Route index element={<Navigate to='setores' />} />
+        <Route path='setores' element={<SectorsPage />} />
+      </Route>
       <Route path='settings/'>
         <Route index element={<Navigate to='admin/' />} />
         <Route path='admin/*' element={<AdminCenter />} />
@@ -188,32 +240,46 @@ export const routes = (
         <Route path='item/:id/*' element={<StockDetail />} />
         <Route path='transfer-order/:id/*' element={<TransferOrderDetail />} />
       </Route>
-      <Route path='manufacturing/'>
-        <Route index element={<Navigate to='index/' />} />
-        <Route path='index/*' element={<BuildIndex />} />
-        <Route path='build-order/:id/*' element={<BuildDetail />} />
-      </Route>
-      <Route path='purchasing/'>
-        <Route index element={<Navigate to='index/' />} />
-        <Route path='index/*' element={<PurchasingIndex />} />
-        <Route path='purchase-order/:id/*' element={<PurchaseOrderDetail />} />
-        <Route path='supplier/:id/*' element={<SupplierDetail />} />
-        <Route path='supplier-part/:id/*' element={<SupplierPartDetail />} />
-        <Route path='manufacturer/:id/*' element={<ManufacturerDetail />} />
-        <Route
-          path='manufacturer-part/:id/*'
-          element={<ManufacturerPartDetail />}
-        />
-      </Route>
+      {/*
+        OAB-MA: módulos industriais / comerciais.
+        Ficam fora da navegação e das rotas, mas o backend permanece intacto -
+        basta habilitar OAB_ENABLE_INDUSTRIAL_MODULES para restaurá-los.
+      */}
+      {OAB_ENABLE_INDUSTRIAL_MODULES && (
+        <Route path='manufacturing/'>
+          <Route index element={<Navigate to='index/' />} />
+          <Route path='index/*' element={<BuildIndex />} />
+          <Route path='build-order/:id/*' element={<BuildDetail />} />
+        </Route>
+      )}
+      {OAB_ENABLE_INDUSTRIAL_MODULES && (
+        <Route path='purchasing/'>
+          <Route index element={<Navigate to='index/' />} />
+          <Route path='index/*' element={<PurchasingIndex />} />
+          <Route
+            path='purchase-order/:id/*'
+            element={<PurchaseOrderDetail />}
+          />
+          <Route path='supplier/:id/*' element={<SupplierDetail />} />
+          <Route path='supplier-part/:id/*' element={<SupplierPartDetail />} />
+          <Route path='manufacturer/:id/*' element={<ManufacturerDetail />} />
+          <Route
+            path='manufacturer-part/:id/*'
+            element={<ManufacturerPartDetail />}
+          />
+        </Route>
+      )}
       <Route path='company/:id/*' element={<CompanyDetail />} />
-      <Route path='sales/'>
-        <Route index element={<Navigate to='index/' />} />
-        <Route path='index/*' element={<SalesIndex />} />
-        <Route path='sales-order/:id/*' element={<SalesOrderDetail />} />
-        <Route path='shipment/:id/*' element={<SalesOrderShipmentDetail />} />
-        <Route path='return-order/:id/*' element={<ReturnOrderDetail />} />
-        <Route path='customer/:id/*' element={<CustomerDetail />} />
-      </Route>
+      {OAB_ENABLE_INDUSTRIAL_MODULES && (
+        <Route path='sales/'>
+          <Route index element={<Navigate to='index/' />} />
+          <Route path='index/*' element={<SalesIndex />} />
+          <Route path='sales-order/:id/*' element={<SalesOrderDetail />} />
+          <Route path='shipment/:id/*' element={<SalesOrderShipmentDetail />} />
+          <Route path='return-order/:id/*' element={<ReturnOrderDetail />} />
+          <Route path='customer/:id/*' element={<CustomerDetail />} />
+        </Route>
+      )}
       <Route path='core/'>
         <Route index element={<Navigate to='index/' />} />
         <Route path='index/*' element={<CoreIndex />} />

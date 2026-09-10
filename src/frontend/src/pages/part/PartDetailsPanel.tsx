@@ -16,6 +16,7 @@ import { DetailsImage } from '../../components/details/DetailsImage';
 import { ItemDetailsGrid } from '../../components/details/ItemDetails';
 import { useParameterDetailsGrid } from '../../components/details/ParameterDetailsGrid';
 import { formatPriceRange } from '../../defaults/formatters';
+import { OAB_ENABLE_INDUSTRIAL_MODULES } from '../../defaults/oab';
 import { useInstance } from '../../hooks/UseInstance';
 
 export function PartDetailsPanel({
@@ -80,7 +81,7 @@ export function PartDetailsPanel({
     {
       type: 'string',
       name: 'IPN',
-      label: t`IPN`,
+      label: t`Código`,
       copy: true,
       hidden: !instance?.IPN
     },
@@ -131,7 +132,7 @@ export function PartDetailsPanel({
     {
       type: 'string',
       name: 'units',
-      label: t`Units`,
+      label: t`Unidade`,
       copy: true,
       hidden: !instance?.units
     },
@@ -240,34 +241,41 @@ export function PartDetailsPanel({
     }
   ];
 
-  const bl: DetailsField[] = [
-    { type: 'boolean', name: 'active', label: t`Active` },
-    { type: 'boolean', name: 'locked', label: t`Locked` },
-    {
-      type: 'boolean',
-      icon: 'template',
-      name: 'is_template',
-      label: t`Template Part`
-    },
-    { type: 'boolean', name: 'assembly', label: t`Assembled Part` },
-    { type: 'boolean', name: 'component', label: t`Component Part` },
-    {
-      type: 'boolean',
-      name: 'testable',
-      label: t`Testable Part`,
-      icon: 'test'
-    },
-    { type: 'boolean', name: 'trackable', label: t`Trackable Part` },
-    { type: 'boolean', name: 'purchaseable', label: t`Purchaseable Part` },
-    {
-      type: 'boolean',
-      name: 'salable',
-      icon: 'saleable',
-      label: t`Saleable Part`
-    },
-    { type: 'boolean', name: 'virtual', label: t`Virtual Part` },
-    { type: 'boolean', name: 'starred', label: t`Subscribed`, icon: 'bell' }
-  ];
+  const bl: DetailsField[] = OAB_ENABLE_INDUSTRIAL_MODULES
+    ? [
+        { type: 'boolean', name: 'active', label: t`Active` },
+        { type: 'boolean', name: 'locked', label: t`Locked` },
+        {
+          type: 'boolean',
+          icon: 'template',
+          name: 'is_template',
+          label: t`Template Part`
+        },
+        { type: 'boolean', name: 'assembly', label: t`Assembled Part` },
+        { type: 'boolean', name: 'component', label: t`Component Part` },
+        {
+          type: 'boolean',
+          name: 'testable',
+          label: t`Testable Part`,
+          icon: 'test'
+        },
+        { type: 'boolean', name: 'trackable', label: t`Trackable Part` },
+        { type: 'boolean', name: 'purchaseable', label: t`Purchaseable Part` },
+        {
+          type: 'boolean',
+          name: 'salable',
+          icon: 'saleable',
+          label: t`Saleable Part`
+        },
+        { type: 'boolean', name: 'virtual', label: t`Virtual Part` },
+        { type: 'boolean', name: 'starred', label: t`Subscribed`, icon: 'bell' }
+      ]
+    : // OAB-MA: as demais flags são conceitos de manufatura/vendas, fixados no
+      // cadastro e sem significado para o almoxarifado.
+      [
+        { type: 'boolean', name: 'active', label: t`Ativo` },
+        { type: 'boolean', name: 'starred', label: t`Inscrito`, icon: 'bell' }
+      ];
 
   const br: DetailsField[] = useMemo(() => {
     const fields: DetailsField[] = [

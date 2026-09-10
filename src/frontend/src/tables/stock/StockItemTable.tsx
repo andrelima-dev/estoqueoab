@@ -93,6 +93,7 @@ function stockItemTableColumns({
       accessor: 'batch',
       sortable: true,
       copyable: true,
+      defaultVisible: false,
       filter: ['has_batch_code', 'batch']
     },
     LocationColumn({
@@ -178,6 +179,7 @@ function stockItemTableColumns({
       accessor: 'stocktake_date',
       title: t`Stocktake Date`,
       sortable: true,
+      defaultVisible: false,
       filter: ['has_stocktake', 'stocktake_before', 'stocktake_after']
     })
   ];
@@ -335,6 +337,7 @@ export function StockItemTable({
   allowReturn = false,
   initialFilters,
   defaultInStock = true,
+  enableActions = true,
   tableName = 'stockitems'
 }: Readonly<{
   params?: any;
@@ -344,6 +347,11 @@ export function StockItemTable({
   allowReturn?: boolean;
   defaultInStock?: boolean | null;
   initialFilters?: TableFilter[];
+  /**
+   * Habilita as ações de ajuste de estoque (contar, adicionar, remover,
+   * transferir, mesclar, excluir). Desligue para uma tabela de consulta.
+   */
+  enableActions?: boolean;
   tableName: string;
 }>) {
   const initialStockFilters: TableFilter[] = useMemo(() => {
@@ -441,11 +449,23 @@ export function StockItemTable({
 
   const stockAdjustActions = useStockAdjustActions({
     formProps: stockOperationProps,
-    return: allowReturn,
-    changeBatch: true
+    return: allowReturn && enableActions,
+    changeBatch: enableActions,
+    add: enableActions,
+    assign: enableActions,
+    count: enableActions,
+    changeStatus: enableActions,
+    delete: enableActions,
+    merge: enableActions,
+    remove: enableActions,
+    transfer: enableActions
   });
 
   const tableActions = useMemo(() => {
+    if (!enableActions) {
+      return [];
+    }
+
     return [
       stockAdjustActions.dropdown,
       <ActionButton
@@ -471,6 +491,7 @@ export function StockItemTable({
   }, [
     user,
     allowAdd,
+    enableActions,
     table.hasSelectedRecords,
     table.selectedRecords,
     stockAdjustActions.dropdown
@@ -487,9 +508,9 @@ export function StockItemTable({
         columns={tableColumns}
         props={{
           enableDownload: true,
-          enableSelection: true,
-          enableLabels: true,
-          enableReports: true,
+          enableSelection: enableActions,
+          enableLabels: enableActions,
+          enableReports: enableActions,
           tableFilters: tableFilters,
           tableActions: tableActions,
           modelType: ModelType.stockitem,

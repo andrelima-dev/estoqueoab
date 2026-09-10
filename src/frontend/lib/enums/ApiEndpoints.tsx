@@ -162,6 +162,15 @@ export enum ApiEndpoints {
   stock_serialize = 'stock/:id/serialize/',
   stock_serial_info = 'stock/:id/serial-numbers/',
 
+  // OAB-MA: endpoints do almoxarifado institucional
+  oab_sector_list = 'oab/sector/',
+  oab_movement_list = 'oab/movement/',
+  oab_entry = 'oab/entry/',
+  oab_issue = 'oab/issue/',
+  oab_transfer = 'oab/transfer/',
+  oab_adjust = 'oab/adjust/',
+  oab_summary = 'oab/summary/',
+
   // Generator API endpoints
   generate_batch_code = 'generate/batch-code/',
   generate_serial_number = 'generate/serial-number/',

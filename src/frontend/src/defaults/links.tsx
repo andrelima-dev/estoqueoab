@@ -1,22 +1,20 @@
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
-import { openContextModal } from '@mantine/modals';
-
 import { StylishText } from '@lib/components/StylishText';
 import { UserRoles } from '@lib/enums/Roles';
 import type { SettingsStateProps } from '@lib/types/Settings';
 import type { UserStateProps } from '@lib/types/User';
+import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
+import { openContextModal } from '@mantine/modals';
 import {
+  IconArrowsExchange,
   IconBox,
-  IconBuildingFactory2,
   IconDashboard,
   IconPackages,
-  IconShoppingCart,
-  IconTruckDelivery
+  IconReportAnalytics,
+  IconSettings
 } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
 import type { MenuLinkItem } from '../components/items/MenuLinks';
-import { useGlobalSettingsState } from '../states/SettingsStates';
 
 type NavTab = {
   name: string;
@@ -26,52 +24,41 @@ type NavTab = {
 };
 
 export function getNavTabs(user: UserStateProps): NavTab[] {
-  const globalSettings = useGlobalSettingsState.getState();
-
   const navTabs: NavTab[] = [
     {
       name: 'home',
-      title: t`Dashboard`,
+      title: t`Início`,
       icon: <IconDashboard />
     },
     {
-      name: 'part',
-      title: t`Parts`,
+      name: 'materiais',
+      title: t`Materiais`,
       icon: <IconBox />,
-      visible:
-        user.hasViewRole(UserRoles.part) ||
-        user.hasViewRole(UserRoles.part_category)
+      visible: user.hasViewRole(UserRoles.part)
     },
     {
-      name: 'stock',
-      title: t`Stock`,
+      name: 'estoque',
+      title: t`Estoque`,
       icon: <IconPackages />,
-      visible:
-        user.hasViewRole(UserRoles.stock) ||
-        user.hasViewRole(UserRoles.stock_location) ||
-        (globalSettings.isSet('TRANSFERORDER_ENABLED') &&
-          user.hasViewRole(UserRoles.transfer_order))
+      visible: user.hasViewRole(UserRoles.stock)
     },
     {
-      name: 'manufacturing',
-      title: t`Manufacturing`,
-      icon: <IconBuildingFactory2 />,
-      visible: user.hasViewRole(UserRoles.build)
+      name: 'movimentacoes',
+      title: t`Movimentações`,
+      icon: <IconArrowsExchange />,
+      visible: user.hasViewRole(UserRoles.stock)
     },
     {
-      name: 'purchasing',
-      title: t`Purchasing`,
-      icon: <IconShoppingCart />,
-      visible: user.hasViewRole(UserRoles.purchase_order)
+      name: 'relatorios',
+      title: t`Relatórios`,
+      icon: <IconReportAnalytics />,
+      visible: user.hasViewRole(UserRoles.stock)
     },
     {
-      name: 'sales',
-      title: t`Sales`,
-      icon: <IconTruckDelivery />,
-      visible:
-        user.hasViewRole(UserRoles.sales_order) ||
-        (globalSettings.isSet('RETURNORDER_ENABLED') &&
-          user.hasViewRole(UserRoles.return_order))
+      name: 'administracao',
+      title: t`Administração`,
+      icon: <IconSettings />,
+      visible: user.isStaff()
     }
   ];
 
@@ -93,46 +80,6 @@ export const docLinks = {
   errorcodes: 'https://docs.inventree.org/en/latest/sref/error-codes/'
 };
 
-export function DocumentationLinks(): MenuLinkItem[] {
-  return [
-    {
-      id: 'getting-started',
-      title: t`Getting Started`,
-      link: docLinks.getting_started,
-      external: true,
-      description: t`Getting started with InvenTree`
-    },
-    {
-      id: 'api',
-      title: t`API`,
-      link: docLinks.api,
-      external: true,
-      description: t`InvenTree API documentation`
-    },
-    {
-      id: 'developer',
-      title: t`Developer Manual`,
-      link: docLinks.developer,
-      external: true,
-      description: t`InvenTree developer manual`
-    },
-    {
-      id: 'faq',
-      title: t`FAQ`,
-      link: docLinks.faq,
-      external: true,
-      description: t`Frequently asked questions`
-    },
-    {
-      id: 'github',
-      title: t`GitHub Repository`,
-      link: docLinks.github,
-      external: true,
-      description: t`InvenTree source code on GitHub`
-    }
-  ];
-}
-
 export function serverInfo() {
   return openContextModal({
     modal: 'info',
@@ -151,7 +98,7 @@ export function aboutInvenTree() {
     modal: 'about',
     title: (
       <StylishText size='xl'>
-        <Trans>About InvenTree</Trans>
+        <Trans>Sobre a plataforma</Trans>
       </StylishText>
     ),
     size: 'xl',
@@ -172,43 +119,71 @@ export function licenseInfo() {
   });
 }
 
+/**
+ * Links de documentação da plataforma base.
+ *
+ * Não são exibidos na navegação do almoxarifado; permanecem disponíveis para os
+ * componentes de suporte técnico (ex.: painel "Primeiros passos").
+ */
+export function DocumentationLinks(): MenuLinkItem[] {
+  return [
+    {
+      id: 'getting-started',
+      title: t`Primeiros passos`,
+      link: docLinks.getting_started,
+      external: true,
+      description: t`Introdução à plataforma`
+    },
+    {
+      id: 'api',
+      title: t`API`,
+      link: docLinks.api,
+      external: true,
+      description: t`Documentação da API`
+    },
+    {
+      id: 'faq',
+      title: t`Perguntas frequentes`,
+      link: docLinks.faq,
+      external: true,
+      description: t`Perguntas frequentes sobre a plataforma`
+    }
+  ];
+}
+
 export function AboutLinks(
   settings: SettingsStateProps,
   user: UserStateProps
 ): MenuLinkItem[] {
   const base_items: MenuLinkItem[] = [
     {
-      id: 'documentation',
-      title: t`Documentation`,
-      description: t`InvenTree documentation`,
-      link: docLinks.docs,
-      external: true
-    },
-    {
       id: 'instance',
-      title: t`System Information`,
-      description: t`About this InvenTree instance`,
+      title: t`Informações do sistema`,
+      description: t`Dados técnicos desta instalação`,
       icon: 'info',
       action: serverInfo
     },
     {
       id: 'licenses',
-      title: t`License Information`,
-      description: t`Licenses for dependencies of the InvenTree software`,
+      title: t`Informações de licença`,
+      description: t`Licenças do software utilizado por este sistema`,
       icon: 'license',
       action: licenseInfo
     }
   ];
 
-  // Restrict the about link if that setting is set
-  if (user.isSuperuser() || !settings.isSet('INVENTREE_RESTRICT_ABOUT')) {
+  // A plataforma técnica é apresentada apenas a usuários administrativos:
+  // o operador do almoxarifado não precisa lidar com esse contexto, mas as
+  // informações de origem e licenciamento permanecem acessíveis.
+  if (user.isStaff() || !settings.isSet('INVENTREE_RESTRICT_ABOUT')) {
     base_items.push({
       id: 'about',
-      title: t`About InvenTree`,
-      description: t`About the InvenTree Project`,
+      title: t`Sobre a plataforma`,
+      description: t`Sobre o InvenTree, plataforma base deste sistema`,
       icon: 'info',
       action: aboutInvenTree
     });
   }
+
   return base_items;
 }

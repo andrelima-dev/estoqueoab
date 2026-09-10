@@ -980,7 +980,9 @@ export function InvenTreeTableInternal<T extends Record<string, any>>({
         page: Math.max(1, tableState.page),
         onPageChange: tableState.setPage,
         recordsPerPageOptions: PAGE_SIZES,
-        onRecordsPerPageChange: updatePageSize
+        onRecordsPerPageChange: updatePageSize,
+        // O rótulo padrão da tabela não passa pelo sistema de tradução
+        recordsPerPageLabel: t`Registros por página`
       };
     }
 
@@ -1039,8 +1041,6 @@ export function InvenTreeTableInternal<T extends Record<string, any>>({
                 (stickyTableHeader ? autoHeight : undefined)
               }
               withTableBorder={!tableProps.noHeader}
-              withColumnBorders
-              striped
               highlightOnHover
               loaderType={userTheme.loader}
               pinLastColumn={tableProps.rowActions != undefined}

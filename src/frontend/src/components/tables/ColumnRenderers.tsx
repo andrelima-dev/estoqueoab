@@ -90,7 +90,7 @@ export function RenderPartColumn({
 export function PartColumn(props: PartColumnProps): TableColumn {
   return {
     accessor: 'part',
-    title: t`Part`,
+    title: t`Material`,
     sortable: true,
     switchable: false,
     minWidth: '175px',
@@ -122,7 +122,7 @@ export function IPNColumn(props: TableColumnProps): TableColumn {
     sortable: true,
     ordering: 'IPN',
     switchable: true,
-    title: t`IPN`,
+    title: t`Código`,
     copyable: true,
     filter: 'has_ipn',
     ...props

@@ -1,21 +1,22 @@
-import { t } from '@lingui/core/macro';
-import { Container, Drawer, Flex, Group, Space } from '@mantine/core';
-import { useViewportSize } from '@mantine/hooks';
-import { useEffect, useMemo, useRef, useState } from 'react';
-
-import { StylishText } from '@lib/components/StylishText';
 import { ModelType } from '@lib/enums/ModelType';
 import { UserRoles } from '@lib/enums/Roles';
+import { t } from '@lingui/core/macro';
+import {
+  Container,
+  Divider,
+  Drawer,
+  Flex,
+  Group,
+  Space,
+  Text
+} from '@mantine/core';
+import { useMemo } from 'react';
 import { AboutLinks } from '../../defaults/links';
-import useInstanceName from '../../hooks/UseInstanceName';
 import * as classes from '../../main.css';
 import { useGlobalSettingsState } from '../../states/SettingsStates';
 import { useUserState } from '../../states/UserState';
-import { InvenTreeLogo } from '../items/InvenTreeLogo';
 import { type MenuLinkItem, MenuLinks } from '../items/MenuLinks';
-
-// TODO @matmair #1: implement plugin loading and menu item generation see #5269
-const plugins: MenuLinkItem[] = [];
+import { OabBrand } from '../items/OabLogo';
 
 export function NavigationDrawer({
   opened,
@@ -39,168 +40,240 @@ export function NavigationDrawer({
   );
 }
 
+/**
+ * Barra lateral do Sistema de Estoque da OAB-MA.
+ *
+ * A estrutura é organizada pelos fluxos do almoxarifado, e não pelos módulos do
+ * InvenTree. A seção "Administração" só aparece para usuários autorizados.
+ */
 function DrawerContent({ closeFunc }: Readonly<{ closeFunc?: () => void }>) {
   const user = useUserState();
-
   const globalSettings = useGlobalSettingsState();
 
-  const [scrollHeight, setScrollHeight] = useState(0);
-  const ref = useRef(null);
-  const { height } = useViewportSize();
-
-  const title = useInstanceName();
-
-  // update scroll height when viewport size changes
-  useEffect(() => {
-    if (ref.current == null) return;
-    setScrollHeight(height - ref.current['clientHeight'] - 65);
-  });
-
-  // Construct menu items
-  const menuItemsNavigate: MenuLinkItem[] = useMemo(() => {
-    return [
+  const menuStart: MenuLinkItem[] = useMemo(
+    () => [
       {
         id: 'home',
         title: t`Dashboard`,
         link: '/',
         icon: 'dashboard'
+      }
+    ],
+    []
+  );
+
+  const menuStock: MenuLinkItem[] = useMemo(
+    () => [
+      {
+        id: 'materials',
+        title: t`Materiais`,
+        link: '/materiais',
+        icon: 'part',
+        hidden: !user.hasViewPermission(ModelType.part)
       },
       {
-        id: 'parts',
-        title: t`Parts`,
-        hidden: !user.hasViewPermission(ModelType.part),
-        link: '/part',
-        icon: 'part'
+        id: 'categories',
+        title: t`Categorias`,
+        link: '/part/category/index/',
+        icon: 'category',
+        hidden: !user.hasViewPermission(ModelType.partcategory)
       },
       {
-        id: 'stock',
-        title: t`Stock`,
-        link: '/stock',
-        hidden: !user.hasViewPermission(ModelType.stockitem),
-        icon: 'stock'
+        id: 'locations',
+        title: t`Locais de Estoque`,
+        link: '/stock/location/index/',
+        icon: 'location',
+        hidden: !user.hasViewPermission(ModelType.stocklocation)
       },
       {
-        id: 'build',
-        title: t`Manufacturing`,
-        link: '/manufacturing/',
-        hidden: !user.hasViewRole(UserRoles.build),
-        icon: 'build'
+        id: 'current-stock',
+        title: t`Estoque Atual`,
+        link: '/estoque/atual',
+        icon: 'stock',
+        hidden: !user.hasViewPermission(ModelType.stockitem)
+      }
+    ],
+    [user]
+  );
+
+  const menuMovements: MenuLinkItem[] = useMemo(() => {
+    const canMove = user.hasAddRole(UserRoles.stock);
+
+    return [
+      {
+        id: 'entry',
+        title: t`Nova Entrada`,
+        link: '/movimentacoes/entrada',
+        icon: 'add',
+        hidden: !canMove
       },
       {
-        id: 'purchasing',
-        title: t`Purchasing`,
-        link: '/purchasing/',
-        hidden: !user.hasViewRole(UserRoles.purchase_order),
-        icon: 'purchase_orders'
+        id: 'issue',
+        title: t`Nova Saída`,
+        link: '/movimentacoes/saida',
+        icon: 'remove',
+        hidden: !canMove
       },
       {
-        id: 'sales',
-        title: t`Sales`,
-        link: '/sales/',
-        hidden: !user.hasViewRole(UserRoles.sales_order),
-        icon: 'sales_orders'
+        id: 'transfer',
+        title: t`Transferência`,
+        link: '/movimentacoes/transferencia',
+        icon: 'transfer',
+        hidden: !canMove
       },
+      {
+        id: 'adjust',
+        title: t`Ajuste de Saldo`,
+        link: '/movimentacoes/ajuste',
+        icon: 'stocktake',
+        hidden: !user.isStaff()
+      },
+      {
+        id: 'history',
+        title: t`Histórico`,
+        link: '/movimentacoes/historico',
+        icon: 'history',
+        hidden: !user.hasViewRole(UserRoles.stock)
+      }
+    ];
+  }, [user]);
+
+  const menuReports: MenuLinkItem[] = useMemo(
+    () => [
+      {
+        id: 'reports',
+        title: t`Relatórios`,
+        link: '/relatorios',
+        icon: 'reports',
+        hidden: !user.hasViewRole(UserRoles.stock)
+      }
+    ],
+    [user]
+  );
+
+  const menuAdmin: MenuLinkItem[] = useMemo(
+    () => [
       {
         id: 'users',
-        title: t`Users`,
+        title: t`Usuários`,
         link: '/core/index/users',
         icon: 'user'
       },
       {
         id: 'groups',
-        title: t`Groups`,
+        title: t`Grupos e Permissões`,
         link: '/core/index/groups',
         icon: 'group'
-      }
-    ];
-  }, [user]);
-
-  const menuItemsAction: MenuLinkItem[] = useMemo(() => {
-    return [
+      },
       {
-        id: 'barcode',
-        title: t`Scan Barcode`,
-        link: '/scan',
-        icon: 'barcode',
-        hidden: !globalSettings.isSet('BARCODE_ENABLE')
+        id: 'sectors',
+        title: t`Setores`,
+        link: '/administracao/setores',
+        icon: 'sitemap'
+      },
+      {
+        id: 'system-settings',
+        title: t`Configurações`,
+        link: '/settings/system',
+        icon: 'system'
+      },
+      {
+        id: 'admin-center',
+        title: t`Central de Administração`,
+        link: '/settings/admin',
+        icon: 'admin'
       }
-    ];
-  }, [user, globalSettings]);
+    ],
+    []
+  );
 
-  const menuItemsSettings: MenuLinkItem[] = useMemo(() => {
-    return [
+  const menuAccount: MenuLinkItem[] = useMemo(
+    () => [
       {
         id: 'notifications',
-        title: t`Notifications`,
+        title: t`Notificações`,
         link: '/notifications',
         icon: 'notification'
       },
       {
         id: 'user-settings',
-        title: t`User Settings`,
+        title: t`Minhas Preferências`,
         link: '/settings/user',
         icon: 'user'
       },
       {
-        id: 'system-settings',
-        title: t`System Settings`,
-        link: '/settings/system',
-        icon: 'system',
-        hidden: !user.isStaff()
+        id: 'barcode',
+        title: t`Ler Código de Barras`,
+        link: '/scan',
+        icon: 'barcode',
+        hidden: !globalSettings.isSet('BARCODE_ENABLE')
       },
       {
-        id: 'admin-center',
-        title: t`Admin Center`,
-        link: '/settings/admin',
-        icon: 'admin',
-        hidden: !user.isStaff()
+        id: 'logout',
+        title: t`Sair`,
+        link: '/logout',
+        icon: 'reject'
       }
-    ];
-  }, [user]);
+    ],
+    [globalSettings]
+  );
 
   const menuItemsAbout: MenuLinkItem[] = useMemo(
     () => AboutLinks(globalSettings, user),
-    []
+    [globalSettings, user]
   );
 
   return (
     <Flex direction='column' mih='100vh' p={16}>
-      <Group wrap='nowrap'>
-        <InvenTreeLogo />
-        <StylishText size='xl'>{title}</StylishText>
-      </Group>
+      <OabBrand />
       <Space h='xs' />
       <Container className={classes.layoutContent} p={0}>
         <MenuLinks
-          title={t`Navigation`}
-          links={menuItemsNavigate}
+          title={t`Início`}
+          links={menuStart}
           beforeClick={closeFunc}
         />
         <MenuLinks
-          title={t`Settings`}
-          links={menuItemsSettings}
+          title={t`Estoque`}
+          links={menuStock}
           beforeClick={closeFunc}
         />
         <MenuLinks
-          title={t`Actions`}
-          links={menuItemsAction}
+          title={t`Movimentações`}
+          links={menuMovements}
           beforeClick={closeFunc}
         />
-        <Space h='md' />
-        {plugins.length > 0 ? (
+        <MenuLinks
+          title={t`Relatórios`}
+          links={menuReports}
+          beforeClick={closeFunc}
+        />
+        {user.isStaff() && (
           <MenuLinks
-            title={t`Plugins`}
-            links={plugins}
+            title={t`Administração`}
+            links={menuAdmin}
             beforeClick={closeFunc}
           />
-        ) : (
-          <></>
         )}
-      </Container>
-      <div ref={ref}>
-        <Space h='md' />
         <MenuLinks
-          title={t`About`}
+          title={t`Minha Conta`}
+          links={menuAccount}
+          beforeClick={closeFunc}
+        />
+      </Container>
+      <div>
+        <Space h='md' />
+        <Divider />
+        <Group justify='space-between' py='xs'>
+          <Text size='xs' c='dimmed'>
+            {t`Usuário conectado`}
+          </Text>
+          <Text size='xs' fw={500}>
+            {user.username()}
+          </Text>
+        </Group>
+        <MenuLinks
+          title={t`Sobre`}
           links={menuItemsAbout}
           beforeClick={closeFunc}
         />

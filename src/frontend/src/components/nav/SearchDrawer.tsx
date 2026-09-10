@@ -47,6 +47,7 @@ import {
 } from '@lib/functions/Navigation';
 import { showNotification } from '@mantine/notifications';
 import { api } from '../../App';
+import { OAB_ENABLE_INDUSTRIAL_MODULES } from '../../defaults/oab';
 import { openGlobalPreview } from '../../states/PreviewDrawerState';
 import { useUserSettingsState } from '../../states/SettingsStates';
 import { useUserState } from '../../states/UserState';
@@ -251,6 +252,7 @@ export function SearchDrawer({
           manufacturer_detail: true
         },
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.part) &&
           user.hasViewRole(UserRoles.purchase_order) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_SUPPLIER_PARTS')
@@ -263,6 +265,7 @@ export function SearchDrawer({
           manufacturer_detail: true
         },
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.part) &&
           user.hasViewRole(UserRoles.purchase_order) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_MANUFACTURER_PARTS')
@@ -300,6 +303,7 @@ export function SearchDrawer({
           part_detail: true
         },
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.build) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_BUILD_ORDERS')
       },
@@ -310,6 +314,7 @@ export function SearchDrawer({
         title: t`Suppliers`,
         parameters: {},
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.purchase_order) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_COMPANIES')
       },
@@ -320,6 +325,7 @@ export function SearchDrawer({
         title: t`Manufacturers`,
         parameters: {},
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.purchase_order) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_COMPANIES')
       },
@@ -330,6 +336,7 @@ export function SearchDrawer({
         title: t`Customers`,
         parameters: {},
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.sales_order) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_COMPANIES')
       },
@@ -344,6 +351,7 @@ export function SearchDrawer({
             : undefined
         },
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.purchase_order) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_PURCHASE_ORDERS')
       },
@@ -358,6 +366,7 @@ export function SearchDrawer({
             : undefined
         },
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.sales_order) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_SALES_ORDERS')
       },
@@ -365,6 +374,7 @@ export function SearchDrawer({
         model: ModelType.salesordershipment,
         parameters: {},
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.sales_order) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_SALES_ORDER_SHIPMENTS')
       },
@@ -379,6 +389,7 @@ export function SearchDrawer({
             : undefined
         },
         enabled:
+          OAB_ENABLE_INDUSTRIAL_MODULES &&
           user.hasViewRole(UserRoles.return_order) &&
           userSettings.isSet('SEARCH_PREVIEW_SHOW_RETURN_ORDERS')
       }
