@@ -2484,54 +2484,6 @@ via your signed in browser, or consider using a point release download via invok
         )
 
 
-def doc_schema(c):
-    """Generate schema documentation for the API."""
-    schema(
-        c, ignore_warnings=True, overwrite=True, filename='docs/generated/schema.yml'
-    )
-    run(c, 'python docs/extract_schema.py docs/generated/schema.yml')
-
-
-@task(
-    help={
-        'address': 'Host and port to run the server on (default: localhost:8080)',
-        'compile_schema': 'Compile the API schema documentation first (default: False)',
-        'export_settings': 'Export settings definitions before starting the server (default: True)',
-    }
-)
-def docs_server(
-    c,
-    address='localhost:8080',
-    compile_schema: bool = False,
-    export_settings: bool = True,
-):
-    """Start a local mkdocs server to view the documentation."""
-    # Extract settings definitions
-    if export_settings:
-        export_definitions(c, basedir='docs')
-
-    if compile_schema:
-        doc_schema(c)
-
-    run(c, f'mkdocs serve -a {address} -f docs/mkdocs.yml')
-
-
-@task(
-    help={'mkdocs': 'Build the documentation using mkdocs at the end (default: False)'}
-)
-def build_docs(c, mkdocs=False):
-    """Build the required documents for building the docs. Optionally build the documentation using mkdocs."""
-    migrate(c)
-    export_definitions(c, basedir='docs')
-    doc_schema(c)
-
-    if mkdocs:
-        run(c, 'mkdocs build  -f docs/mkdocs.yml')
-        info('Documentation build complete')
-    else:
-        info('Documentation build complete, but mkdocs not requested')
-
-
 @task
 def clear_generated(c):
     """Clear generated files from `invoke update`."""
@@ -2558,7 +2510,6 @@ def monitor(c):
 # Collection sorting
 development = Collection(
     delete_data,
-    docs_server,
     frontend_server,
     frontend_test,
     gunicorn,
@@ -2610,7 +2561,6 @@ ns = Collection(
     worker_health,
     server_health,
     monitor,
-    build_docs,
 )
 
 ns.add_collection(development, 'dev')
