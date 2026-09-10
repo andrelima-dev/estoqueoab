@@ -16,7 +16,7 @@ from stock.models import StockLocation
 from users.serializers import UserSerializer
 
 from . import helpers
-from .models import MovementType, Sector, StockMovement
+from .models import AdHocLocation, MovementType, Sector, StockMovement
 
 
 class SectorSerializer(DataImportExportSerializerMixin, InvenTreeModelSerializer):
@@ -109,6 +109,17 @@ class StockMovementSerializer(
         )
 
 
+class SuggestedLocationSerializer(serializers.ModelSerializer):
+    """Local oferecido como sugestão ao digitar um destino."""
+
+    class Meta:
+        """Metadados do serializer."""
+
+        model = StockLocation
+        fields = ['pk', 'name', 'description']
+        read_only_fields = fields
+
+
 class MovementActionSerializer(serializers.Serializer):
     """Base para as operações de estoque do almoxarifado.
 
@@ -165,7 +176,9 @@ class MovementActionSerializer(serializers.Serializer):
 
         return location
 
-    def resolve_location(self, field: str, name_field: str) -> StockLocation:
+    def resolve_location(
+        self, field: str, name_field: str, save: bool = True
+    ) -> StockLocation:
         """Resolve o local informado como texto livre.
 
         Mesma ideia do destino de uma saída: o operador digita o nome do local
@@ -187,7 +200,14 @@ class MovementActionSerializer(serializers.Serializer):
         if existing := StockLocation.objects.filter(name__iexact=name).first():
             return self.validate_destination(existing)
 
-        return StockLocation.objects.create(name=name)
+        location = StockLocation.objects.create(name=name)
+
+        if not save:
+            # Local de passagem: continua existindo enquanto guardar material,
+            # mas deixa de ser sugerido assim que esvazia.
+            AdHocLocation.objects.create(location=location)
+
+        return location
 
     def movement_defaults(self) -> dict:
         """Campos institucionais adicionais gravados no registro."""
@@ -266,6 +286,16 @@ class MovementEntrySerializer(MovementActionSerializer):
         help_text=_('Local onde o material será guardado'),
     )
 
+    save_location = serializers.BooleanField(
+        required=False,
+        default=True,
+        label=_('Salvar o local'),
+        help_text=_(
+            'Guarda o local digitado no cadastro. Desmarcado, ele serve apenas '
+            'a esta movimentação e some da lista quando ficar vazio.'
+        ),
+    )
+
     supplier = serializers.PrimaryKeyRelatedField(
         queryset=Company.objects.filter(is_supplier=True),
         many=False,
@@ -305,7 +335,11 @@ class MovementEntrySerializer(MovementActionSerializer):
     def resolved_location(self) -> StockLocation:
         """Local de destino, resolvido uma única vez por operação."""
         if not hasattr(self, '_location'):
-            self._location = self.resolve_location('location', 'location_name')
+            self._location = self.resolve_location(
+                'location',
+                'location_name',
+                save=self.validated_data.get('save_location', True),
+            )
 
         return self._location
 
@@ -481,6 +515,16 @@ class MovementTransferSerializer(MovementActionSerializer):
         help_text=_('Local para onde o material será movido'),
     )
 
+    save_location = serializers.BooleanField(
+        required=False,
+        default=True,
+        label=_('Salvar o local'),
+        help_text=_(
+            'Guarda o local digitado no cadastro. Desmarcado, ele serve apenas '
+            'a esta movimentação e some da lista quando ficar vazio.'
+        ),
+    )
+
     def validate_location_to(self, location):
         """Valida o local de destino."""
         return self.validate_destination(location)
@@ -489,7 +533,9 @@ class MovementTransferSerializer(MovementActionSerializer):
         """Local de destino, resolvido uma única vez por operação."""
         if not hasattr(self, '_location_to'):
             self._location_to = self.resolve_location(
-                'location_to', 'location_to_name'
+                'location_to',
+                'location_to_name',
+                save=self.validated_data.get('save_location', True),
             )
 
         return self._location_to

@@ -33,6 +33,7 @@ export default function StockEntryPage() {
   const [location, setLocation] = useState<string>('');
   // Registro do local, quando o nome digitado corresponde a um já cadastrado.
   const [locationRecord, setLocationRecord] = useState<any>(null);
+  const [saveLocation, setSaveLocation] = useState<boolean>(true);
   const [quantity, setQuantity] = useState<number | string>('');
   const [source, setSource] = useState<string>('');
   const [document, setDocument] = useState<string>('');
@@ -62,6 +63,7 @@ export default function StockEntryPage() {
   const resetForm = useCallback(() => {
     setPart(null);
     setLocation('');
+    setSaveLocation(true);
     setLocationRecord(null);
     setQuantity('');
     setSource('');
@@ -77,6 +79,7 @@ export default function StockEntryPage() {
       part: part?.pk,
       quantity: numericQuantity,
       location_name: location.trim(),
+      save_location: saveLocation,
       source: source,
       document: document,
       handler: handler,
@@ -160,6 +163,8 @@ export default function StockEntryPage() {
                   setLocationRecord(record ?? null);
                 }}
                 error={fieldError('location_name')}
+                saveLocation={saveLocation}
+                onSaveLocationChange={setSaveLocation}
               />
 
               <TextInput

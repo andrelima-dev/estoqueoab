@@ -5,7 +5,7 @@ os modelos e as operações já existentes no InvenTree, expondo-os na linguagem
 almoxarifado institucional (material / entrada / saída / transferência).
 """
 
-from django.db.models import F, Q, Sum
+from django.db.models import Exists, F, OuterRef, Q, Sum
 from django.urls import include, path
 from django.utils.translation import gettext_lazy as _
 
@@ -33,7 +33,7 @@ from part.models import Part, PartCategory
 from stock.models import StockItem, StockLocation
 
 from . import serializers as OabSerializers
-from .models import MovementType, Sector, StockMovement
+from .models import AdHocLocation, MovementType, Sector, StockMovement
 
 
 class SectorMixin:
@@ -272,6 +272,36 @@ class DashboardSummary(GenericAPIView):
         return Response(serializer.data)
 
 
+class SuggestedLocationList(ListAPI):
+    """Locais oferecidos ao digitar um destino de entrada ou transferência.
+
+    Ficam de fora os locais estruturais (que não guardam material) e os locais
+    avulsos que já esvaziaram: eles serviram a uma movimentação específica e não
+    devem poluir a lista para sempre. Um local avulso com saldo continua na
+    lista, senão não haveria como tirar o material de lá.
+    """
+
+    serializer_class = OabSerializers.SuggestedLocationSerializer
+    permission_classes = [InvenTree.permissions.IsAuthenticatedOrReadScope]
+    filter_backends = SEARCH_ORDER_FILTER
+    search_fields = ['name', 'description']
+    ordering_fields = ['name']
+    ordering = 'name'
+
+    def get_queryset(self):
+        """Locais permanentes, mais os avulsos que ainda guardam material."""
+        com_saldo = StockItem.objects.filter(
+            StockItem.IN_STOCK_FILTER, location=OuterRef('pk')
+        )
+
+        return (
+            StockLocation.objects.filter(structural=False)
+            .annotate(avulso=Exists(AdHocLocation.objects.filter(location=OuterRef('pk'))))
+            .annotate(ocupado=Exists(com_saldo))
+            .filter(Q(avulso=False) | Q(ocupado=True))
+        )
+
+
 oab_api_urls = [
     path(
         'sector/',
@@ -301,5 +331,10 @@ oab_api_urls = [
     path('issue/', MovementIssueView.as_view(), name='api-oab-issue'),
     path('transfer/', MovementTransferView.as_view(), name='api-oab-transfer'),
     path('adjust/', MovementAdjustView.as_view(), name='api-oab-adjust'),
+    path(
+        'location/',
+        SuggestedLocationList.as_view(),
+        name='api-oab-location-list',
+    ),
     path('summary/', DashboardSummary.as_view(), name='api-oab-summary'),
 ]

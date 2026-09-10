@@ -29,6 +29,38 @@ class MovementType(models.TextChoices):
     AJUSTE = 'ADJUST', _('Ajuste')
 
 
+class AdHocLocation(models.Model):
+    """Marca um local de estoque criado para uma movimentação avulsa.
+
+    Nem todo destino digitado merece virar cadastro: uma sala emprestada para um
+    evento é um lugar de passagem, não um local do almoxarifado. O operador
+    decide isso na hora, e um local avulso deixa de ser sugerido assim que fica
+    vazio.
+
+    O local **não** é apagado quando esvazia: ele continua referenciado pelo
+    histórico de movimentações, que é a prova de para onde o material foi.
+    """
+
+    class Meta:
+        """Metadados do modelo."""
+
+        verbose_name = _('Local avulso')
+        verbose_name_plural = _('Locais avulsos')
+
+    location = models.OneToOneField(
+        'stock.StockLocation',
+        on_delete=models.CASCADE,
+        related_name='oab_adhoc',
+        verbose_name=_('Local'),
+    )
+
+    date = models.DateTimeField(auto_now_add=True, verbose_name=_('Criado em'))
+
+    def __str__(self):
+        """Representação legível."""
+        return f'{self.location} (avulso)'
+
+
 class Sector(InvenTree.models.InvenTreeModel):
     """Setor / departamento da OAB-MA que requisita materiais.
 

@@ -164,6 +164,7 @@ export enum ApiEndpoints {
 
   // OAB-MA: endpoints do almoxarifado institucional
   oab_sector_list = 'oab/sector/',
+  oab_location_list = 'oab/location/',
   oab_movement_list = 'oab/movement/',
   oab_entry = 'oab/entry/',
   oab_issue = 'oab/issue/',

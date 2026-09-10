@@ -101,6 +101,34 @@ movimentação recusada não deixe destino órfão.
 - **WHEN** uma saída com destino inédito é recusada por saldo insuficiente
 - **THEN** nenhum novo `Sector` é criado
 
+### Requirement: Local digitado pode ser avulso
+
+Ao digitar um local que ainda não existe, a interface SHALL oferecer a escolha
+de guardá-lo ou não no cadastro (`save_location`). A escolha SHALL aparecer
+apenas para um nome novo — um local já cadastrado não vira avulso por ter sido
+digitado de novo — e o padrão SHALL ser guardar.
+
+Um local avulso SHALL ser sugerido apenas enquanto guardar material. Assim que
+esvazia, sai da lista: serviu a uma movimentação específica e não deve poluir o
+cadastro para sempre. Enquanto tiver saldo continua disponível, senão não
+haveria como retirar o material de lá.
+
+Um local avulso MUST NOT ser apagado ao esvaziar. O histórico de movimentações
+aponta para ele, e é essa a prova de para onde o material foi; apagá-lo anularia
+a referência (`on_delete=SET_NULL`) e deixaria o registro sem destino.
+
+#### Scenario: Local de passagem não polui o cadastro
+
+- **WHEN** uma transferência cria "Sala do Evento" com `save_location = false`
+- **AND** depois o material é retirado de lá
+- **THEN** "Sala do Evento" deixa de ser sugerida como destino
+- **AND** a movimentação original continua registrando o destino
+
+#### Scenario: Escolha não aparece para local existente
+
+- **WHEN** o operador digita o nome de um local já cadastrado
+- **THEN** a opção de guardar não é exibida
+
 ### Requirement: Origem restrita aos locais com saldo
 
 O campo de local de origem de uma saída ou transferência SHALL oferecer apenas

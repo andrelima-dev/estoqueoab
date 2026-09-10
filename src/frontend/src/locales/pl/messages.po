@@ -137,9 +137,9 @@ msgstr "Nie"
 #: src/pages/oab/Dashboard.tsx:237
 #: src/pages/oab/Dashboard.tsx:300
 #: src/pages/oab/StockAdjustPage.tsx:99
-#: src/pages/oab/StockEntryPage.tsx:110
+#: src/pages/oab/StockEntryPage.tsx:113
 #: src/pages/oab/StockIssuePage.tsx:114
-#: src/pages/oab/StockTransferPage.tsx:107
+#: src/pages/oab/StockTransferPage.tsx:111
 #: src/pages/part/PartDetail.tsx:849
 #: src/tables/oab/MaterialTable.tsx:103
 #: src/tables/oab/MovementTable.tsx:114
@@ -2759,8 +2759,8 @@ msgstr ""
 #: src/components/nav/NavigationDrawer.tsx:105
 #: src/defaults/actions.tsx:149
 #: src/pages/oab/Dashboard.tsx:142
-#: src/pages/oab/StockEntryPage.tsx:123
-#: src/pages/oab/StockEntryPage.tsx:125
+#: src/pages/oab/StockEntryPage.tsx:126
+#: src/pages/oab/StockEntryPage.tsx:128
 msgid "Nova Entrada"
 msgstr ""
 
@@ -2967,8 +2967,17 @@ msgstr ""
 msgid "No results available for search query"
 msgstr "Brak dostępnych wyników wyszukiwania"
 
-#: src/components/oab/LocationInput.tsx:74
+#: src/components/oab/LocationInput.tsx:93
 msgid "Digite o nome do local"
+msgstr ""
+
+#. placeholder {0}: value.trim()
+#: src/components/oab/LocationInput.tsx:117
+msgid "Salvar \"{0}\" nos locais do almoxarifado"
+msgstr ""
+
+#: src/components/oab/LocationInput.tsx:119
+msgid "Desmarcado, serve apenas a esta movimentação e sai da lista quando ficar vazio"
 msgstr ""
 
 #: src/components/oab/MovementButtons.tsx:42
@@ -3007,7 +3016,7 @@ msgstr ""
 #: src/components/oab/MovementDetailModal.tsx:75
 #: src/components/tables/ColumnRenderers.tsx:125
 #: src/forms/OabForms.tsx:20
-#: src/pages/oab/StockEntryPage.tsx:230
+#: src/pages/oab/StockEntryPage.tsx:235
 #: src/pages/oab/StockIssuePage.tsx:262
 #: src/pages/part/PartDetailsPanel.tsx:84
 #: src/tables/oab/MaterialTable.tsx:97
@@ -3039,17 +3048,17 @@ msgstr ""
 #: src/components/oab/QuickMovementModal.tsx:197
 #: src/pages/oab/StockIssuePage.tsx:116
 #: src/pages/oab/StockIssuePage.tsx:166
-#: src/pages/oab/StockTransferPage.tsx:109
-#: src/pages/oab/StockTransferPage.tsx:147
+#: src/pages/oab/StockTransferPage.tsx:113
+#: src/pages/oab/StockTransferPage.tsx:151
 msgid "Local de origem"
 msgstr ""
 
 #: src/components/oab/MovementDetailModal.tsx:103
 #: src/components/oab/QuickMovementModal.tsx:197
-#: src/pages/oab/StockEntryPage.tsx:112
-#: src/pages/oab/StockEntryPage.tsx:155
-#: src/pages/oab/StockTransferPage.tsx:110
-#: src/pages/oab/StockTransferPage.tsx:152
+#: src/pages/oab/StockEntryPage.tsx:115
+#: src/pages/oab/StockEntryPage.tsx:158
+#: src/pages/oab/StockTransferPage.tsx:114
+#: src/pages/oab/StockTransferPage.tsx:156
 msgid "Local de destino"
 msgstr ""
 
@@ -3060,7 +3069,7 @@ msgid "Setor"
 msgstr ""
 
 #: src/components/oab/MovementDetailModal.tsx:107
-#: src/pages/oab/StockEntryPage.tsx:113
+#: src/pages/oab/StockEntryPage.tsx:116
 msgid "Origem / Fornecedor"
 msgstr ""
 
@@ -3077,8 +3086,8 @@ msgstr ""
 
 #: src/components/oab/MovementDetailModal.tsx:117
 #: src/components/oab/QuickMovementModal.tsx:245
-#: src/pages/oab/StockEntryPage.tsx:115
-#: src/pages/oab/StockEntryPage.tsx:187
+#: src/pages/oab/StockEntryPage.tsx:118
+#: src/pages/oab/StockEntryPage.tsx:192
 msgid "Responsável pelo recebimento"
 msgstr ""
 
@@ -3098,22 +3107,22 @@ msgstr ""
 #: src/components/oab/MovementDetailModal.tsx:131
 #: src/components/oab/QuickMovementModal.tsx:260
 #: src/pages/oab/StockAdjustPage.tsx:157
-#: src/pages/oab/StockEntryPage.tsx:114
+#: src/pages/oab/StockEntryPage.tsx:117
 #: src/pages/oab/StockIssuePage.tsx:120
 #: src/tables/oab/MovementTable.tsx:167
 msgid "Documento"
 msgstr ""
 
 #: src/components/oab/MovementDetailModal.tsx:133
-#: src/pages/oab/StockEntryPage.tsx:181
+#: src/pages/oab/StockEntryPage.tsx:186
 msgid "Data do documento"
 msgstr ""
 
 #: src/components/oab/MovementDetailModal.tsx:140
 #: src/components/oab/QuickMovementModal.tsx:266
-#: src/pages/oab/StockEntryPage.tsx:194
+#: src/pages/oab/StockEntryPage.tsx:199
 #: src/pages/oab/StockIssuePage.tsx:214
-#: src/pages/oab/StockTransferPage.tsx:173
+#: src/pages/oab/StockTransferPage.tsx:179
 msgid "Observações"
 msgstr ""
 
@@ -3126,7 +3135,7 @@ msgid "Disponível"
 msgstr ""
 
 #: src/components/oab/MovementFields.tsx:206
-#: src/pages/oab/StockEntryPage.tsx:116
+#: src/pages/oab/StockEntryPage.tsx:119
 #: src/pages/oab/StockIssuePage.tsx:121
 msgid "Saldo após a operação"
 msgstr ""
@@ -3195,18 +3204,18 @@ msgid "Saída registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockEntryPage.tsx:55
+#: src/pages/oab/StockEntryPage.tsx:56
 msgid "Entrada registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:178
 #: src/pages/oab/Dashboard.tsx:239
-#: src/pages/oab/StockEntryPage.tsx:111
-#: src/pages/oab/StockEntryPage.tsx:146
+#: src/pages/oab/StockEntryPage.tsx:114
+#: src/pages/oab/StockEntryPage.tsx:149
 #: src/pages/oab/StockIssuePage.tsx:115
 #: src/pages/oab/StockIssuePage.tsx:171
-#: src/pages/oab/StockTransferPage.tsx:108
-#: src/pages/oab/StockTransferPage.tsx:159
+#: src/pages/oab/StockTransferPage.tsx:112
+#: src/pages/oab/StockTransferPage.tsx:165
 #: src/tables/oab/MovementTable.tsx:131
 msgid "Quantidade"
 msgstr ""
@@ -3227,13 +3236,13 @@ msgid "Mais opções"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:239
-#: src/pages/oab/StockEntryPage.tsx:166
+#: src/pages/oab/StockEntryPage.tsx:171
 #: src/tables/oab/MovementTable.tsx:138
 msgid "Origem"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:240
-#: src/pages/oab/StockEntryPage.tsx:167
+#: src/pages/oab/StockEntryPage.tsx:172
 msgid "Fornecedor, doação, devolução..."
 msgstr ""
 
@@ -4887,13 +4896,13 @@ msgid "Registrar a entrega de material a um setor"
 msgstr ""
 
 #: src/defaults/actions.tsx:163
-#: src/pages/oab/StockTransferPage.tsx:118
-#: src/pages/oab/StockTransferPage.tsx:120
+#: src/pages/oab/StockTransferPage.tsx:122
+#: src/pages/oab/StockTransferPage.tsx:124
 msgid "Transferir Material"
 msgstr ""
 
 #: src/defaults/actions.tsx:164
-#: src/pages/oab/StockTransferPage.tsx:121
+#: src/pages/oab/StockTransferPage.tsx:125
 msgid "Movimentar material entre locais de estoque"
 msgstr ""
 
@@ -7864,40 +7873,40 @@ msgstr ""
 msgid "O ajuste não apaga movimentações anteriores. A diferença é registrada como uma nova movimentação, vinculada ao seu usuário."
 msgstr ""
 
-#: src/pages/oab/StockEntryPage.tsx:126
+#: src/pages/oab/StockEntryPage.tsx:129
 msgid "Registrar o recebimento de material no almoxarifado"
 msgstr ""
 
-#: src/pages/oab/StockEntryPage.tsx:132
+#: src/pages/oab/StockEntryPage.tsx:135
 msgid "Confirmar entrada"
 msgstr ""
 
-#: src/pages/oab/StockEntryPage.tsx:133
-#: src/pages/oab/StockEntryPage.tsx:207
+#: src/pages/oab/StockEntryPage.tsx:136
+#: src/pages/oab/StockEntryPage.tsx:212
 msgid "Confirmar Entrada"
 msgstr ""
 
-#: src/pages/oab/StockEntryPage.tsx:156
+#: src/pages/oab/StockEntryPage.tsx:159
 msgid "Onde o material será armazenado - digite para criar um local novo"
 msgstr ""
 
-#: src/pages/oab/StockEntryPage.tsx:173
+#: src/pages/oab/StockEntryPage.tsx:178
 msgid "Número do documento"
 msgstr ""
 
-#: src/pages/oab/StockEntryPage.tsx:174
+#: src/pages/oab/StockEntryPage.tsx:179
 msgid "Nota fiscal, empenho ou protocolo"
 msgstr ""
 
-#: src/pages/oab/StockEntryPage.tsx:182
+#: src/pages/oab/StockEntryPage.tsx:187
 msgid "Opcional - a data do registro é sempre automática"
 msgstr ""
 
-#: src/pages/oab/StockEntryPage.tsx:188
+#: src/pages/oab/StockEntryPage.tsx:193
 msgid "Quem recebeu fisicamente o material"
 msgstr ""
 
-#: src/pages/oab/StockEntryPage.tsx:235
+#: src/pages/oab/StockEntryPage.tsx:240
 #: src/pages/oab/StockIssuePage.tsx:267
 #: src/pages/part/PartDetailsPanel.tsx:135
 #: src/tables/oab/MaterialTable.tsx:142
@@ -7915,12 +7924,12 @@ msgid "Confirmar Saída"
 msgstr ""
 
 #: src/pages/oab/StockIssuePage.tsx:167
-#: src/pages/oab/StockTransferPage.tsx:148
+#: src/pages/oab/StockTransferPage.tsx:152
 msgid "Locais que têm este material, com o saldo de cada um"
 msgstr ""
 
 #: src/pages/oab/StockIssuePage.tsx:179
-#: src/pages/oab/StockTransferPage.tsx:167
+#: src/pages/oab/StockTransferPage.tsx:173
 msgid "Quantidade superior ao disponível"
 msgstr ""
 
@@ -7940,32 +7949,32 @@ msgstr ""
 msgid "A quantidade solicitada é maior do que a disponível no local de origem. Ajuste a quantidade ou escolha outro local."
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:50
+#: src/pages/oab/StockTransferPage.tsx:51
 msgid "Transferência registrada"
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:111
+#: src/pages/oab/StockTransferPage.tsx:115
 msgid "Saldo na origem após"
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:127
+#: src/pages/oab/StockTransferPage.tsx:131
 msgid "Confirmar transferência"
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:128
-#: src/pages/oab/StockTransferPage.tsx:186
+#: src/pages/oab/StockTransferPage.tsx:132
+#: src/pages/oab/StockTransferPage.tsx:192
 msgid "Confirmar Transferência"
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:153
+#: src/pages/oab/StockTransferPage.tsx:157
 msgid "Para onde o material será movido - digite para criar um local novo"
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:205
+#: src/pages/oab/StockTransferPage.tsx:211
 msgid "Locais iguais"
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:208
+#: src/pages/oab/StockTransferPage.tsx:214
 msgid "O local de destino deve ser diferente do local de origem."
 msgstr ""
 

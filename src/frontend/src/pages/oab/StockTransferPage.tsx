@@ -34,6 +34,7 @@ export default function StockTransferPage() {
   const [part, setPart] = useState<any>(null);
   const [origin, setOrigin] = useState<any>(null);
   const [destination, setDestination] = useState<string>('');
+  const [saveDestination, setSaveDestination] = useState<boolean>(true);
   const [quantity, setQuantity] = useState<number | string>('');
   const [notes, setNotes] = useState<string>('');
 
@@ -70,6 +71,7 @@ export default function StockTransferPage() {
     setPart(null);
     setOrigin(null);
     setDestination('');
+    setSaveDestination(true);
     setQuantity('');
     setNotes('');
     setFormKey((key) => key + 1);
@@ -81,6 +83,7 @@ export default function StockTransferPage() {
       quantity: numericQuantity,
       location_from: origin?.pk,
       location_to_name: destination.trim(),
+      save_location: saveDestination,
       notes: notes
     });
 
@@ -96,6 +99,7 @@ export default function StockTransferPage() {
     numericQuantity,
     origin,
     destination,
+    saveDestination,
     notes,
     confirmHandlers,
     resetForm,
@@ -153,6 +157,8 @@ export default function StockTransferPage() {
                 description={t`Para onde o material será movido - digite para criar um local novo`}
                 value={destination}
                 onChange={setDestination}
+                saveLocation={saveDestination}
+                onSaveLocationChange={setSaveDestination}
               />
 
               <NumberInput

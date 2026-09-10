@@ -301,6 +301,87 @@ class StockIssueTest(OabTestBase):
 
         self.assertEqual(StockLocation.objects.count(), total_before)
 
+    def sugestoes(self):
+        """Nomes dos locais oferecidos ao digitar um destino."""
+        response = self.get(reverse('api-oab-location-list'), expected_code=200)
+        dados = response.data
+
+        if isinstance(dados, dict):
+            dados = dados.get('results', [])
+
+        return [item['name'] for item in dados]
+
+    def test_location_saved_by_default(self):
+        """Sem escolha explícita, o local digitado entra no cadastro."""
+        self.entrada(5)
+
+        self.post(
+            reverse('api-oab-transfer'),
+            {
+                'part': self.material.pk,
+                'quantity': 1,
+                'location_from': self.almoxarifado.pk,
+                'location_to_name': 'Arquivo Morto',
+            },
+            expected_code=201,
+        )
+
+        self.assertIn('Arquivo Morto', self.sugestoes())
+
+    def test_unsaved_location_disappears_when_empty(self):
+        """Um local avulso some da lista assim que fica sem material."""
+        self.entrada(5)
+
+        self.post(
+            reverse('api-oab-transfer'),
+            {
+                'part': self.material.pk,
+                'quantity': 2,
+                'location_from': self.almoxarifado.pk,
+                'location_to_name': 'Sala do Evento',
+                'save_location': False,
+            },
+            expected_code=201,
+        )
+
+        avulso = StockLocation.objects.get(name='Sala do Evento')
+
+        # enquanto guarda material, continua disponível como origem
+        self.assertIn('Sala do Evento', self.sugestoes())
+
+        # devolvido o material, sai da lista
+        self.post(
+            reverse('api-oab-transfer'),
+            {
+                'part': self.material.pk,
+                'quantity': 2,
+                'location_from': avulso.pk,
+                'location_to': self.almoxarifado.pk,
+            },
+            expected_code=201,
+        )
+
+        self.assertNotIn('Sala do Evento', self.sugestoes())
+
+    def test_unsaved_location_keeps_history(self):
+        """O local avulso sai da lista, mas o histórico continua apontando para ele."""
+        self.entrada(5)
+
+        self.post(
+            reverse('api-oab-transfer'),
+            {
+                'part': self.material.pk,
+                'quantity': 1,
+                'location_from': self.almoxarifado.pk,
+                'location_to_name': 'Sala Emprestada',
+                'save_location': False,
+            },
+            expected_code=201,
+        )
+
+        movement = StockMovement.objects.get(movement_type=MovementType.TRANSFERENCIA)
+        self.assertEqual(movement.location_to.name, 'Sala Emprestada')
+
     def test_typed_destination_reuses_existing_sector(self):
         """Digitar um destino já conhecido não duplica o cadastro."""
         self.entrada(10)

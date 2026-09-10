@@ -1,7 +1,7 @@
 import { ApiEndpoints } from '@lib/enums/ApiEndpoints';
 import { apiUrl } from '@lib/functions/Api';
 import { t } from '@lingui/core/macro';
-import { Autocomplete } from '@mantine/core';
+import { Autocomplete, Checkbox, Stack, Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 
@@ -25,7 +25,9 @@ export function LocationInput({
   value,
   onChange,
   error,
-  required = true
+  required = true,
+  saveLocation,
+  onSaveLocationChange
 }: Readonly<{
   label: string;
   description?: string;
@@ -38,12 +40,15 @@ export function LocationInput({
   onChange: (value: string, record?: any) => void;
   error?: string;
   required?: boolean;
+  /** Se o local digitado deve entrar no cadastro. */
+  saveLocation?: boolean;
+  onSaveLocationChange?: (value: boolean) => void;
 }>) {
   const locations = useQuery({
     queryKey: ['oab-location-suggestions'],
     queryFn: async () => {
-      const response = await api.get(apiUrl(ApiEndpoints.stock_location_list), {
-        params: { structural: false, ordering: 'name', limit: 250 }
+      const response = await api.get(apiUrl(ApiEndpoints.oab_location_list), {
+        params: { ordering: 'name', limit: 250 }
       });
       return response.data?.results ?? response.data ?? [];
     }
@@ -67,7 +72,21 @@ export function LocationInput({
     [locations.data, onChange]
   );
 
-  return (
+  // A escolha só faz sentido para um nome que ainda não existe: um local já
+  // cadastrado não vira avulso por ter sido digitado de novo.
+  const localNovo = useMemo(() => {
+    const alvo = value.trim().toLocaleLowerCase();
+
+    if (!alvo) {
+      return false;
+    }
+
+    return !(locations.data ?? []).some(
+      (location: any) => String(location.name).toLocaleLowerCase() === alvo
+    );
+  }, [value, locations.data]);
+
+  const campo = (
     <Autocomplete
       label={label}
       description={description}
@@ -79,5 +98,27 @@ export function LocationInput({
       error={error}
       limit={8}
     />
+  );
+
+  if (!onSaveLocationChange) {
+    return campo;
+  }
+
+  return (
+    <Stack gap={6}>
+      {campo}
+      {localNovo && (
+        <Checkbox
+          checked={saveLocation ?? true}
+          onChange={(event) =>
+            onSaveLocationChange(event.currentTarget.checked)
+          }
+          label={
+            <Text size='sm'>{t`Salvar "${value.trim()}" nos locais do almoxarifado`}</Text>
+          }
+          description={t`Desmarcado, serve apenas a esta movimentação e sai da lista quando ficar vazio`}
+        />
+      )}
+    </Stack>
   );
 }
