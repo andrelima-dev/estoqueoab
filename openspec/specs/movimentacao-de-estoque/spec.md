@@ -130,6 +130,30 @@ editando registros anteriores.
 - **AND** registra uma movimentação do tipo AJUSTE com justificativa
   obrigatória
 
+### Requirement: Histórico filtrável por período
+
+O histórico SHALL oferecer atalhos de período — hoje, 7 dias e 30 dias — junto
+com campos de data inicial e final visíveis na própria página, sem exigir a
+gaveta de filtros.
+
+Os atalhos MUST escrever nos mesmos filtros `min_date` / `max_date` usados pela
+gaveta, e não manter estado próprio: com duas fontes de verdade o período
+exibido divergiria do período consultado.
+
+O período padrão SHALL ser "tudo". Esconder movimentações por padrão faria o
+operador procurar um registro que existe e não aparece.
+
+#### Scenario: Atalho define a data inicial
+
+- **WHEN** o operador escolhe "7 dias"
+- **THEN** o campo de data inicial passa a mostrar a data de 6 dias atrás
+- **AND** o contador de filtros ativos registra o filtro aplicado
+
+#### Scenario: Intervalo próprio desmarca o atalho
+
+- **WHEN** o operador digita datas que não correspondem a nenhum atalho
+- **THEN** a seleção passa a indicar "Personalizado"
+
 ### Requirement: Itens zerados preservados
 
 O sistema SHALL manter `STOCK_DELETE_DEPLETED_DEFAULT = False`, para que um

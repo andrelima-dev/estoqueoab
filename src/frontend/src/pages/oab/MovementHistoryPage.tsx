@@ -15,7 +15,7 @@ export default function MovementHistoryPage() {
         title={t`Histórico de Movimentações`}
         subtitle={t`Clique em uma linha para ver todos os detalhes da operação`}
       />
-      <MovementTable />
+      <MovementTable showPeriodFilter />
     </>
   );
 }

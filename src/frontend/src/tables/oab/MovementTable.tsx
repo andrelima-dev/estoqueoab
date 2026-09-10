@@ -5,17 +5,17 @@ import useTable from '@lib/hooks/UseTable';
 import type { TableFilter } from '@lib/types/Filters';
 import type { TableColumn } from '@lib/types/Tables';
 import { t } from '@lingui/core/macro';
-import { Badge, Text } from '@mantine/core';
+import { Badge, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 
 import { api } from '../../App';
-import { OAB_COLOR_ENTRADA, OAB_COLOR_SAIDA } from '../../defaults/oab';
-
 import { MovementDetailModal } from '../../components/oab/MovementDetailModal';
+import { MovementPeriodFilter } from '../../components/oab/MovementPeriodFilter';
 import { InvenTreeTable } from '../../components/tables/InvenTreeTable';
 import { formatDate } from '../../defaults/formatters';
+import { OAB_COLOR_ENTRADA, OAB_COLOR_SAIDA } from '../../defaults/oab';
 
 /** Tipos de movimentação, conforme o backend (`oab.models.MovementType`). */
 export const MOVEMENT_TYPES = {
@@ -69,10 +69,13 @@ export function MovementTypeBadge({ value }: Readonly<{ value: string }>) {
  */
 export function MovementTable({
   params,
-  tableName = 'oab-movements'
+  tableName = 'oab-movements',
+  showPeriodFilter = false
 }: Readonly<{
   params?: Record<string, any>;
   tableName?: string;
+  /** Exibe os atalhos de período acima da tabela. */
+  showPeriodFilter?: boolean;
 }>) {
   const table = useTable(tableName);
 
@@ -257,6 +260,11 @@ export function MovementTable({
         onClose={detailHandlers.close}
         movement={selected}
       />
+      {showPeriodFilter && (
+        <Stack gap='xs' mb='sm'>
+          <MovementPeriodFilter filterSet={table.filterSet} />
+        </Stack>
+      )}
       <InvenTreeTable
         url={apiUrl(ApiEndpoints.oab_movement_list)}
         tableState={table}
