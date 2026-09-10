@@ -1,15 +1,15 @@
+import type { SettingsStateProps } from '@lib/types/Settings';
+import { t } from '@lingui/core/macro';
 import { ActionIcon, Alert, Group, Menu, Stack, Tooltip } from '@mantine/core';
 import { IconCircleCheck, IconExclamationCircle } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
-
-import type { SettingsStateProps } from '@lib/types/Settings';
-import { t } from '@lingui/core/macro';
 import { useShallow } from 'zustand/react/shallow';
 import { docLinks } from '../../defaults/links';
+import { OAB_SIMPLIFY_SETTINGS } from '../../defaults/oab';
 import { useServerApiState } from '../../states/ServerApiState';
 import { useGlobalSettingsState } from '../../states/SettingsStates';
-import { useUserState } from '../../states/UserState';
 import type { ServerAPIProps } from '../../states/states';
+import { useUserState } from '../../states/UserState';
 
 interface AlertInfo {
   key: string;
@@ -79,15 +79,20 @@ export function Alerts() {
 export function ServerAlert({
   alert,
   closeAlert
-}: { alert: ExtendedAlertInfo; closeAlert?: (key: string) => void }) {
+}: {
+  alert: ExtendedAlertInfo;
+  closeAlert?: (key: string) => void;
+}) {
   return (
     <Alert
       withCloseButton={!!closeAlert}
       color={alert.condition ? (alert.error ? 'red' : 'orange') : 'green'}
       icon={alert.condition ? <IconExclamationCircle /> : <IconCircleCheck />}
       title={
+        // O código do aviso e o link para a documentação identificam a
+        // plataforma base; o diagnóstico em si continua sendo exibido.
         <Group gap='xs'>
-          {alert.code && `${alert.code}: `}
+          {!OAB_SIMPLIFY_SETTINGS && alert.code && `${alert.code}: `}
           {alert.title}
         </Group>
       }
@@ -96,7 +101,10 @@ export function ServerAlert({
       <Stack gap='xs'>
         {!alert.condition && t`No issues detected`}
         {alert.condition && alert.message}
-        {alert.condition && alert.code && errorCodeLink(alert.code)}
+        {!OAB_SIMPLIFY_SETTINGS &&
+          alert.condition &&
+          alert.code &&
+          errorCodeLink(alert.code)}
       </Stack>
     </Alert>
   );

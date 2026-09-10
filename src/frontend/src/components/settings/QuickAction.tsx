@@ -1,3 +1,4 @@
+import { ApiEndpoints } from '@lib/index';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Button, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
@@ -8,9 +9,8 @@ import {
   IconUsersGroup,
   type ReactNode
 } from '@tabler/icons-react';
-
-import { ApiEndpoints } from '@lib/index';
 import { docLinks } from '../../defaults/links';
+import { OAB_ADMIN_QUICK_ACTIONS, oabFilterActions } from '../../defaults/oab';
 import {
   projectCodeFields,
   useCustomStateFields
@@ -80,48 +80,54 @@ export const QuickAction = () => {
     fields: useCustomStateFields()
   });
 
-  const items = [
-    {
-      id: '0',
-      title: t`Open an Issue`,
-      description: t`Report a bug or request a feature on GitHub`,
-      icon: <IconBrandGithub />,
-      buttonText: t`Open Issue`,
-      action: () => window.open(`${docLinks.bug}/new`, '_blank')
-    },
-    {
-      id: '1',
-      title: t`Add New Group`,
-      description: t`Create a new group to manage your users`,
-      icon: <IconUsersGroup />,
-      buttonText: t`New Group`,
-      action: () => newGroup.open()
-    },
-    {
-      id: '2',
-      title: t`Add New User`,
-      description: t`Create a new user to manage your groups`,
-      icon: <IconUserPlus />,
-      buttonText: t`New User`,
-      action: () => newUser.open()
-    },
-    {
-      id: '3',
-      title: t`Add Project Code`,
-      description: t`Create a new project code to organize your items`,
-      icon: <IconListCheck />,
-      buttonText: t`Add Code`,
-      action: () => newProjectCode.open()
-    },
-    {
-      id: '4',
-      title: t`Add Custom State`,
-      description: t`Create a new custom state for your workflow`,
-      icon: <IconListCheck />,
-      buttonText: t`Add State`,
-      action: () => newCustomState.open()
-    }
-  ];
+  // Sem os atalhos que abrem telas retiradas do Centro de administração
+  // (códigos de projeto, estados personalizados) e sem o atalho de abertura de
+  // chamado no GitHub do InvenTree.
+  const items = oabFilterActions(
+    [
+      {
+        id: 'issue',
+        title: t`Open an Issue`,
+        description: t`Report a bug or request a feature on GitHub`,
+        icon: <IconBrandGithub />,
+        buttonText: t`Open Issue`,
+        action: () => window.open(`${docLinks.bug}/new`, '_blank')
+      },
+      {
+        id: 'group',
+        title: t`Add New Group`,
+        description: t`Create a new group to manage your users`,
+        icon: <IconUsersGroup />,
+        buttonText: t`New Group`,
+        action: () => newGroup.open()
+      },
+      {
+        id: 'user',
+        title: t`Add New User`,
+        description: t`Create a new user to manage your groups`,
+        icon: <IconUserPlus />,
+        buttonText: t`New User`,
+        action: () => newUser.open()
+      },
+      {
+        id: 'project-code',
+        title: t`Add Project Code`,
+        description: t`Create a new project code to organize your items`,
+        icon: <IconListCheck />,
+        buttonText: t`Add Code`,
+        action: () => newProjectCode.open()
+      },
+      {
+        id: 'custom-state',
+        title: t`Add Custom State`,
+        description: t`Create a new custom state for your workflow`,
+        icon: <IconListCheck />,
+        buttonText: t`Add State`,
+        action: () => newCustomState.open()
+      }
+    ],
+    OAB_ADMIN_QUICK_ACTIONS
+  );
 
   return (
     <Stack gap={'xs'} ml={'sm'}>

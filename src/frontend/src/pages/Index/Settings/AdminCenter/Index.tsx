@@ -33,6 +33,11 @@ import PageTitle from '../../../../components/nav/PageTitle';
 import { SettingsHeader } from '../../../../components/nav/SettingsHeader';
 import { PanelGroup } from '../../../../components/panels/PanelGroup';
 import { GlobalSettingList } from '../../../../components/settings/SettingList';
+import {
+  OAB_ADMIN_CENTER_PANELS,
+  oabFilterPanelGroups,
+  oabFilterPanels
+} from '../../../../defaults/oab';
 import { Loadable } from '../../../../functions/loading';
 import { useUserState } from '../../../../states/UserState';
 import ParameterTemplateTable from '../../../../tables/general/ParameterTemplateTable';
@@ -124,219 +129,225 @@ export default function AdminCenter() {
   const user = useUserState();
 
   const adminCenterPanels: PanelType[] = useMemo(() => {
-    return [
-      {
-        name: 'home',
-        label: t`Home`,
-        icon: <IconHome />,
-        content: <HomePanel />,
-        showHeadline: false
-      },
-      {
-        name: 'user',
-        label: t`Users / Access`,
-        icon: <IconUsersGroup />,
-        content: <UserManagementPanel />,
-        hidden: !user.hasViewRole(UserRoles.admin)
-      },
-      {
-        name: 'email',
-        label: t`Email Settings`,
-        icon: <IconMail />,
-        content: <EmailManagementPanel />,
-        hidden: !user.isSuperuser()
-      },
-      {
-        name: 'import',
-        label: t`Data Import`,
-        icon: <IconFileUpload />,
-        content: <ImportSessionTable />
-      },
-      {
-        name: 'export',
-        label: t`Data Export`,
-        icon: <IconFileDownload />,
-        content: <ExportSessionTable />
-      },
-      {
-        name: 'barcode-history',
-        label: t`Barcode Scans`,
-        icon: <IconQrcode />,
-        content: <BarcodeScanHistoryTable />
-      },
-      {
-        name: 'background',
-        label: t`Background Tasks`,
-        icon: <IconCpu />,
-        content: <TaskManagementPanel />
-      },
-      {
-        name: 'errors',
-        label: t`Error Reports`,
-        icon: <IconExclamationCircle />,
-        content: <ErrorReportTable />
-      },
-      {
-        name: 'currencies',
-        label: t`Currencies`,
-        icon: <IconCoins />,
-        content: <CurrencyManagementPanel />
-      },
-      {
-        name: 'project-codes',
-        label: t`Project Codes`,
-        icon: <IconListDetails />,
-        content: (
-          <Stack gap='xs'>
-            <GlobalSettingList keys={['PROJECT_CODES_ENABLED']} />
-            <ProjectCodeTable />
-          </Stack>
-        )
-      },
-      {
-        name: 'custom-states',
-        label: t`Custom States`,
-        icon: <IconListDetails />,
-        content: <CustomStateTable />
-      },
-      {
-        name: 'custom-units',
-        label: t`Custom Units`,
-        icon: <IconScale />,
-        content: <UnitManagementPanel />
-      },
-      {
-        name: 'parameters',
-        label: t`Parameters`,
-        icon: <IconList />,
-        content: <ParameterTemplateTable />,
-        hidden: !user.hasViewRole(UserRoles.part)
-      },
-      {
-        name: 'selection-lists',
-        label: t`Selection Lists`,
-        icon: <IconList />,
-        content: <SelectionListTable />,
-        hidden: !user.hasViewRole(UserRoles.part)
-      },
-      {
-        name: 'notes',
-        label: t`Note Templates`,
-        icon: <IconNotes />,
-        content: <NoteTemplatePanel />,
-        hidden: !user.isStaff()
-      },
-      {
-        name: 'category-parameters',
-        label: t`Category Parameters`,
-        icon: <IconSitemap />,
-        content: <PartCategoryTemplateTable />,
-        hidden: !user.hasViewRole(UserRoles.part_category)
-      },
-      {
-        name: 'labels',
-        label: t`Label Templates`,
-        icon: <IconTags />,
-        content: <LabelTemplatePanel />
-      },
-      {
-        name: 'reports',
-        label: t`Report Templates`,
-        icon: <IconReport />,
-        content: <ReportTemplatePanel />
-      },
-      {
-        name: 'snippets',
-        label: t`Report Snippets`,
-        icon: <IconFileCode />,
-        content: <SnippetTable />
-      },
-      {
-        name: 'assets',
-        label: t`Report Assets`,
-        icon: <IconPhoto />,
-        content: <AssetTable />
-      },
-      {
-        name: 'location-types',
-        label: t`Location Types`,
-        icon: <IconPackages />,
-        content: <LocationTypesTable />,
-        hidden: !user.hasViewRole(UserRoles.stock_location)
-      },
-      {
-        name: 'plugin',
-        label: t`Plugins`,
-        icon: <IconPlugConnected />,
-        content: <PluginManagementPanel />,
-        hidden: !user.hasViewRole(UserRoles.admin)
-      },
-      {
-        name: 'machine',
-        label: t`Machines`,
-        icon: <IconDevicesPc />,
-        content: <MachineManagementPanel />,
-        hidden: !user.hasViewRole(UserRoles.admin)
-      },
-      {
-        name: 'identity',
-        label: t`Identity`,
-        icon: <IconShieldLock />,
-        content: <ScimManagementPanel />,
-        hidden: !user.hasViewRole(UserRoles.admin)
-      }
-    ];
+    return oabFilterPanels(
+      [
+        {
+          name: 'home',
+          label: t`Home`,
+          icon: <IconHome />,
+          content: <HomePanel />,
+          showHeadline: false
+        },
+        {
+          name: 'user',
+          label: t`Users / Access`,
+          icon: <IconUsersGroup />,
+          content: <UserManagementPanel />,
+          hidden: !user.hasViewRole(UserRoles.admin)
+        },
+        {
+          name: 'email',
+          label: t`Email Settings`,
+          icon: <IconMail />,
+          content: <EmailManagementPanel />,
+          hidden: !user.isSuperuser()
+        },
+        {
+          name: 'import',
+          label: t`Data Import`,
+          icon: <IconFileUpload />,
+          content: <ImportSessionTable />
+        },
+        {
+          name: 'export',
+          label: t`Data Export`,
+          icon: <IconFileDownload />,
+          content: <ExportSessionTable />
+        },
+        {
+          name: 'barcode-history',
+          label: t`Barcode Scans`,
+          icon: <IconQrcode />,
+          content: <BarcodeScanHistoryTable />
+        },
+        {
+          name: 'background',
+          label: t`Background Tasks`,
+          icon: <IconCpu />,
+          content: <TaskManagementPanel />
+        },
+        {
+          name: 'errors',
+          label: t`Error Reports`,
+          icon: <IconExclamationCircle />,
+          content: <ErrorReportTable />
+        },
+        {
+          name: 'currencies',
+          label: t`Currencies`,
+          icon: <IconCoins />,
+          content: <CurrencyManagementPanel />
+        },
+        {
+          name: 'project-codes',
+          label: t`Project Codes`,
+          icon: <IconListDetails />,
+          content: (
+            <Stack gap='xs'>
+              <GlobalSettingList keys={['PROJECT_CODES_ENABLED']} />
+              <ProjectCodeTable />
+            </Stack>
+          )
+        },
+        {
+          name: 'custom-states',
+          label: t`Custom States`,
+          icon: <IconListDetails />,
+          content: <CustomStateTable />
+        },
+        {
+          name: 'custom-units',
+          label: t`Custom Units`,
+          icon: <IconScale />,
+          content: <UnitManagementPanel />
+        },
+        {
+          name: 'parameters',
+          label: t`Parameters`,
+          icon: <IconList />,
+          content: <ParameterTemplateTable />,
+          hidden: !user.hasViewRole(UserRoles.part)
+        },
+        {
+          name: 'selection-lists',
+          label: t`Selection Lists`,
+          icon: <IconList />,
+          content: <SelectionListTable />,
+          hidden: !user.hasViewRole(UserRoles.part)
+        },
+        {
+          name: 'notes',
+          label: t`Note Templates`,
+          icon: <IconNotes />,
+          content: <NoteTemplatePanel />,
+          hidden: !user.isStaff()
+        },
+        {
+          name: 'category-parameters',
+          label: t`Category Parameters`,
+          icon: <IconSitemap />,
+          content: <PartCategoryTemplateTable />,
+          hidden: !user.hasViewRole(UserRoles.part_category)
+        },
+        {
+          name: 'labels',
+          label: t`Label Templates`,
+          icon: <IconTags />,
+          content: <LabelTemplatePanel />
+        },
+        {
+          name: 'reports',
+          label: t`Report Templates`,
+          icon: <IconReport />,
+          content: <ReportTemplatePanel />
+        },
+        {
+          name: 'snippets',
+          label: t`Report Snippets`,
+          icon: <IconFileCode />,
+          content: <SnippetTable />
+        },
+        {
+          name: 'assets',
+          label: t`Report Assets`,
+          icon: <IconPhoto />,
+          content: <AssetTable />
+        },
+        {
+          name: 'location-types',
+          label: t`Location Types`,
+          icon: <IconPackages />,
+          content: <LocationTypesTable />,
+          hidden: !user.hasViewRole(UserRoles.stock_location)
+        },
+        {
+          name: 'plugin',
+          label: t`Plugins`,
+          icon: <IconPlugConnected />,
+          content: <PluginManagementPanel />,
+          hidden: !user.hasViewRole(UserRoles.admin)
+        },
+        {
+          name: 'machine',
+          label: t`Machines`,
+          icon: <IconDevicesPc />,
+          content: <MachineManagementPanel />,
+          hidden: !user.hasViewRole(UserRoles.admin)
+        },
+        {
+          name: 'identity',
+          label: t`Identity`,
+          icon: <IconShieldLock />,
+          content: <ScimManagementPanel />,
+          hidden: !user.hasViewRole(UserRoles.admin)
+        }
+      ],
+      OAB_ADMIN_CENTER_PANELS
+    );
   }, [user]);
   const grouping: PanelGroupType[] = useMemo(() => {
-    return [
-      { id: 'home', label: '', panelIDs: ['home'] },
-      {
-        id: 'ops',
-        label: t`Operations`,
-        panelIDs: [
-          'user',
-          'identity',
-          'barcode-history',
-          'background',
-          'errors',
-          'currencies',
-          'email'
-        ]
-      },
-      {
-        id: 'data',
-        label: t`Data Management`,
-        panelIDs: [
-          'import',
-          'export',
-          'project-codes',
-          'custom-states',
-          'custom-units'
-        ]
-      },
-      {
-        id: 'reporting',
-        label: t`Reporting`,
-        panelIDs: ['labels', 'reports', 'snippets', 'assets']
-      },
-      {
-        id: 'plm',
-        label: t`PLM`,
-        panelIDs: [
-          'selection-lists',
-          'parameters',
-          'category-parameters',
-          'notes',
-          'location-types',
-          'stocktake'
-        ]
-      },
-      {
-        id: 'extend',
-        label: t`Extend / Integrate`,
-        panelIDs: ['plugin', 'machine']
-      }
-    ];
+    return oabFilterPanelGroups(
+      [
+        { id: 'home', label: '', panelIDs: ['home'] },
+        {
+          id: 'ops',
+          label: t`Operations`,
+          panelIDs: [
+            'user',
+            'identity',
+            'barcode-history',
+            'background',
+            'errors',
+            'currencies',
+            'email'
+          ]
+        },
+        {
+          id: 'data',
+          label: t`Data Management`,
+          panelIDs: [
+            'import',
+            'export',
+            'project-codes',
+            'custom-states',
+            'custom-units'
+          ]
+        },
+        {
+          id: 'reporting',
+          label: t`Reporting`,
+          panelIDs: ['labels', 'reports', 'snippets', 'assets']
+        },
+        {
+          id: 'plm',
+          label: t`PLM`,
+          panelIDs: [
+            'selection-lists',
+            'parameters',
+            'category-parameters',
+            'notes',
+            'location-types',
+            'stocktake'
+          ]
+        },
+        {
+          id: 'extend',
+          label: t`Extend / Integrate`,
+          panelIDs: ['plugin', 'machine']
+        }
+      ],
+      OAB_ADMIN_CENTER_PANELS
+    );
   }, []);
 
   return (
