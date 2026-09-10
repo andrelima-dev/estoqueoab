@@ -101,6 +101,41 @@ movimentação recusada não deixe destino órfão.
 - **WHEN** uma saída com destino inédito é recusada por saldo insuficiente
 - **THEN** nenhum novo `Sector` é criado
 
+### Requirement: Local de estoque digitado em texto livre
+
+O local de destino de uma entrada (`location_name`) e de uma transferência
+(`location_to_name`) SHALL aceitar texto livre, resolvido contra o cadastro de
+locais sem distinção de maiúsculas nem espaços em volta. Um local desconhecido
+SHALL ser criado.
+
+Exigir cadastro prévio trava a operação: numa instalação nova, com um único
+local, não há para onde transferir.
+
+A resolução SHALL ocorrer dentro da transação da operação, para que uma
+movimentação recusada não deixe local órfão.
+
+Consultas de saldo por local MUST partir do banco, e não dos campos de árvore
+(MPTT) de um objeto já carregado. Locais são inseridos em ordem alfabética
+(`order_insertion_by`), então cadastrar um local renumera a árvore e torna
+obsoleto o objeto em memória — a consulta cairia na árvore errada e reportaria
+saldo zero, recusando a movimentação sem motivo.
+
+#### Scenario: Local novo entra no cadastro
+
+- **WHEN** uma transferência informa `location_to_name = "Sala da Presidência"`
+  e esse local ainda não existe
+- **THEN** o local é criado e recebe o material
+
+#### Scenario: Destino igual à origem é recusado
+
+- **WHEN** o nome digitado corresponde ao próprio local de origem
+- **THEN** a transferência é recusada
+
+#### Scenario: Saldo não se perde ao criar um local
+
+- **WHEN** um local cujo nome antecede alfabeticamente os demais é criado
+- **THEN** o saldo dos locais já existentes continua sendo encontrado
+
 ### Requirement: Saída limitada ao saldo disponível
 
 O backend SHALL recusar saídas e transferências cuja quantidade exceda o saldo

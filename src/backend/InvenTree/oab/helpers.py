@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 from rest_framework.serializers import ValidationError
 
-from stock.models import StockItem, StockItemTracking
+from stock.models import StockItem, StockItemTracking, StockLocation
 from stock.status_codes import StockStatus
 
 
@@ -24,7 +24,14 @@ def location_filter(location, include_sublocations: bool = True) -> Q:
         return Q()
 
     if include_sublocations:
-        return Q(location__in=location.get_descendants(include_self=True))
+        # A consulta parte do banco, e não do objeto em memória: locais são
+        # inseridos em ordem alfabética (`order_insertion_by`), então cadastrar
+        # um local novo renumera a árvore e deixa obsoletos os campos MPTT de
+        # qualquer objeto já carregado. Usá-los faria a busca cair na árvore
+        # errada e reportar saldo zero.
+        tree = StockLocation.objects.filter(pk=location.pk)
+
+        return Q(location__in=tree.get_descendants(include_self=True))
 
     return Q(location=location)
 

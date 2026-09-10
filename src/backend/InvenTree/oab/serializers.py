@@ -165,6 +165,30 @@ class MovementActionSerializer(serializers.Serializer):
 
         return location
 
+    def resolve_location(self, field: str, name_field: str) -> StockLocation:
+        """Resolve o local informado como texto livre.
+
+        Mesma ideia do destino de uma saída: o operador digita o nome do local
+        em vez de escolher numa lista, porque exigir cadastro prévio trava a
+        operação — era o caso de uma instalação nova, com um único local.
+
+        Um local já existente é reaproveitado (sem distinção de maiúsculas e
+        espaços); um nome novo passa a fazer parte do cadastro. Executado dentro
+        da transação da operação, para que um local só seja criado se a
+        movimentação de fato acontecer.
+        """
+        data = self.validated_data
+
+        if location := data.get(field):
+            return location
+
+        name = (data.get(name_field) or '').strip()
+
+        if existing := StockLocation.objects.filter(name__iexact=name).first():
+            return self.validate_destination(existing)
+
+        return StockLocation.objects.create(name=name)
+
     def movement_defaults(self) -> dict:
         """Campos institucionais adicionais gravados no registro."""
         return {}
@@ -227,8 +251,19 @@ class MovementEntrySerializer(MovementActionSerializer):
     location = serializers.PrimaryKeyRelatedField(
         queryset=StockLocation.objects.all(),
         many=False,
-        required=True,
+        required=False,
+        allow_null=True,
+        default=None,
         label=_('Local de destino'),
+    )
+
+    location_name = serializers.CharField(
+        max_length=100,
+        required=False,
+        allow_blank=True,
+        default='',
+        label=_('Local de destino'),
+        help_text=_('Local onde o material será guardado'),
     )
 
     supplier = serializers.PrimaryKeyRelatedField(
@@ -256,12 +291,30 @@ class MovementEntrySerializer(MovementActionSerializer):
         """Valida o local de destino."""
         return self.validate_destination(location)
 
+    def validate(self, data):
+        """Exige um local de destino, escolhido ou digitado."""
+        data = super().validate(data)
+
+        if not data.get('location') and not (data.get('location_name') or '').strip():
+            raise serializers.ValidationError({
+                'location_name': _('Informe o local de destino')
+            })
+
+        return data
+
+    def resolved_location(self) -> StockLocation:
+        """Local de destino, resolvido uma única vez por operação."""
+        if not hasattr(self, '_location'):
+            self._location = self.resolve_location('location', 'location_name')
+
+        return self._location
+
     def movement_defaults(self) -> dict:
         """Campos institucionais da entrada."""
         data = self.validated_data
 
         return {
-            'location_to': data['location'],
+            'location_to': self.resolved_location(),
             'supplier': data.get('supplier'),
             'source': data.get('source') or '',
             'handler': data.get('handler') or '',
@@ -273,7 +326,7 @@ class MovementEntrySerializer(MovementActionSerializer):
 
         return helpers.receive_stock(
             data['part'],
-            data['location'],
+            self.resolved_location(),
             data['quantity'],
             user,
             notes=data.get('notes') or '',
@@ -413,19 +466,54 @@ class MovementTransferSerializer(MovementActionSerializer):
     location_to = serializers.PrimaryKeyRelatedField(
         queryset=StockLocation.objects.all(),
         many=False,
-        required=True,
+        required=False,
+        allow_null=True,
+        default=None,
         label=_('Local de destino'),
+    )
+
+    location_to_name = serializers.CharField(
+        max_length=100,
+        required=False,
+        allow_blank=True,
+        default='',
+        label=_('Local de destino'),
+        help_text=_('Local para onde o material será movido'),
     )
 
     def validate_location_to(self, location):
         """Valida o local de destino."""
         return self.validate_destination(location)
 
+    def resolved_location_to(self) -> StockLocation:
+        """Local de destino, resolvido uma única vez por operação."""
+        if not hasattr(self, '_location_to'):
+            self._location_to = self.resolve_location(
+                'location_to', 'location_to_name'
+            )
+
+        return self._location_to
+
     def validate(self, data):
         """Valida disponibilidade e locais distintos."""
         data = super().validate(data)
 
-        if data['location_from'] == data['location_to']:
+        destino_digitado = (data.get('location_to_name') or '').strip()
+
+        if not data.get('location_to') and not destino_digitado:
+            raise serializers.ValidationError({
+                'location_to_name': _('Informe o local de destino')
+            })
+
+        # O destino digitado ainda não foi resolvido (isso acontece dentro da
+        # transação), então a comparação com a origem é feita pelo nome.
+        mesmo_local = (
+            data['location_from'] == data['location_to']
+            if data.get('location_to')
+            else destino_digitado.casefold() == data['location_from'].name.casefold()
+        )
+
+        if mesmo_local:
             raise serializers.ValidationError({
                 'location_to': _('O local de destino deve ser diferente da origem')
             })
@@ -447,7 +535,7 @@ class MovementTransferSerializer(MovementActionSerializer):
 
         return {
             'location_from': data['location_from'],
-            'location_to': data['location_to'],
+            'location_to': self.resolved_location_to(),
         }
 
     def perform(self, user):
@@ -457,7 +545,7 @@ class MovementTransferSerializer(MovementActionSerializer):
         return helpers.transfer_stock(
             data['part'],
             data['location_from'],
-            data['location_to'],
+            self.resolved_location_to(),
             data['quantity'],
             user,
             notes=data.get('notes') or '',

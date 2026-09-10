@@ -8,17 +8,17 @@ import {
   NumberInput,
   Stack,
   Text,
-  TextInput,
-  Textarea
+  Textarea,
+  TextInput
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useMemo, useState } from 'react';
 import { PageDetail } from '../../components/nav/PageDetail';
 import PageTitle from '../../components/nav/PageTitle';
+import { LocationInput } from '../../components/oab/LocationInput';
 import { MovementConfirmModal } from '../../components/oab/MovementConfirm';
 import {
   DateSelect,
-  LocationSelect,
   MaterialSelect,
   StockBalancePanel,
   useAvailableQuantity
@@ -30,7 +30,9 @@ import { useMovementSubmit } from '../../hooks/UseMovementSubmit';
  */
 export default function StockEntryPage() {
   const [part, setPart] = useState<any>(null);
-  const [location, setLocation] = useState<any>(null);
+  const [location, setLocation] = useState<string>('');
+  // Registro do local, quando o nome digitado corresponde a um já cadastrado.
+  const [locationRecord, setLocationRecord] = useState<any>(null);
   const [quantity, setQuantity] = useState<number | string>('');
   const [source, setSource] = useState<string>('');
   const [document, setDocument] = useState<string>('');
@@ -45,7 +47,7 @@ export default function StockEntryPage() {
 
   const { available, refetch } = useAvailableQuantity(
     part?.pk ?? null,
-    location?.pk ?? null
+    locationRecord?.pk ?? null
   );
 
   const { submit, loading, fieldError } = useMovementSubmit({
@@ -55,11 +57,12 @@ export default function StockEntryPage() {
 
   const numericQuantity = Number(quantity) || 0;
 
-  const canSubmit = !!part?.pk && !!location?.pk && numericQuantity > 0;
+  const canSubmit = !!part?.pk && !!location.trim() && numericQuantity > 0;
 
   const resetForm = useCallback(() => {
     setPart(null);
-    setLocation(null);
+    setLocation('');
+    setLocationRecord(null);
     setQuantity('');
     setSource('');
     setDocument('');
@@ -73,7 +76,7 @@ export default function StockEntryPage() {
     const result = await submit({
       part: part?.pk,
       quantity: numericQuantity,
-      location: location?.pk,
+      location_name: location.trim(),
       source: source,
       document: document,
       handler: handler,
@@ -106,7 +109,7 @@ export default function StockEntryPage() {
     () => [
       { label: t`Material`, value: part?.name ?? '' },
       { label: t`Quantidade`, value: numericQuantity },
-      { label: t`Local de destino`, value: location?.name ?? '' },
+      { label: t`Local de destino`, value: location },
       { label: t`Origem / Fornecedor`, value: source },
       { label: t`Documento`, value: document },
       { label: t`Responsável pelo recebimento`, value: handler },
@@ -148,11 +151,15 @@ export default function StockEntryPage() {
                 error={fieldError('quantity')}
               />
 
-              <LocationSelect
-                fieldName='location'
+              <LocationInput
                 label={t`Local de destino`}
-                description={t`Onde o material será armazenado`}
-                onChange={(_pk, record) => setLocation(record)}
+                description={t`Onde o material será armazenado - digite para criar um local novo`}
+                value={location}
+                onChange={(texto, record) => {
+                  setLocation(texto);
+                  setLocationRecord(record ?? null);
+                }}
+                error={fieldError('location_name')}
               />
 
               <TextInput

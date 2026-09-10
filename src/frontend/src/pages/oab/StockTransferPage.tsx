@@ -16,6 +16,7 @@ import { IconAlertTriangle } from '@tabler/icons-react';
 import { useCallback, useMemo, useState } from 'react';
 import { PageDetail } from '../../components/nav/PageDetail';
 import PageTitle from '../../components/nav/PageTitle';
+import { LocationInput } from '../../components/oab/LocationInput';
 import { MovementConfirmModal } from '../../components/oab/MovementConfirm';
 import {
   LocationSelect,
@@ -32,7 +33,7 @@ import { useMovementSubmit } from '../../hooks/UseMovementSubmit';
 export default function StockTransferPage() {
   const [part, setPart] = useState<any>(null);
   const [origin, setOrigin] = useState<any>(null);
-  const [destination, setDestination] = useState<any>(null);
+  const [destination, setDestination] = useState<string>('');
   const [quantity, setQuantity] = useState<number | string>('');
   const [notes, setNotes] = useState<string>('');
 
@@ -51,19 +52,24 @@ export default function StockTransferPage() {
 
   const numericQuantity = Number(quantity) || 0;
   const insufficient = numericQuantity > available;
-  const sameLocation = !!origin?.pk && origin?.pk === destination?.pk;
+  // O destino é digitado, então a comparação com a origem é feita pelo nome -
+  // a mesma regra que o backend aplica antes de resolver o local.
+  const sameLocation =
+    !!origin?.name &&
+    destination.trim().toLocaleLowerCase() ===
+      String(origin.name).toLocaleLowerCase();
 
   const canSubmit =
     !!part?.pk &&
     !!origin?.pk &&
-    !!destination?.pk &&
+    !!destination.trim() &&
     !sameLocation &&
     numericQuantity > 0;
 
   const resetForm = useCallback(() => {
     setPart(null);
     setOrigin(null);
-    setDestination(null);
+    setDestination('');
     setQuantity('');
     setNotes('');
     setFormKey((key) => key + 1);
@@ -74,7 +80,7 @@ export default function StockTransferPage() {
       part: part?.pk,
       quantity: numericQuantity,
       location_from: origin?.pk,
-      location_to: destination?.pk,
+      location_to_name: destination.trim(),
       notes: notes
     });
 
@@ -101,7 +107,7 @@ export default function StockTransferPage() {
       { label: t`Material`, value: part?.name ?? '' },
       { label: t`Quantidade`, value: numericQuantity },
       { label: t`Local de origem`, value: origin?.name ?? '' },
-      { label: t`Local de destino`, value: destination?.name ?? '' },
+      { label: t`Local de destino`, value: destination },
       { label: t`Saldo na origem após`, value: available - numericQuantity }
     ],
     [part, numericQuantity, origin, destination, available]
@@ -141,11 +147,11 @@ export default function StockTransferPage() {
                 onChange={(_pk, record) => setOrigin(record)}
               />
 
-              <LocationSelect
-                fieldName='location_to'
+              <LocationInput
                 label={t`Local de destino`}
-                description={t`Para onde o material será movido`}
-                onChange={(_pk, record) => setDestination(record)}
+                description={t`Para onde o material será movido - digite para criar um local novo`}
+                value={destination}
+                onChange={setDestination}
               />
 
               <NumberInput

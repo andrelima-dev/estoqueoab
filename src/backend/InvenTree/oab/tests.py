@@ -206,6 +206,101 @@ class StockIssueTest(OabTestBase):
         movement = StockMovement.objects.get(movement_type=MovementType.SAIDA)
         self.assertEqual(movement.sector, setor)
 
+    def test_location_filter_survives_new_location(self):
+        """Criar um local novo reorganiza a árvore de locais (MPTT).
+
+        Locais são inseridos em ordem alfabética (`order_insertion_by`), então
+        um nome que venha antes desloca a numeração de árvore dos demais. Os
+        campos de árvore do objeto já carregado ficam desatualizados, e um
+        filtro que dependa deles passa a consultar a árvore errada — o saldo
+        aparece como zero e a movimentação é recusada sem motivo.
+        """
+        self.entrada(5)
+
+        origem = self.almoxarifado
+
+        # Nome anterior a "Almoxarifado Central", para deslocar a árvore dele
+        StockLocation.objects.create(name='AAA Local Novo')
+
+        self.assertEqual(helpers.available_quantity(self.material, origem), 5)
+
+    def test_typed_location_creates_it(self):
+        """O local pode ser digitado; um local novo entra no cadastro."""
+        self.entrada(5)
+
+        self.post(
+            reverse('api-oab-transfer'),
+            {
+                'part': self.material.pk,
+                'quantity': 2,
+                'location_from': self.almoxarifado.pk,
+                'location_to_name': 'Sala da Presidência',
+            },
+            expected_code=201,
+        )
+
+        destino = StockLocation.objects.get(name='Sala da Presidência')
+        movement = StockMovement.objects.get(movement_type=MovementType.TRANSFERENCIA)
+        self.assertEqual(movement.location_to, destino)
+        self.assertEqual(helpers.available_quantity(self.material, destino), 2)
+
+    def test_typed_location_reuses_existing(self):
+        """Digitar um local já conhecido não duplica o cadastro."""
+        self.entrada(5)
+
+        total_before = StockLocation.objects.count()
+
+        self.post(
+            reverse('api-oab-transfer'),
+            {
+                'part': self.material.pk,
+                'quantity': 1,
+                'location_from': self.almoxarifado.pk,
+                # mesmo local existente, com outra caixa e espaços em volta
+                'location_to_name': '  prateleira a  ',
+            },
+            expected_code=201,
+        )
+
+        self.assertEqual(StockLocation.objects.count(), total_before)
+
+        movement = StockMovement.objects.get(movement_type=MovementType.TRANSFERENCIA)
+        self.assertEqual(movement.location_to, self.prateleira)
+
+    def test_typed_location_equal_to_origin_is_rejected(self):
+        """Digitar o nome da própria origem não é uma transferência."""
+        self.entrada(5)
+
+        self.post(
+            reverse('api-oab-transfer'),
+            {
+                'part': self.material.pk,
+                'quantity': 1,
+                'location_from': self.almoxarifado.pk,
+                'location_to_name': 'almoxarifado central',
+            },
+            expected_code=400,
+        )
+
+    def test_failed_transfer_does_not_create_location(self):
+        """Uma transferência rejeitada não deixa um local órfão no cadastro."""
+        self.entrada(1)
+
+        total_before = StockLocation.objects.count()
+
+        self.post(
+            reverse('api-oab-transfer'),
+            {
+                'part': self.material.pk,
+                'quantity': 999,
+                'location_from': self.almoxarifado.pk,
+                'location_to_name': 'Local Inexistente',
+            },
+            expected_code=400,
+        )
+
+        self.assertEqual(StockLocation.objects.count(), total_before)
+
     def test_typed_destination_reuses_existing_sector(self):
         """Digitar um destino já conhecido não duplica o cadastro."""
         self.entrada(10)
