@@ -11,7 +11,9 @@ import { useLocalState } from '../states/LocalState';
 import { useServerApiState } from '../states/ServerApiState';
 import { fetchGlobalStates } from '../states/states';
 
-export const defaultLocale = 'en';
+// OAB-MA: a interface é apresentada em Português do Brasil por padrão.
+// O usuário ainda pode escolher outro idioma nas suas preferências.
+export const defaultLocale = 'pt_BR';
 
 /*
  * Function which returns a record of supported languages.
@@ -188,12 +190,36 @@ export function getPriorityLocale(): string {
   return userDefault || serverDefault || defaultLocale;
 }
 
+/**
+ * Resolve a locale identifier to the catalog directory which holds its messages.
+ *
+ * The server reports locales in hyphenated lower-case form ('pt-br', 'es-mx'),
+ * while the catalogs are stored using the underscored form ('pt_BR', 'es_MX').
+ * Match the regional catalog first, and only fall back to the base language
+ * (e.g. 'pt') when no regional catalog exists - otherwise a 'pt-br' server would
+ * be served European Portuguese.
+ */
+export function resolveLocaleDir(locale: string): string {
+  const supported = Object.keys(getSupportedLanguages());
+  const normalized = locale.replaceAll('-', '_').toLowerCase();
+
+  const regional = supported.find((key) => key.toLowerCase() === normalized);
+
+  if (regional) {
+    return regional;
+  }
+
+  const base = normalized.split('_')[0];
+
+  return supported.find((key) => key.toLowerCase() === base) ?? defaultLocale;
+}
+
 export async function activateLocale(locale: string | null) {
   if (!locale) {
     locale = getPriorityLocale();
   }
 
-  const localeDir = locale.split('-')[0]; // Extract the base locale (e.g., 'en' from 'en-US')
+  const localeDir = resolveLocaleDir(locale);
 
   try {
     const { messages } = await import(`../locales/${localeDir}/messages.ts`);
