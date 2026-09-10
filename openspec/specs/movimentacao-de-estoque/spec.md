@@ -1,0 +1,157 @@
+# movimentacao-de-estoque Specification
+
+## Purpose
+
+Registrar entradas, saídas, transferências e ajustes do almoxarifado da OAB-MA
+com rastreabilidade completa, reaproveitando o motor de estoque do InvenTree
+(`stock.StockItem` e `stock.StockItemTracking`) em vez de recriá-lo.
+
+O app Django `oab` complementa esse motor com os dados institucionais que o
+InvenTree não modela: destino, solicitante, responsável pela retirada e
+documento.
+
+## Requirements
+
+### Requirement: Saldo delegado ao InvenTree
+
+O sistema SHALL delegar toda alteração de saldo aos métodos do próprio
+`StockItem` (`add_stock`, `take_stock`, `move`, `splitStock`), de modo que a
+trilha de auditoria nativa (`StockItemTracking`) continue sendo gerada.
+
+O sistema MUST NOT manter uma contagem de saldo própria e paralela.
+
+#### Scenario: Entrada gera trilha nativa
+
+- **WHEN** uma entrada é registrada em `/api/oab/entry/`
+- **THEN** o saldo do material aumenta
+- **AND** uma entrada de `StockItemTracking` é criada e vinculada ao registro
+  `oab.StockMovement` correspondente
+
+#### Scenario: Saída consome em ordem de chegada
+
+- **WHEN** uma saída é registrada e existe mais de um item de estoque do
+  material no local de origem
+- **THEN** o consumo ocorre na ordem de criação dos itens (FIFO)
+
+### Requirement: Registro institucional de cada movimentação
+
+Cada movimentação SHALL gerar um registro `oab.StockMovement` contendo tipo,
+material, quantidade, saldo anterior, saldo posterior, local de origem, local
+de destino, usuário do sistema e data/hora.
+
+O registro SHALL manter cópia denormalizada do nome do material, para que o
+histórico sobreviva à exclusão do item de estoque de origem.
+
+#### Scenario: Saldos anterior e posterior
+
+- **WHEN** um material com saldo total 50 recebe uma saída de 5
+- **THEN** o registro guarda `quantity_before = 50` e `quantity_after = 45`
+
+#### Scenario: Transferência não altera o saldo total
+
+- **WHEN** uma transferência move 10 unidades entre dois locais
+- **THEN** `quantity_before` e `quantity_after` são iguais
+- **AND** `location_from` e `location_to` registram os dois locais
+
+### Requirement: Separação entre quem registra e quem recebe
+
+O sistema SHALL distinguir o **usuário do sistema** que registrou a operação
+(campo `user`, preenchido automaticamente com o usuário autenticado) do
+**responsável físico** que retirou ou recebeu o material (campo `handler`,
+texto livre).
+
+Essa separação existe porque poucas pessoas têm acesso ao sistema, mas é
+preciso responsabilizar terceiros que retiram material.
+
+#### Scenario: Saída exige o responsável pela retirada
+
+- **WHEN** uma saída é enviada sem o campo `handler`
+- **THEN** a API responde 400 com erro no campo `handler`
+
+#### Scenario: Responsável e usuário são campos distintos
+
+- **WHEN** o usuário `almoxarifado` registra uma saída entregue a
+  "Carlos Santos"
+- **THEN** `user` é `almoxarifado` e `handler` é "Carlos Santos"
+- **AND** o histórico exibe as duas informações em colunas separadas
+
+### Requirement: Destino digitado em texto livre
+
+O destino de uma saída SHALL aceitar texto livre (`sector_name`), resolvido
+contra o cadastro de `oab.Sector` sem distinção de maiúsculas nem espaços em
+volta. Um destino desconhecido SHALL ser criado no cadastro.
+
+A resolução SHALL ocorrer dentro da transação da operação, para que uma
+movimentação recusada não deixe destino órfão.
+
+#### Scenario: Destino novo entra no cadastro
+
+- **WHEN** uma saída informa `sector_name = "Comissão de Eventos 2026"` e esse
+  destino ainda não existe
+- **THEN** o destino é criado e vinculado à movimentação
+
+#### Scenario: Destino conhecido é reaproveitado
+
+- **WHEN** uma saída informa `sector_name = "  tecnologia da informação  "` e
+  já existe o setor "Tecnologia da Informação"
+- **THEN** o setor existente é reutilizado, sem duplicar o cadastro
+
+#### Scenario: Operação recusada não cria destino
+
+- **WHEN** uma saída com destino inédito é recusada por saldo insuficiente
+- **THEN** nenhum novo `Sector` é criado
+
+### Requirement: Saída limitada ao saldo disponível
+
+O backend SHALL recusar saídas e transferências cuja quantidade exceda o saldo
+disponível no local de origem, independentemente do que a interface permita.
+
+#### Scenario: Saída acima do disponível
+
+- **WHEN** existem 10 unidades e é solicitada uma saída de 25
+- **THEN** a API responde 400 com erro no campo `quantity`
+- **AND** o saldo permanece 10
+
+### Requirement: Histórico imutável
+
+O histórico de movimentações SHALL ser somente leitura pela API. Correções
+SHALL ser feitas por meio de uma nova movimentação de ajuste, nunca apagando ou
+editando registros anteriores.
+
+#### Scenario: Exclusão recusada
+
+- **WHEN** um DELETE é enviado a `/api/oab/movement/<pk>/`
+- **THEN** a API responde 405
+
+#### Scenario: Ajuste registra a diferença
+
+- **WHEN** um ajuste informa a quantidade contada em um local
+- **THEN** o sistema aplica apenas a diferença
+- **AND** registra uma movimentação do tipo AJUSTE com justificativa
+  obrigatória
+
+### Requirement: Itens zerados preservados
+
+O sistema SHALL manter `STOCK_DELETE_DEPLETED_DEFAULT = False`, para que um
+item de estoque que chega a zero não seja apagado.
+
+Apagar o item desvincularia as entradas de auditoria (`item = None`) e
+quebraria a rastreabilidade.
+
+#### Scenario: Saldo zerado mantém o item
+
+- **WHEN** uma saída zera o saldo de um material
+- **THEN** o `StockItem` permanece com quantidade 0
+- **AND** nenhuma entrada de `StockItemTracking` fica órfã
+
+### Requirement: Permissões verificadas no backend
+
+As operações de estoque SHALL exigir a permissão `stock.add` do sistema de
+rulesets nativo do InvenTree, aplicada no backend e não apenas na interface.
+
+#### Scenario: Perfil de consulta é recusado
+
+- **WHEN** um usuário do grupo "Consulta" envia POST para `/api/oab/entry/` ou
+  `/api/oab/issue/`
+- **THEN** a API responde 403
+- **AND** a leitura do histórico continua permitida
