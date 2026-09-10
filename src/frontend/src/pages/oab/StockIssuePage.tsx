@@ -9,8 +9,8 @@ import {
   NumberInput,
   Stack,
   Text,
-  TextInput,
-  Textarea
+  Textarea,
+  TextInput
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconAlertTriangle } from '@tabler/icons-react';
@@ -19,11 +19,11 @@ import { PageDetail } from '../../components/nav/PageDetail';
 import PageTitle from '../../components/nav/PageTitle';
 import { MovementConfirmModal } from '../../components/oab/MovementConfirm';
 import {
-  LocationSelect,
   MaterialSelect,
   StockBalancePanel,
   useAvailableQuantity
 } from '../../components/oab/MovementFields';
+import { OriginSelect } from '../../components/oab/OriginSelect';
 import { SectorInput } from '../../components/oab/SectorInput';
 import { OAB_COLOR_SAIDA } from '../../defaults/oab';
 import { useMovementSubmit } from '../../hooks/UseMovementSubmit';
@@ -159,11 +159,12 @@ export default function StockIssuePage() {
                 onChange={(_pk, record) => setPart(record)}
               />
 
-              <LocationSelect
-                fieldName='location'
+              <OriginSelect
+                partId={part?.pk}
+                value={location}
+                onChange={setLocation}
                 label={t`Local de origem`}
-                description={t`De onde o material será retirado`}
-                onChange={(_pk, record) => setLocation(record)}
+                description={t`Locais que têm este material, com o saldo de cada um`}
               />
 
               <NumberInput

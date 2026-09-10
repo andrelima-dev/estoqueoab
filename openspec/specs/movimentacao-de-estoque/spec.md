@@ -101,6 +101,30 @@ movimentação recusada não deixe destino órfão.
 - **WHEN** uma saída com destino inédito é recusada por saldo insuficiente
 - **THEN** nenhum novo `Sector` é criado
 
+### Requirement: Origem restrita aos locais com saldo
+
+O campo de local de origem de uma saída ou transferência SHALL oferecer apenas
+os locais que têm o material selecionado, exibindo o saldo de cada um. Havendo
+um único local possível, ele SHALL ser preenchido automaticamente.
+
+Oferecer todos os locais cadastrados é uma armadilha: o material aparece com o
+saldo total ao lado do nome, o operador escolhe um local qualquer e a operação
+é recusada por saldo insuficiente, sem dizer onde o material está.
+
+O saldo exibido junto ao material é o total entre todos os locais; o saldo da
+operação é o do local de origem. A tela MUST deixar essa diferença visível, e
+não obrigar o operador a descobri-la por tentativa.
+
+#### Scenario: Único local é escolhido sozinho
+
+- **WHEN** o material selecionado só tem saldo em um local
+- **THEN** esse local é preenchido como origem, com o saldo ao lado
+
+#### Scenario: Local sem saldo não é ofertado
+
+- **WHEN** existe um local cadastrado sem saldo do material
+- **THEN** ele não aparece entre as origens possíveis
+
 ### Requirement: Local de estoque digitado em texto livre
 
 O local de destino de uma entrada (`location_name`) e de uma transferência

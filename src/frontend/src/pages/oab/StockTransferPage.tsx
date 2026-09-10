@@ -19,11 +19,11 @@ import PageTitle from '../../components/nav/PageTitle';
 import { LocationInput } from '../../components/oab/LocationInput';
 import { MovementConfirmModal } from '../../components/oab/MovementConfirm';
 import {
-  LocationSelect,
   MaterialSelect,
   StockBalancePanel,
   useAvailableQuantity
 } from '../../components/oab/MovementFields';
+import { OriginSelect } from '../../components/oab/OriginSelect';
 import { OAB_COLOR_SAIDA } from '../../defaults/oab';
 import { useMovementSubmit } from '../../hooks/UseMovementSubmit';
 
@@ -140,11 +140,12 @@ export default function StockTransferPage() {
                 onChange={(_pk, record) => setPart(record)}
               />
 
-              <LocationSelect
-                fieldName='location_from'
+              <OriginSelect
+                partId={part?.pk}
+                value={origin}
+                onChange={setOrigin}
                 label={t`Local de origem`}
-                description={t`De onde o material sairá`}
-                onChange={(_pk, record) => setOrigin(record)}
+                description={t`Locais que têm este material, com o saldo de cada um`}
               />
 
               <LocationInput

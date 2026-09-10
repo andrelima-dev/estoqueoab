@@ -3019,7 +3019,7 @@ msgstr ""
 #: src/components/tables/ColumnRenderers.tsx:125
 #: src/forms/OabForms.tsx:20
 #: src/pages/oab/StockEntryPage.tsx:230
-#: src/pages/oab/StockIssuePage.tsx:261
+#: src/pages/oab/StockIssuePage.tsx:262
 #: src/pages/part/PartDetailsPanel.tsx:84
 #: src/tables/oab/MaterialTable.tsx:97
 #: src/tables/oab/StockBalanceTable.tsx:58
@@ -3049,9 +3049,9 @@ msgstr ""
 #: src/components/oab/MovementDetailModal.tsx:99
 #: src/components/oab/QuickMovementModal.tsx:197
 #: src/pages/oab/StockIssuePage.tsx:116
-#: src/pages/oab/StockIssuePage.tsx:164
+#: src/pages/oab/StockIssuePage.tsx:166
 #: src/pages/oab/StockTransferPage.tsx:109
-#: src/pages/oab/StockTransferPage.tsx:145
+#: src/pages/oab/StockTransferPage.tsx:147
 msgid "Local de origem"
 msgstr ""
 
@@ -3060,7 +3060,7 @@ msgstr ""
 #: src/pages/oab/StockEntryPage.tsx:112
 #: src/pages/oab/StockEntryPage.tsx:155
 #: src/pages/oab/StockTransferPage.tsx:110
-#: src/pages/oab/StockTransferPage.tsx:151
+#: src/pages/oab/StockTransferPage.tsx:152
 msgid "Local de destino"
 msgstr ""
 
@@ -3082,7 +3082,7 @@ msgstr ""
 #: src/components/oab/MovementDetailModal.tsx:113
 #: src/components/oab/QuickMovementModal.tsx:252
 #: src/pages/oab/StockIssuePage.tsx:118
-#: src/pages/oab/StockIssuePage.tsx:199
+#: src/pages/oab/StockIssuePage.tsx:200
 msgid "Solicitante"
 msgstr ""
 
@@ -3123,8 +3123,8 @@ msgstr ""
 #: src/components/oab/MovementDetailModal.tsx:140
 #: src/components/oab/QuickMovementModal.tsx:266
 #: src/pages/oab/StockEntryPage.tsx:194
-#: src/pages/oab/StockIssuePage.tsx:213
-#: src/pages/oab/StockTransferPage.tsx:172
+#: src/pages/oab/StockIssuePage.tsx:214
+#: src/pages/oab/StockTransferPage.tsx:173
 msgid "Observações"
 msgstr ""
 
@@ -3184,9 +3184,20 @@ msgstr ""
 msgid "Data final"
 msgstr ""
 
-#: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockEntryPage.tsx:55
-msgid "Entrada registrada"
+#: src/components/oab/OriginSelect.tsx:123
+msgid "Selecionar local"
+msgstr ""
+
+#: src/components/oab/OriginSelect.tsx:123
+msgid "Escolha o material primeiro"
+msgstr ""
+
+#: src/components/oab/OriginSelect.tsx:131
+msgid "Este material não tem saldo em nenhum local"
+msgstr ""
+
+#: src/components/oab/OriginSelect.tsx:134
+msgid "Nenhum local com saldo deste material"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
@@ -3194,26 +3205,31 @@ msgstr ""
 msgid "Saída registrada"
 msgstr ""
 
+#: src/components/oab/QuickMovementModal.tsx:73
+#: src/pages/oab/StockEntryPage.tsx:55
+msgid "Entrada registrada"
+msgstr ""
+
 #: src/components/oab/QuickMovementModal.tsx:178
 #: src/pages/oab/Dashboard.tsx:239
 #: src/pages/oab/StockEntryPage.tsx:111
 #: src/pages/oab/StockEntryPage.tsx:146
 #: src/pages/oab/StockIssuePage.tsx:115
-#: src/pages/oab/StockIssuePage.tsx:170
+#: src/pages/oab/StockIssuePage.tsx:171
 #: src/pages/oab/StockTransferPage.tsx:108
-#: src/pages/oab/StockTransferPage.tsx:158
+#: src/pages/oab/StockTransferPage.tsx:159
 #: src/tables/oab/MovementTable.tsx:131
 msgid "Quantidade"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:211
 #: src/pages/oab/StockIssuePage.tsx:119
-#: src/pages/oab/StockIssuePage.tsx:190
+#: src/pages/oab/StockIssuePage.tsx:191
 msgid "Entregue a"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:212
-#: src/pages/oab/StockIssuePage.tsx:191
+#: src/pages/oab/StockIssuePage.tsx:192
 msgid "Quem retirou o material — é o responsável pela retirada"
 msgstr ""
 
@@ -3233,7 +3249,7 @@ msgid "Fornecedor, doação, devolução..."
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:253
-#: src/pages/oab/StockIssuePage.tsx:200
+#: src/pages/oab/StockIssuePage.tsx:201
 msgid "Quem pediu o material, se for outra pessoa"
 msgstr ""
 
@@ -7893,7 +7909,7 @@ msgid "Quem recebeu fisicamente o material"
 msgstr ""
 
 #: src/pages/oab/StockEntryPage.tsx:235
-#: src/pages/oab/StockIssuePage.tsx:266
+#: src/pages/oab/StockIssuePage.tsx:267
 #: src/pages/part/PartDetailsPanel.tsx:135
 #: src/tables/oab/MaterialTable.tsx:142
 #: src/tables/oab/StockBalanceTable.tsx:98
@@ -7905,32 +7921,33 @@ msgid "Confirmar saída"
 msgstr ""
 
 #: src/pages/oab/StockIssuePage.tsx:147
-#: src/pages/oab/StockIssuePage.tsx:226
+#: src/pages/oab/StockIssuePage.tsx:227
 msgid "Confirmar Saída"
 msgstr ""
 
-#: src/pages/oab/StockIssuePage.tsx:165
-msgid "De onde o material será retirado"
+#: src/pages/oab/StockIssuePage.tsx:167
+#: src/pages/oab/StockTransferPage.tsx:148
+msgid "Locais que têm este material, com o saldo de cada um"
 msgstr ""
 
-#: src/pages/oab/StockIssuePage.tsx:178
-#: src/pages/oab/StockTransferPage.tsx:166
+#: src/pages/oab/StockIssuePage.tsx:179
+#: src/pages/oab/StockTransferPage.tsx:167
 msgid "Quantidade superior ao disponível"
 msgstr ""
 
-#: src/pages/oab/StockIssuePage.tsx:206
+#: src/pages/oab/StockIssuePage.tsx:207
 msgid "Documento / Protocolo"
 msgstr ""
 
-#: src/pages/oab/StockIssuePage.tsx:207
+#: src/pages/oab/StockIssuePage.tsx:208
 msgid "Opcional"
 msgstr ""
 
-#: src/pages/oab/StockIssuePage.tsx:245
+#: src/pages/oab/StockIssuePage.tsx:246
 msgid "Estoque insuficiente"
 msgstr ""
 
-#: src/pages/oab/StockIssuePage.tsx:248
+#: src/pages/oab/StockIssuePage.tsx:249
 msgid "A quantidade solicitada é maior do que a disponível no local de origem. Ajuste a quantidade ou escolha outro local."
 msgstr ""
 
@@ -7947,23 +7964,19 @@ msgid "Confirmar transferência"
 msgstr ""
 
 #: src/pages/oab/StockTransferPage.tsx:128
-#: src/pages/oab/StockTransferPage.tsx:185
+#: src/pages/oab/StockTransferPage.tsx:186
 msgid "Confirmar Transferência"
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:146
-msgid "De onde o material sairá"
-msgstr ""
-
-#: src/pages/oab/StockTransferPage.tsx:152
+#: src/pages/oab/StockTransferPage.tsx:153
 msgid "Para onde o material será movido - digite para criar um local novo"
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:204
+#: src/pages/oab/StockTransferPage.tsx:205
 msgid "Locais iguais"
 msgstr ""
 
-#: src/pages/oab/StockTransferPage.tsx:207
+#: src/pages/oab/StockTransferPage.tsx:208
 msgid "O local de destino deve ser diferente do local de origem."
 msgstr ""
 
