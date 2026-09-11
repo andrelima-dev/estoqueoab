@@ -287,6 +287,12 @@ MUST NOT ser expostas na interface: o histórico de movimentação é a prova de
 quem retirou e para quem foi entregue, e não deve ser descartável por
 configuração.
 
+O formulário de categoria MUST NOT pedir a categoria pai: ao criar pelo botão
+do topo ela nasce no nível em que a tabela está, e ao criar pela linha o pai vem
+da própria linha. Ao criar, o campo segue declarado e oculto — é assim que o
+valor chega ao envio; ao editar, fica de fora, e a hierarquia permanece intacta
+porque o envio é parcial.
+
 #### Scenario: Subcategoria criada a partir da categoria
 
 - **WHEN** o usuário aciona "Nova subcategoria" na linha de uma categoria

@@ -102,7 +102,7 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
   // parte de "Nova subcategoria", ou do nível em que a tabela está.
   const [parentForNew, setParentForNew] = useState<any>(parentId);
 
-  const newCategoryFields = useCategoryFields();
+  const newCategoryFields = useCategoryFields({ create: true });
 
   const newCategory = useCreateApiFormModal({
     url: ApiEndpoints.category_list,

@@ -80,9 +80,13 @@ export function useMaterialFields({
 /**
  * Campos do cadastro de **Categoria** de materiais.
  */
-export function useCategoryFields(): ApiFormFieldSet {
-  return useMemo(
-    () => ({
+export function useCategoryFields({
+  create = false
+}: {
+  create?: boolean;
+} = {}): ApiFormFieldSet {
+  return useMemo(() => {
+    const fields: ApiFormFieldSet = {
       name: {
         label: t`Nome`,
         description: t`Nome da categoria (ex.: Material de Escritório)`
@@ -90,15 +94,20 @@ export function useCategoryFields(): ApiFormFieldSet {
       description: {
         label: t`Descrição`,
         description: t`O que esta categoria agrupa (opcional)`
-      },
-      parent: {
-        label: t`Categoria pai`,
-        description: t`Deixe em branco para uma categoria principal`,
-        required: false
       }
-    }),
-    []
-  );
+    };
+
+    // A categoria pai não é preenchida à mão: quem cria uma subcategoria parte
+    // da categoria em que ela deve ficar, e o campo vem preenchido dali. Ao
+    // criar, ele segue declarado e oculto, porque é assim que o valor chega ao
+    // envio; ao editar, fica de fora, e a hierarquia permanece intacta (o envio
+    // é parcial). Para mover categorias existe "Definir categoria superior".
+    if (create) {
+      fields.parent = { hidden: true };
+    }
+
+    return fields;
+  }, [create]);
 }
 
 /**

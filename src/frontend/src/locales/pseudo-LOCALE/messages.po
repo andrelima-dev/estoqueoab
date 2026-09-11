@@ -5182,8 +5182,8 @@ msgid "Código interno do material (ex.: MAT-000123)"
 msgstr ""
 
 #: src/forms/OabForms.tsx:26
-#: src/forms/OabForms.tsx:87
-#: src/forms/OabForms.tsx:129
+#: src/forms/OabForms.tsx:91
+#: src/forms/OabForms.tsx:138
 msgid "Nome"
 msgstr ""
 
@@ -5192,9 +5192,9 @@ msgid "Nome do material como ele é conhecido no almoxarifado"
 msgstr ""
 
 #: src/forms/OabForms.tsx:30
-#: src/forms/OabForms.tsx:91
-#: src/forms/OabForms.tsx:112
-#: src/forms/OabForms.tsx:130
+#: src/forms/OabForms.tsx:95
+#: src/forms/OabForms.tsx:121
+#: src/forms/OabForms.tsx:139
 #: src/tables/oab/SectorTable.tsx:74
 msgid "Descrição"
 msgstr ""
@@ -5232,7 +5232,7 @@ msgid "Onde este material fica normalmente guardado"
 msgstr ""
 
 #: src/forms/OabForms.tsx:56
-#: src/forms/OabForms.tsx:113
+#: src/forms/OabForms.tsx:122
 #: src/pages/part/PartDetailsPanel.tsx:276
 #: src/tables/oab/MaterialTable.tsx:210
 #: src/tables/oab/SectorTable.tsx:79
@@ -5244,32 +5244,24 @@ msgstr ""
 msgid "Materiais inativos não podem receber novas entradas"
 msgstr ""
 
-#: src/forms/OabForms.tsx:88
+#: src/forms/OabForms.tsx:92
 msgid "Nome da categoria (ex.: Material de Escritório)"
 msgstr ""
 
-#: src/forms/OabForms.tsx:92
+#: src/forms/OabForms.tsx:96
 msgid "O que esta categoria agrupa (opcional)"
 msgstr ""
 
-#: src/forms/OabForms.tsx:95
-msgid "Categoria pai"
-msgstr ""
-
-#: src/forms/OabForms.tsx:96
-msgid "Deixe em branco para uma categoria principal"
-msgstr ""
-
-#: src/forms/OabForms.tsx:110
+#: src/forms/OabForms.tsx:119
 msgid "Nome do setor"
 msgstr ""
 
-#: src/forms/OabForms.tsx:111
+#: src/forms/OabForms.tsx:120
 #: src/tables/oab/SectorTable.tsx:64
 msgid "Sigla"
 msgstr ""
 
-#: src/forms/OabForms.tsx:126
+#: src/forms/OabForms.tsx:135
 msgid "Local superior"
 msgstr ""
 
