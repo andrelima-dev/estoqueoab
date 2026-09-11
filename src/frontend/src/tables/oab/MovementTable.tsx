@@ -6,15 +6,18 @@ import useTable from '@lib/hooks/UseTable';
 import type { TableFilter } from '@lib/types/Filters';
 import type { TableColumn } from '@lib/types/Tables';
 import { t } from '@lingui/core/macro';
-import { Badge, Stack, Text } from '@mantine/core';
+import { Badge, Button, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconFileText } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 
 import { api } from '../../App';
-import { useDeliveryNote } from '../../components/oab/DeliveryNoteButton';
 import { MovementDetailModal } from '../../components/oab/MovementDetailModal';
+import {
+  useDeliveryNote,
+  useMovementReport
+} from '../../components/oab/MovementDocuments';
 import { MovementPeriodFilter } from '../../components/oab/MovementPeriodFilter';
 import { InvenTreeTable } from '../../components/tables/InvenTreeTable';
 import { formatDate } from '../../defaults/formatters';
@@ -84,6 +87,24 @@ export function MovementTable({
 
   const [selected, setSelected] = useState<any>(null);
   const { emitir, emitindo, disponivel } = useDeliveryNote();
+
+  // Os mesmos filtros que a tabela está aplicando, para o relatório sair
+  // exatamente com o que está sendo exibido.
+  const filtrosAtuais = useMemo(() => {
+    const consulta: Record<string, any> = { ...(params ?? {}) };
+
+    table.filterSet.activeFilters?.forEach((filtro: any) => {
+      consulta[filtro.name] = filtro.value;
+    });
+
+    if (table.searchTerm) {
+      consulta.search = table.searchTerm;
+    }
+
+    return consulta;
+  }, [params, table.filterSet.activeFilters, table.searchTerm]);
+
+  const relatorio = useMovementReport(filtrosAtuais);
   const [detailOpened, detailHandlers] = useDisclosure(false);
 
   // Opções do filtro por setor (lista curta, carregada de uma só vez)
@@ -279,6 +300,20 @@ export function MovementTable({
           enableSelection: false,
           enableSearch: true,
           tableFilters: filters,
+          tableActions: relatorio.disponivel
+            ? [
+                <Button
+                  key='oab-relatorio-pdf'
+                  variant='light'
+                  size='compact-sm'
+                  leftSection={<IconFileText size={16} />}
+                  loading={relatorio.gerando}
+                  onClick={relatorio.gerarRelatorio}
+                >
+                  {t`Relatório em PDF`}
+                </Button>
+              ]
+            : [],
           rowActions: (record: any): RowAction[] =>
             // Só a saída gera termo: é a operação em que alguém retira o
             // material e assume a responsabilidade por ele.

@@ -238,6 +238,21 @@ assinou.
 Comentários no modelo MUST usar `{% comment %}`: a forma `{# #}` só vale para
 uma linha, e um comentário de várias linhas é impresso no documento.
 
+O histórico SHALL oferecer um **Relatório de Movimentações** em PDF, com a
+lista do período e o resumo por tipo de operação, para arquivo periódico.
+
+O relatório SHALL cobrir o conjunto filtrado, e não a página exibida: o operador
+escolhe um período e espera o período inteiro no documento.
+
+O resumo MUST contar operações, e não somar quantidades: materiais têm unidades
+diferentes (caixa, resma, unidade) e a soma não teria significado.
+
+#### Scenario: Relatório do período
+
+- **WHEN** o operador filtra um período e aciona "Relatório em PDF"
+- **THEN** o documento traz todas as movimentações do período
+- **AND** o resumo mostra quantas operações houve de cada tipo
+
 #### Scenario: Termo emitido a partir da saída
 
 - **WHEN** o operador aciona "Emitir termo de entrega" numa saída

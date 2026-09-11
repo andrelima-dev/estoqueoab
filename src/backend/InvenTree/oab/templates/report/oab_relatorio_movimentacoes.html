@@ -1,0 +1,201 @@
+{% load report %}
+
+{% comment %}
+  Relatório de Movimentações — OAB Maranhão.
+
+  Um único documento para todas as movimentações selecionadas, pensado para
+  arquivo periódico: a lista do período com o resumo por tipo de operação.
+
+  O resumo conta operações, e não soma quantidades: materiais têm unidades
+  diferentes (caixa, resma, unidade) e somá-las produziria um número sem
+  significado.
+{% endcomment %}
+
+<head>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 1.5cm 1.5cm 2.5cm 1.5cm;
+
+      @bottom-center {
+        content: "Sistema de Estoque — OAB Maranhão";
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 8pt;
+        color: #6b7280;
+      }
+
+      @bottom-right {
+        content: "Página " counter(page) " de " counter(pages);
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 8pt;
+        color: #6b7280;
+      }
+    }
+
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 8.5pt;
+      color: #111827;
+    }
+
+    .cabecalho {
+      border-bottom: 3px solid #BA0C2F;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+
+    .marca {
+      display: inline-block;
+      background: #BA0C2F;
+      color: #fff;
+      font-size: 16pt;
+      font-weight: bold;
+      letter-spacing: 2px;
+      padding: 4px 11px;
+      vertical-align: middle;
+    }
+
+    .instituicao {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 12px;
+    }
+
+    .instituicao .nome {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #004B87;
+    }
+
+    .instituicao .setor {
+      font-size: 8pt;
+      color: #6b7280;
+    }
+
+    h1 {
+      font-size: 12pt;
+      color: #004B87;
+      margin: 0 0 12px 0;
+    }
+
+    .resumo {
+      margin-bottom: 14px;
+    }
+
+    .resumo span {
+      display: inline-block;
+      border: 1px solid #d1d5db;
+      border-left: 3px solid #004B87;
+      padding: 4px 10px;
+      margin-right: 8px;
+      font-size: 9pt;
+    }
+
+    .resumo .valor {
+      font-weight: bold;
+      color: #004B87;
+    }
+
+    table.lista {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table.lista th {
+      background: #004B87;
+      color: #fff;
+      text-align: left;
+      padding: 6px 7px;
+      font-size: 8pt;
+    }
+
+    table.lista td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 5px 7px;
+      vertical-align: top;
+    }
+
+    table.lista tr:nth-child(even) td {
+      background: #f9fafb;
+    }
+
+    .saida {
+      color: #BA0C2F;
+      font-weight: bold;
+    }
+
+    .entrada {
+      color: #004B87;
+      font-weight: bold;
+    }
+
+    .vazio {
+      padding: 24px;
+      text-align: center;
+      color: #6b7280;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cabecalho">
+    <span class="marca">OAB</span>
+    <span class="instituicao">
+      <div class="nome">Ordem dos Advogados do Brasil — Seccional Maranhão</div>
+      <div class="setor">Almoxarifado</div>
+    </span>
+  </div>
+
+  <h1>Relatório de Movimentações</h1>
+
+  <div class="resumo">
+    <span>Operações no relatório: <span class="valor">{{ instances|length }}</span></span>
+    {% regroup instances|dictsort:"movement.movement_type" by movement.get_movement_type_display as tipos %}
+    {% for tipo in tipos %}
+    <span>{{ tipo.grouper }}: <span class="valor">{{ tipo.list|length }}</span></span>
+    {% endfor %}
+  </div>
+
+  {% if instances %}
+  <table class="lista">
+    <thead>
+      <tr>
+        <th>Data e hora</th>
+        <th>Tipo</th>
+        <th>Material</th>
+        <th>Qtd.</th>
+        <th>Origem</th>
+        <th>Destino</th>
+        <th>Recebeu</th>
+        <th>Registrou</th>
+        <th>Documento</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in instances %}
+      <tr>
+        <td>{{ item.data }}</td>
+        <td>
+          {% if item.movement.movement_type == 'OUT' %}
+          <span class="saida">{{ item.movement.get_movement_type_display }}</span>
+          {% elif item.movement.movement_type == 'IN' %}
+          <span class="entrada">{{ item.movement.get_movement_type_display }}</span>
+          {% else %}
+          {{ item.movement.get_movement_type_display }}
+          {% endif %}
+        </td>
+        <td>{{ item.material }}</td>
+        <td>{{ item.quantidade }}{% if item.movement.part.units %} {{ item.movement.part.units }}{% endif %}</td>
+        <td>{{ item.movement.location_from.name|default:"—" }}</td>
+        <td>{{ item.destino|default:"—" }}</td>
+        <td>{{ item.responsavel|default:"—" }}</td>
+        <td>{{ item.registrado_por|default:"—" }}</td>
+        <td>{{ item.movement.document|default:"—" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="vazio">Nenhuma movimentação no período selecionado.</div>
+  {% endif %}
+</body>

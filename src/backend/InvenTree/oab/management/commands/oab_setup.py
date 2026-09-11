@@ -36,7 +36,15 @@ REPORT_TEMPLATES = [
         'description': 'Documento de entrega, com assinatura de quem recebeu',
         'model_type': 'stockmovement',
         'filename_pattern': 'Termo-Entrega-{{ movement.pk }}.pdf',
-    }
+    },
+    {
+        'file': 'oab_relatorio_movimentacoes.html',
+        'name': 'Relatório de Movimentações',
+        'description': 'Lista do período, com resumo por tipo de operação',
+        'model_type': 'stockmovement',
+        'filename_pattern': 'Relatorio-Movimentacoes.pdf',
+        'merge': True,
+    },
 ]
 
 # Formato de data brasileiro (dia-mês-ano).
