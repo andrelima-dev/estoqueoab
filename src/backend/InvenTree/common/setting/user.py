@@ -220,7 +220,9 @@ USER_SETTINGS: dict[str, InvenTreeSettingsKeyType] = {
     'DATE_DISPLAY_FORMAT': {
         'name': _('Date Format'),
         'description': _('Preferred format for displaying dates'),
-        'default': 'YYYY-MM-DD',
+        # Padrão brasileiro: dia-mês-ano. O padrão do InvenTree é ISO
+        # (ano-mês-dia), que o operador do almoxarifado lê ao contrário.
+        'default': 'DD-MM-YYYY',
         'choices': [
             ('YYYY-MM-DD', '2022-02-22'),
             ('YYYY/MM/DD', '2022/22/22'),

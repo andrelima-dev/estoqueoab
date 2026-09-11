@@ -5,6 +5,8 @@ import { DateInput, type DateValue } from '@mantine/dates';
 import dayjs from 'dayjs';
 import { useCallback, useMemo } from 'react';
 
+import { useUserSettingsState } from '../../states/SettingsStates';
+
 /**
  * Atalhos de período do histórico de movimentações.
  *
@@ -41,6 +43,12 @@ export function MovementPeriodFilter({
   const dataFinal = valorDe(activeFilters, 'max_date');
 
   const opcoes = useMemo(() => periodos(), []);
+
+  // Mesma preferência usada para exibir datas no resto do sistema, para os
+  // campos não mostrarem um formato e as tabelas outro.
+  const formatoExibicao =
+    useUserSettingsState((estado) => estado.lookup?.DATE_DISPLAY_FORMAT) ||
+    'DD-MM-YYYY';
 
   const selecionado = useMemo(() => {
     if (!dataInicial && !dataFinal) {
@@ -134,7 +142,7 @@ export function MovementPeriodFilter({
           definirDatas(comoTexto(valor), dataFinal)
         }
         clearable
-        valueFormat='DD/MM/YYYY'
+        valueFormat={formatoExibicao}
         size='sm'
         w={150}
         aria-label='periodo-data-inicial'
@@ -147,7 +155,7 @@ export function MovementPeriodFilter({
           definirDatas(dataInicial, comoTexto(valor))
         }
         clearable
-        valueFormat='DD/MM/YYYY'
+        valueFormat={formatoExibicao}
         size='sm'
         w={150}
         aria-label='periodo-data-final'

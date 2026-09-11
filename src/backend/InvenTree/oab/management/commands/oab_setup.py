@@ -9,7 +9,7 @@ Uso::
     python manage.py oab_setup --with-sectors
 """
 
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
@@ -25,6 +25,9 @@ INSTANCE_NAME = 'Estoque OAB-MA'
 # Moeda da instituição. O padrão do InvenTree não inclui o Real, então o
 # seletor de moeda aparece sem a opção brasileira até que a lista de moedas
 # suportadas seja redefinida. USD e EUR permanecem para material importado.
+# Formato de data brasileiro (dia-mês-ano).
+DATE_FORMAT = 'DD-MM-YYYY'
+
 DEFAULT_CURRENCY = 'BRL'
 CURRENCY_CODES = 'BRL,USD,EUR'
 
@@ -98,6 +101,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Executa a configuração inicial."""
         self.apply_branding()
+        self.apply_date_format()
         self.apply_currency()
         self.apply_stock_policy()
         self.create_profiles()
@@ -119,6 +123,22 @@ class Command(BaseCommand):
         set_global_setting('INVENTREE_SHOW_ADMIN_BANNER', False)
 
         self.stdout.write(f'Nome da instância definido como: {INSTANCE_NAME}')
+
+    def apply_date_format(self):
+        """Aplica o formato de data brasileiro aos usuários já cadastrados.
+
+        O formato é uma preferência de cada usuário. Alterar o padrão atende
+        quem for criado daqui em diante; quem já existe mantém o valor antigo
+        até ser atualizado aqui.
+        """
+        from common.models import InvenTreeUserSetting
+
+        for user in User.objects.all():
+            InvenTreeUserSetting.set_setting(
+                'DATE_DISPLAY_FORMAT', DATE_FORMAT, None, user=user
+            )
+
+        self.stdout.write(f'Formato de data aplicado: {DATE_FORMAT}')
 
     def apply_currency(self):
         """Define o Real como moeda da instituição.

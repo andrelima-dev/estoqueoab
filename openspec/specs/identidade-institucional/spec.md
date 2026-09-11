@@ -136,6 +136,28 @@ Isso substitui o par verde/vermelho convencional, que não existe na identidade.
 - **THEN** o título aparece no mesmo bloco com acento vermelho à esquerda,
   vindo de `PageDetail`
 
+### Requirement: Data no formato brasileiro
+
+As datas SHALL ser exibidas como dia-mês-ano (`DD-MM-YYYY`). O padrão do
+InvenTree é ISO (`YYYY-MM-DD`), que o operador lê ao contrário.
+
+O formato é preferência de cada usuário (`DATE_DISPLAY_FORMAT`), e não existe
+ponto de configuração para o seu valor padrão — por isso o padrão é alterado na
+definição da configuração, e `oab_setup` aplica o formato aos usuários já
+cadastrados. É uma das poucas alterações no código do upstream, e se resume a
+um valor padrão.
+
+Campos de data e tabelas MUST usar a mesma preferência. Um formato fixo em
+componente faz a tela mostrar uma coisa e a tabela outra.
+
+O formato de transporte da API permanece ISO: o que muda é a apresentação.
+
+#### Scenario: Data exibida como o operador escreve
+
+- **WHEN** uma movimentação de 10 de setembro de 2026 é listada
+- **THEN** o histórico exibe `10-09-2026`
+- **AND** o campo de filtro de período usa o mesmo formato
+
 ### Requirement: Real como moeda da instituição
 
 A moeda padrão SHALL ser o Real (`BRL`), definida por `oab_setup` e não por

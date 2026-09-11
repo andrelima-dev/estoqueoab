@@ -3155,40 +3155,40 @@ msgstr ""
 msgid "Insuficiente"
 msgstr ""
 
-#: src/components/oab/MovementPeriodFilter.tsx:21
+#: src/components/oab/MovementPeriodFilter.tsx:23
 msgid "Hoje"
 msgstr ""
 
-#: src/components/oab/MovementPeriodFilter.tsx:22
+#: src/components/oab/MovementPeriodFilter.tsx:24
 msgid "7 dias"
 msgstr ""
 
-#: src/components/oab/MovementPeriodFilter.tsx:23
+#: src/components/oab/MovementPeriodFilter.tsx:25
 msgid "30 dias"
 msgstr ""
 
-#: src/components/oab/MovementPeriodFilter.tsx:108
+#: src/components/oab/MovementPeriodFilter.tsx:116
 msgid "Tudo"
 msgstr ""
 
-#: src/components/oab/MovementPeriodFilter.tsx:114
+#: src/components/oab/MovementPeriodFilter.tsx:122
 msgid "Personalizado"
 msgstr ""
 
-#: src/components/oab/MovementPeriodFilter.tsx:130
+#: src/components/oab/MovementPeriodFilter.tsx:138
 msgid "De"
 msgstr ""
 
-#: src/components/oab/MovementPeriodFilter.tsx:131
+#: src/components/oab/MovementPeriodFilter.tsx:139
 #: src/tables/oab/MovementTable.tsx:234
 msgid "Data inicial"
 msgstr ""
 
-#: src/components/oab/MovementPeriodFilter.tsx:143
+#: src/components/oab/MovementPeriodFilter.tsx:151
 msgid "Até"
 msgstr ""
 
-#: src/components/oab/MovementPeriodFilter.tsx:144
+#: src/components/oab/MovementPeriodFilter.tsx:152
 #: src/tables/oab/MovementTable.tsx:240
 msgid "Data final"
 msgstr ""
@@ -3210,13 +3210,13 @@ msgid "Nenhum local com saldo deste material"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockIssuePage.tsx:54
-msgid "Saída registrada"
+#: src/pages/oab/StockEntryPage.tsx:56
+msgid "Entrada registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockEntryPage.tsx:56
-msgid "Entrada registrada"
+#: src/pages/oab/StockIssuePage.tsx:54
+msgid "Saída registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:178
