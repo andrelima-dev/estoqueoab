@@ -1,0 +1,189 @@
+{% load oab_report %}
+
+{% comment %}
+  Base dos documentos da OAB Maranhão.
+
+  Reúne os elementos do Manual de Identidade Visual que se repetem em todo
+  documento: a onda vermelha e azul no alto, a marca d'água da letra OAB ao
+  fundo, o cabeçalho institucional e a tipografia Barlow.
+
+  Cores oficiais: azul Pantone 301 C (#004B87), azul escuro do gradiente
+  (#003552), vermelho Pantone 200 C (#BA0C2F) e vermelho claro 485 C (#D71920).
+
+  A fonte é servida em `woff`: o WeasyPrint não lê `woff2`. Se o arquivo não for
+  alcançável, a pilha de reserva mantém o documento legível.
+
+  Blocos que os documentos preenchem: `page_size`, `titulo`, `subtitulo`,
+  `conteudo` e `rodape_texto`.
+{% endcomment %}
+
+<head>
+  <style>
+    @font-face {
+      font-family: 'Barlow';
+      font-weight: 400;
+      src: url('{% oab_font "barlow-400.woff" %}') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Barlow';
+      font-weight: 600;
+      src: url('{% oab_font "barlow-600.woff" %}') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Barlow';
+      font-weight: 700;
+      src: url('{% oab_font "barlow-700.woff" %}') format('woff');
+    }
+
+    @page {
+      {% block page_size %}size: A4;{% endblock %}
+      margin: 2.2cm 1.8cm 2.4cm 1.8cm;
+
+      @bottom-left {
+        content: "{% block rodape_texto %}Sistema de Estoque — OAB Maranhão{% endblock %}";
+        font-family: 'Barlow', Helvetica, Arial, sans-serif;
+        font-size: 7.5pt;
+        color: #8a8f98;
+      }
+
+      @bottom-right {
+        content: "Página " counter(page) " de " counter(pages);
+        font-family: 'Barlow', Helvetica, Arial, sans-serif;
+        font-size: 7.5pt;
+        color: #8a8f98;
+      }
+    }
+
+    body {
+      font-family: 'Barlow', Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      color: #1a1d21;
+      margin: 0;
+    }
+
+    /* A onda do manual, no alto à direita de cada página. */
+    /* Largura explícita: com `left` e `right` juntos o elemento fixo não se
+       estica, e a fita terminaria no meio da página. */
+    .onda {
+      position: fixed;
+      top: -2.2cm;
+      left: -1.8cm;
+      width: 21cm;
+      height: 2cm;
+    }
+
+    /* Letra OAB ao fundo, em traço muito leve, como nas páginas do manual. */
+    .marca-agua {
+      position: fixed;
+      bottom: -0.6cm;
+      left: -2.2cm;
+      width: 13cm;
+      opacity: 0.1;
+    }
+
+    .cabecalho {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 10px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid #dfe3e8;
+    }
+
+    .marca {
+      width: 1.7cm;
+    }
+
+    .instituicao {
+      border-left: 2px solid #BA0C2F;
+      padding-left: 12px;
+    }
+
+    .instituicao .nome {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: #004B87;
+    }
+
+    .instituicao .setor {
+      font-size: 7.5pt;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #8a8f98;
+    }
+
+    h1 {
+      font-size: 16pt;
+      font-weight: 700;
+      color: #004B87;
+      margin: 0 0 2px 0;
+    }
+
+    .subtitulo {
+      font-size: 8.5pt;
+      color: #8a8f98;
+      margin-bottom: 20px;
+    }
+
+    .conteudo {
+      position: relative;
+    }
+
+    {% block estilo %}{% endblock %}
+  </style>
+</head>
+
+<body>
+  <svg class="onda" viewBox="0 0 900 120" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="fitaAzul" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#003552" />
+        <stop offset="100%" stop-color="#004B87" />
+      </linearGradient>
+      <linearGradient id="fitaVermelha" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#910D11" />
+        <stop offset="100%" stop-color="#D71920" />
+      </linearGradient>
+    </defs>
+    <path d="M -60 96 C 300 96 520 22 960 10" stroke="url(#fitaAzul)"
+          stroke-width="30" fill="none" />
+    <path d="M -60 122 C 310 122 530 46 960 34" stroke="url(#fitaVermelha)"
+          stroke-width="23" fill="none" />
+    <path d="M -60 140 C 320 140 545 64 960 52" stroke="#BA0C2F"
+          stroke-width="1" fill="none" />
+  </svg>
+
+  <svg class="marca-agua" viewBox="0 0 210 150">
+    <g fill="none" stroke="#004B87" stroke-width="1.1">
+      <circle cx="58" cy="75" r="33" />
+      <path d="M114 42 L144 108 L84 108 Z" />
+      <path d="M142 42 L162 42 A16.5 16.5 0 0 1 162 75 L168 75 A16.5 16.5 0 0 1 168 108 L142 108 Z" />
+    </g>
+  </svg>
+
+  <div class="cabecalho">
+    <svg class="marca" viewBox="0 0 210 150">
+      <rect width="210" height="150" fill="#BA0C2F" />
+      <g fill="#FFFFFF">
+        <circle cx="58" cy="75" r="33" />
+        <path d="M114 42 L144 108 L84 108 Z" />
+        <path d="M142 42 L162 42 A16.5 16.5 0 0 1 162 75 L168 75 A16.5 16.5 0 0 1 168 108 L142 108 Z" />
+      </g>
+    </svg>
+    <div class="instituicao">
+      <div class="nome">Ordem dos Advogados do Brasil — Seccional Maranhão</div>
+      <div class="setor">Almoxarifado</div>
+    </div>
+  </div>
+
+  <h1>{% block titulo %}{% endblock %}</h1>
+  <div class="subtitulo">{% block subtitulo %}{% endblock %}</div>
+
+  <div class="conteudo">
+    {% block conteudo %}{% endblock %}
+  </div>
+</body>

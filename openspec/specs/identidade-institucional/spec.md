@@ -178,6 +178,34 @@ Os nomes das moedas SHALL ser exibidos no idioma ativo. A biblioteca
 - **THEN** o seletor apresenta `BRL - Real brasileiro` como valor corrente
 - **AND** USD e EUR permanecem disponíveis para material importado
 
+### Requirement: Documentos impressos com a identidade do manual
+
+Os documentos em PDF SHALL seguir o Manual de Identidade Visual: a fita curva
+vermelha e azul no alto da página, a letra OAB em traço leve ao fundo, o
+cabeçalho institucional em caixa-alta espaçada e a tipografia Barlow.
+
+Esses elementos SHALL ficar num modelo base compartilhado
+(`report/oab_report_base.html`), para que todo documento novo nasça com a
+identidade aplicada.
+
+A fonte MUST ser embutida no documento como URI de dados, e não buscada por
+URL: `REPORT_FETCH_URLS` vem desligada de fábrica — por segurança, já que um
+modelo poderia buscar qualquer endereço — e com ela desligada a fonte é
+ignorada em silêncio, caindo numa fonte de reserva sem nenhum aviso. Embutir
+também dispensa rede e endereço configurado.
+
+O formato SHALL ser `woff`: o WeasyPrint não lê `woff2`.
+
+Elementos fixos MUST ter largura explícita. Com `left` e `right` declarados
+juntos, o elemento não se estica no WeasyPrint, e a fita terminaria no meio da
+página.
+
+#### Scenario: Documento gerado com a marca
+
+- **WHEN** um termo de entrega é emitido
+- **THEN** traz a fita, a marca d'água e o cabeçalho da Seccional
+- **AND** o texto é composto em Barlow, embarcada no arquivo
+
 ### Requirement: Avisos da plataforma desligados
 
 As faixas de aviso de privilégio elevado do InvenTree

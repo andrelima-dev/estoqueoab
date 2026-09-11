@@ -1,4 +1,4 @@
-{% load report %}
+{% extends "report/oab_report_base.html" %}
 
 {% comment %}
   Relatório de Movimentações — OAB Maranhão.
@@ -11,191 +11,167 @@
   significado.
 {% endcomment %}
 
-<head>
-  <style>
-    @page {
-      size: A4 landscape;
-      margin: 1.5cm 1.5cm 2.5cm 1.5cm;
+{% block page_size %}size: A4 landscape;{% endblock %}
 
-      @bottom-center {
-        content: "Sistema de Estoque — OAB Maranhão";
-        font-family: Helvetica, Arial, sans-serif;
-        font-size: 8pt;
-        color: #6b7280;
-      }
+{% block estilo %}
+/* Página deitada: a fita precisa atravessar a largura maior. */
+.onda { width: 30cm; }
+{% endblock %}
 
-      @bottom-right {
-        content: "Página " counter(page) " de " counter(pages);
-        font-family: Helvetica, Arial, sans-serif;
-        font-size: 8pt;
-        color: #6b7280;
-      }
-    }
+{% block titulo %}Relatório de Movimentações{% endblock %}
 
-    body {
-      font-family: Helvetica, Arial, sans-serif;
-      font-size: 8.5pt;
-      color: #111827;
-    }
+{% block subtitulo %}{{ instances|length }} operaç{{ instances|length|pluralize:"ão,ões" }} no período{% endblock %}
 
-    .cabecalho {
-      border-bottom: 3px solid #BA0C2F;
-      padding-bottom: 10px;
-      margin-bottom: 16px;
-    }
+{% block conteudo %}
+<style>
+  .resumo {
+    margin-bottom: 18px;
+  }
 
-    .marca {
-      display: inline-block;
-      background: #BA0C2F;
-      color: #fff;
-      font-size: 16pt;
-      font-weight: bold;
-      letter-spacing: 2px;
-      padding: 4px 11px;
-      vertical-align: middle;
-    }
+  .resumo .caixa {
+    display: inline-block;
+    border-left: 3px solid #004B87;
+    background: #f6f8fa;
+    padding: 7px 14px;
+    margin-right: 10px;
+  }
 
-    .instituicao {
-      display: inline-block;
-      vertical-align: middle;
-      margin-left: 12px;
-    }
+  .resumo .rotulo {
+    display: block;
+    font-size: 7pt;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8a8f98;
+  }
 
-    .instituicao .nome {
-      font-size: 11pt;
-      font-weight: bold;
-      color: #004B87;
-    }
+  .resumo .valor {
+    font-size: 15pt;
+    font-weight: 700;
+    color: #004B87;
+  }
 
-    .instituicao .setor {
-      font-size: 8pt;
-      color: #6b7280;
-    }
+  .resumo .caixa.saida {
+    border-left-color: #BA0C2F;
+  }
 
-    h1 {
-      font-size: 12pt;
-      color: #004B87;
-      margin: 0 0 12px 0;
-    }
+  .resumo .caixa.saida .valor {
+    color: #BA0C2F;
+  }
 
-    .resumo {
-      margin-bottom: 14px;
-    }
+  table.lista {
+    width: 100%;
+    border-collapse: collapse;
+  }
 
-    .resumo span {
-      display: inline-block;
-      border: 1px solid #d1d5db;
-      border-left: 3px solid #004B87;
-      padding: 4px 10px;
-      margin-right: 8px;
-      font-size: 9pt;
-    }
+  table.lista th {
+    background: #004B87;
+    color: #fff;
+    text-align: left;
+    padding: 7px 8px;
+    font-size: 7.5pt;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
 
-    .resumo .valor {
-      font-weight: bold;
-      color: #004B87;
-    }
+  table.lista td {
+    border-bottom: 1px solid #eceff2;
+    padding: 6px 8px;
+    vertical-align: top;
+    font-size: 8.5pt;
+  }
 
-    table.lista {
-      width: 100%;
-      border-collapse: collapse;
-    }
+  table.lista tr:nth-child(even) td {
+    background: #f8fafb;
+  }
 
-    table.lista th {
-      background: #004B87;
-      color: #fff;
-      text-align: left;
-      padding: 6px 7px;
-      font-size: 8pt;
-    }
+  .etiqueta {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 8px;
+    font-size: 7pt;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
 
-    table.lista td {
-      border-bottom: 1px solid #e5e7eb;
-      padding: 5px 7px;
-      vertical-align: top;
-    }
+  .etiqueta.saida {
+    background: #fdeaee;
+    color: #BA0C2F;
+  }
 
-    table.lista tr:nth-child(even) td {
-      background: #f9fafb;
-    }
+  .etiqueta.entrada {
+    background: #e8f1f8;
+    color: #004B87;
+  }
 
-    .saida {
-      color: #BA0C2F;
-      font-weight: bold;
-    }
+  .etiqueta.outra {
+    background: #f1f3f5;
+    color: #5a6069;
+  }
 
-    .entrada {
-      color: #004B87;
-      font-weight: bold;
-    }
+  .numero {
+    text-align: right;
+    font-weight: 600;
+  }
 
-    .vazio {
-      padding: 24px;
-      text-align: center;
-      color: #6b7280;
-    }
-  </style>
-</head>
+  .vazio {
+    padding: 30px;
+    text-align: center;
+    color: #8a8f98;
+  }
+</style>
 
-<body>
-  <div class="cabecalho">
-    <span class="marca">OAB</span>
-    <span class="instituicao">
-      <div class="nome">Ordem dos Advogados do Brasil — Seccional Maranhão</div>
-      <div class="setor">Almoxarifado</div>
-    </span>
-  </div>
+<div class="resumo">
+  {% regroup instances|dictsort:"movement.movement_type" by movement.get_movement_type_display as tipos %}
+  {% for tipo in tipos %}
+  <span class="caixa{% if tipo.grouper == 'Saída' %} saida{% endif %}">
+    <span class="rotulo">{{ tipo.grouper }}</span>
+    <span class="valor">{{ tipo.list|length }}</span>
+  </span>
+  {% endfor %}
+</div>
 
-  <h1>Relatório de Movimentações</h1>
-
-  <div class="resumo">
-    <span>Operações no relatório: <span class="valor">{{ instances|length }}</span></span>
-    {% regroup instances|dictsort:"movement.movement_type" by movement.get_movement_type_display as tipos %}
-    {% for tipo in tipos %}
-    <span>{{ tipo.grouper }}: <span class="valor">{{ tipo.list|length }}</span></span>
+{% if instances %}
+<table class="lista">
+  <thead>
+    <tr>
+      <th>Data e hora</th>
+      <th>Tipo</th>
+      <th>Material</th>
+      <th>Qtd.</th>
+      <th>Origem</th>
+      <th>Destino</th>
+      <th>Recebeu</th>
+      <th>Registrou</th>
+      <th>Documento</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in instances %}
+    <tr>
+      <td>{{ item.data }}</td>
+      <td>
+        {% if item.movement.movement_type == 'OUT' %}
+        <span class="etiqueta saida">{{ item.movement.get_movement_type_display }}</span>
+        {% elif item.movement.movement_type == 'IN' %}
+        <span class="etiqueta entrada">{{ item.movement.get_movement_type_display }}</span>
+        {% else %}
+        <span class="etiqueta outra">{{ item.movement.get_movement_type_display }}</span>
+        {% endif %}
+      </td>
+      <td>{{ item.material }}</td>
+      <td class="numero">{{ item.quantidade }}{% if item.movement.part.units %} {{ item.movement.part.units }}{% endif %}</td>
+      <td>{{ item.movement.location_from.name|default:"—" }}</td>
+      <td>{{ item.destino|default:"—" }}</td>
+      <td>{{ item.responsavel|default:"—" }}</td>
+      <td>{{ item.registrado_por|default:"—" }}</td>
+      <td>{{ item.movement.document|default:"—" }}</td>
+    </tr>
     {% endfor %}
-  </div>
-
-  {% if instances %}
-  <table class="lista">
-    <thead>
-      <tr>
-        <th>Data e hora</th>
-        <th>Tipo</th>
-        <th>Material</th>
-        <th>Qtd.</th>
-        <th>Origem</th>
-        <th>Destino</th>
-        <th>Recebeu</th>
-        <th>Registrou</th>
-        <th>Documento</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in instances %}
-      <tr>
-        <td>{{ item.data }}</td>
-        <td>
-          {% if item.movement.movement_type == 'OUT' %}
-          <span class="saida">{{ item.movement.get_movement_type_display }}</span>
-          {% elif item.movement.movement_type == 'IN' %}
-          <span class="entrada">{{ item.movement.get_movement_type_display }}</span>
-          {% else %}
-          {{ item.movement.get_movement_type_display }}
-          {% endif %}
-        </td>
-        <td>{{ item.material }}</td>
-        <td>{{ item.quantidade }}{% if item.movement.part.units %} {{ item.movement.part.units }}{% endif %}</td>
-        <td>{{ item.movement.location_from.name|default:"—" }}</td>
-        <td>{{ item.destino|default:"—" }}</td>
-        <td>{{ item.responsavel|default:"—" }}</td>
-        <td>{{ item.registrado_por|default:"—" }}</td>
-        <td>{{ item.movement.document|default:"—" }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  {% else %}
-  <div class="vazio">Nenhuma movimentação no período selecionado.</div>
-  {% endif %}
-</body>
+  </tbody>
+</table>
+{% else %}
+<div class="vazio">Nenhuma movimentação no período selecionado.</div>
+{% endif %}
+{% endblock %}
