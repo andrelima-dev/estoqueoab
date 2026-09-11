@@ -31,9 +31,16 @@ import { StockSituationBadge } from './StockSituation';
  * Consome o endpoint nativo de peças do InvenTree, exibindo apenas as colunas
  * relevantes para o controle de estoque institucional.
  */
-export function MaterialTable() {
+export function MaterialTable({
+  params,
+  tableName = 'oab-materials'
+}: Readonly<{
+  /** Filtros fixos aplicados à consulta (usado pela prévia de relatório). */
+  params?: Record<string, any>;
+  tableName?: string;
+}> = {}) {
   const user = useUserState();
-  const table = useTable('oab-materials');
+  const table = useTable(tableName);
 
   const [selected, setSelected] = useState<any>({});
 
@@ -267,7 +274,8 @@ export function MaterialTable() {
           rowActions: rowActions,
           params: {
             category_detail: true,
-            location_detail: true
+            location_detail: true,
+            ...(params ?? {})
           },
           noRecordsText: t`Nenhum material encontrado`
         }}

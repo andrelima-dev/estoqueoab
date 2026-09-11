@@ -143,3 +143,53 @@ export function useMovementReport(filtros: Record<string, any>) {
 
   return { gerarRelatorio, gerando, disponivel: !!modelo?.pk };
 }
+
+/**
+ * Exportação para planilha a partir de um conjunto de filtros.
+ *
+ * O mecanismo nativo é ligado a uma tabela; aqui os filtros vêm do formulário
+ * de relatório, para que o arquivo saia com o mesmo recorte da prévia.
+ */
+export function useSpreadsheetExport() {
+  const [exportando, setExportando] = useState<boolean>(false);
+
+  const exportar = useCallback(
+    async (url: string, filtros: Record<string, any>, formato: string) => {
+      setExportando(true);
+
+      try {
+        const response = await api.get(apiUrl(url), {
+          params: {
+            ...filtros,
+            export: true,
+            export_plugin: 'inventree-exporter',
+            export_format: formato
+          }
+        });
+
+        const arquivo = response.data?.output;
+
+        if (arquivo) {
+          window.open(arquivo, '_blank', 'noopener,noreferrer');
+        } else {
+          notifications.show({
+            title: t`Exportação`,
+            message: t`O arquivo não foi gerado`,
+            color: 'red'
+          });
+        }
+      } catch (_error) {
+        notifications.show({
+          title: t`Exportação`,
+          message: t`Não foi possível exportar o resultado`,
+          color: 'red'
+        });
+      } finally {
+        setExportando(false);
+      }
+    },
+    []
+  );
+
+  return { exportar, exportando };
+}

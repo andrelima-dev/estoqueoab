@@ -247,6 +247,19 @@ escolhe um período e espera o período inteiro no documento.
 O resumo MUST contar operações, e não somar quantidades: materiais têm unidades
 diferentes (caixa, resma, unidade) e a soma não teria significado.
 
+A tela de Relatórios SHALL ser um gerador: o operador escolhe o relatório, o
+período, os filtros e o formato num único lugar, vê a prévia do que sairá e
+então gera o arquivo.
+
+Filtros MUST NOT ficar numa gaveta lateral nessa tela, e o formato MUST ser
+escolhido antes de gerar — não depois, num diálogo separado. A prévia e o
+arquivo MUST usar exatamente o mesmo recorte.
+
+#### Scenario: Prévia e arquivo coincidem
+
+- **WHEN** o operador escolhe "Saídas" e gera o relatório
+- **THEN** o documento contém apenas as saídas mostradas na prévia
+
 #### Scenario: Relatório do período
 
 - **WHEN** o operador filtra um período e aciona "Relatório em PDF"

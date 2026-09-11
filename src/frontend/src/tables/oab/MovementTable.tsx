@@ -6,7 +6,7 @@ import useTable from '@lib/hooks/UseTable';
 import type { TableFilter } from '@lib/types/Filters';
 import type { TableColumn } from '@lib/types/Tables';
 import { t } from '@lingui/core/macro';
-import { Badge, Button, Stack, Text } from '@mantine/core';
+import { ActionIcon, Badge, Stack, Text, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconFileText } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
@@ -300,18 +300,25 @@ export function MovementTable({
           enableSelection: false,
           enableSearch: true,
           tableFilters: filters,
-          tableActions: relatorio.disponivel
+          // Fica ao lado do botão de exportar: as duas são formas de tirar o
+          // resultado do sistema, e procurá-las em pontas opostas da barra é
+          // o que faz alguém abrir a exportação atrás do PDF.
+          downloadActions: relatorio.disponivel
             ? [
-                <Button
+                <Tooltip
                   key='oab-relatorio-pdf'
-                  variant='light'
-                  size='compact-sm'
-                  leftSection={<IconFileText size={16} />}
-                  loading={relatorio.gerando}
-                  onClick={relatorio.gerarRelatorio}
+                  label={t`Gerar relatório em PDF`}
+                  position='top-end'
                 >
-                  {t`Relatório em PDF`}
-                </Button>
+                  <ActionIcon
+                    variant='transparent'
+                    aria-label='table-report-pdf'
+                    loading={relatorio.gerando}
+                    onClick={relatorio.gerarRelatorio}
+                  >
+                    <IconFileText />
+                  </ActionIcon>
+                </Tooltip>
               ]
             : [],
           rowActions: (record: any): RowAction[] =>

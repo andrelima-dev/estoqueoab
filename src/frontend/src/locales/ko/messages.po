@@ -136,12 +136,13 @@ msgstr "아니요"
 #: src/components/tables/ColumnRenderers.tsx:93
 #: src/pages/oab/Dashboard.tsx:237
 #: src/pages/oab/Dashboard.tsx:300
+#: src/pages/oab/ReportsPage.tsx:229
 #: src/pages/oab/StockAdjustPage.tsx:99
 #: src/pages/oab/StockEntryPage.tsx:113
 #: src/pages/oab/StockIssuePage.tsx:114
 #: src/pages/oab/StockTransferPage.tsx:111
 #: src/pages/part/PartDetail.tsx:849
-#: src/tables/oab/MaterialTable.tsx:103
+#: src/tables/oab/MaterialTable.tsx:110
 #: src/tables/oab/MovementTable.tsx:139
 #: src/tables/oab/MovementTable.tsx:216
 #: src/tables/oab/StockBalanceTable.tsx:64
@@ -229,8 +230,8 @@ msgstr "제조업체 부품"
 #: lib/enums/ModelInformation.tsx:117
 #: src/forms/OabForms.tsx:34
 #: src/pages/part/CategoryDetail.tsx:322
-#: src/tables/oab/MaterialTable.tsx:118
-#: src/tables/oab/MaterialTable.tsx:182
+#: src/tables/oab/MaterialTable.tsx:125
+#: src/tables/oab/MaterialTable.tsx:189
 #: src/tables/oab/MovementTable.tsx:224
 #: src/tables/oab/StockBalanceTable.tsx:135
 msgid "Categoria"
@@ -279,7 +280,6 @@ msgstr ""
 #: lib/enums/ModelInformation.tsx:154
 #: src/components/nav/NavigationDrawer.tsx:242
 #: src/defaults/links.tsx:47
-#: src/pages/oab/ReportsPage.tsx:47
 #: src/pages/part/PartDetail.tsx:526
 msgid "Movimentações"
 msgstr ""
@@ -597,7 +597,7 @@ msgstr "선택 항목"
 #: src/components/nav/NotificationDrawer.tsx:235
 #: src/components/nav/SearchDrawer.tsx:620
 #: src/components/settings/SettingList.tsx:158
-#: src/components/tables/InvenTreeTableHeader.tsx:164
+#: src/components/tables/InvenTreeTableHeader.tsx:162
 #: src/components/wizards/ImportPartWizard.tsx:574
 #: src/components/wizards/ImportPartWizard.tsx:719
 #: src/forms/BomForms.tsx:87
@@ -966,7 +966,6 @@ msgid "Refresh calendar"
 msgstr "캘린더 새로고침"
 
 #: src/components/calendar/Calendar.tsx:334
-#: src/components/tables/InvenTreeTableHeader.tsx:329
 msgid "Export data"
 msgstr "1"
 
@@ -2284,8 +2283,8 @@ msgid "Options"
 msgstr "옵션"
 
 #: src/components/items/ActionDropdown.tsx:175
-#: src/components/tables/InvenTreeTableHeader.tsx:232
-#: src/components/tables/InvenTreeTableHeader.tsx:233
+#: src/components/tables/InvenTreeTableHeader.tsx:230
+#: src/components/tables/InvenTreeTableHeader.tsx:231
 msgid "Barcode Actions"
 msgstr "바코드 작업"
 
@@ -2763,7 +2762,6 @@ msgstr "로그아웃"
 #: src/defaults/actions.tsx:124
 #: src/pages/oab/CurrentStockPage.tsx:13
 #: src/pages/oab/CurrentStockPage.tsx:15
-#: src/pages/oab/ReportsPage.tsx:44
 msgid "Estoque Atual"
 msgstr ""
 
@@ -2803,8 +2801,8 @@ msgstr ""
 #: src/components/nav/NavigationDrawer.tsx:247
 #: src/defaults/actions.tsx:138
 #: src/defaults/links.tsx:53
-#: src/pages/oab/ReportsPage.tsx:25
-#: src/pages/oab/ReportsPage.tsx:27
+#: src/pages/oab/ReportsPage.tsx:156
+#: src/pages/oab/ReportsPage.tsx:158
 msgid "Relatórios"
 msgstr ""
 
@@ -2851,7 +2849,7 @@ msgstr ""
 #: src/components/nav/NavigationDrawer.tsx:237
 #: src/defaults/links.tsx:41
 #: src/pages/Index/Settings/SystemSettings.tsx:236
-#: src/tables/oab/MaterialTable.tsx:124
+#: src/tables/oab/MaterialTable.tsx:131
 msgid "Estoque"
 msgstr ""
 
@@ -3030,7 +3028,7 @@ msgstr ""
 #: src/pages/oab/StockEntryPage.tsx:235
 #: src/pages/oab/StockIssuePage.tsx:262
 #: src/pages/part/PartDetailsPanel.tsx:84
-#: src/tables/oab/MaterialTable.tsx:97
+#: src/tables/oab/MaterialTable.tsx:104
 #: src/tables/oab/StockBalanceTable.tsx:58
 msgid "Código"
 msgstr ""
@@ -3158,6 +3156,19 @@ msgstr ""
 msgid "Não foi possível gerar o relatório"
 msgstr ""
 
+#: src/components/oab/MovementDocuments.tsx:176
+#: src/components/oab/MovementDocuments.tsx:183
+msgid "Exportação"
+msgstr ""
+
+#: src/components/oab/MovementDocuments.tsx:177
+msgid "O arquivo não foi gerado"
+msgstr ""
+
+#: src/components/oab/MovementDocuments.tsx:184
+msgid "Não foi possível exportar o resultado"
+msgstr ""
+
 #: src/components/oab/MovementFields.tsx:32
 msgid "Pesquise pelo nome ou pelo código do material"
 msgstr ""
@@ -3177,18 +3188,22 @@ msgid "Insuficiente"
 msgstr ""
 
 #: src/components/oab/MovementPeriodFilter.tsx:23
+#: src/pages/oab/ReportsPage.tsx:192
 msgid "Hoje"
 msgstr ""
 
 #: src/components/oab/MovementPeriodFilter.tsx:24
+#: src/pages/oab/ReportsPage.tsx:193
 msgid "7 dias"
 msgstr ""
 
 #: src/components/oab/MovementPeriodFilter.tsx:25
+#: src/pages/oab/ReportsPage.tsx:194
 msgid "30 dias"
 msgstr ""
 
 #: src/components/oab/MovementPeriodFilter.tsx:116
+#: src/pages/oab/ReportsPage.tsx:195
 msgid "Tudo"
 msgstr ""
 
@@ -3197,6 +3212,7 @@ msgid "Personalizado"
 msgstr ""
 
 #: src/components/oab/MovementPeriodFilter.tsx:138
+#: src/pages/oab/ReportsPage.tsx:206
 msgid "De"
 msgstr ""
 
@@ -3206,6 +3222,7 @@ msgid "Data inicial"
 msgstr ""
 
 #: src/components/oab/MovementPeriodFilter.tsx:151
+#: src/pages/oab/ReportsPage.tsx:215
 msgid "Até"
 msgstr ""
 
@@ -3231,13 +3248,13 @@ msgid "Nenhum local com saldo deste material"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockEntryPage.tsx:56
-msgid "Entrada registrada"
+#: src/pages/oab/StockIssuePage.tsx:54
+msgid "Saída registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockIssuePage.tsx:54
-msgid "Saída registrada"
+#: src/pages/oab/StockEntryPage.tsx:56
+msgid "Entrada registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:178
@@ -4414,7 +4431,7 @@ msgid "Delete filter group"
 msgstr "필터 그룹 삭제"
 
 #: src/components/tables/FilterSelectDrawer.tsx:649
-#: src/components/tables/InvenTreeTableHeader.tsx:299
+#: src/components/tables/InvenTreeTableHeader.tsx:297
 msgid "Table Filters"
 msgstr "테이블 필터"
 
@@ -4459,55 +4476,59 @@ msgstr "<<<모델>>> 보기"
 msgid "Registros por página"
 msgstr ""
 
-#: src/components/tables/InvenTreeTableHeader.tsx:130
+#: src/components/tables/InvenTreeTableHeader.tsx:128
 msgid "No items selected"
 msgstr ""
 
-#: src/components/tables/InvenTreeTableHeader.tsx:132
+#: src/components/tables/InvenTreeTableHeader.tsx:130
 msgid "1 selected item will be deleted"
 msgstr ""
 
-#: src/components/tables/InvenTreeTableHeader.tsx:134
+#: src/components/tables/InvenTreeTableHeader.tsx:132
 msgid "{N} selected items will be deleted"
 msgstr ""
 
-#: src/components/tables/InvenTreeTableHeader.tsx:140
+#: src/components/tables/InvenTreeTableHeader.tsx:138
 msgid "Delete Selected Items"
 msgstr "선택한 항목 삭제"
 
-#: src/components/tables/InvenTreeTableHeader.tsx:144
+#: src/components/tables/InvenTreeTableHeader.tsx:142
 msgid "Are you sure you want to delete the selected items?"
 msgstr "선택한 항목을 삭제하시겠습니까?"
 
-#: src/components/tables/InvenTreeTableHeader.tsx:148
+#: src/components/tables/InvenTreeTableHeader.tsx:146
 #: src/tables/plugin/PluginListTable.tsx:327
 msgid "This action cannot be undone"
 msgstr "이 작업은 취소할 수 없습니다."
 
-#: src/components/tables/InvenTreeTableHeader.tsx:160
+#: src/components/tables/InvenTreeTableHeader.tsx:158
 msgid "Items deleted"
 msgstr "삭제된 항목"
 
-#: src/components/tables/InvenTreeTableHeader.tsx:165
+#: src/components/tables/InvenTreeTableHeader.tsx:163
 msgid "Failed to delete items"
 msgstr "항목을 삭제하지 못했습니다."
 
-#: src/components/tables/InvenTreeTableHeader.tsx:216
+#: src/components/tables/InvenTreeTableHeader.tsx:214
 msgid "Custom table filters are active"
 msgstr "맞춤 표 필터가 활성화되었습니다."
 
-#: src/components/tables/InvenTreeTableHeader.tsx:242
+#: src/components/tables/InvenTreeTableHeader.tsx:240
 #: src/tables/general/BarcodeScanTable.tsx:95
 msgid "Delete selected records"
 msgstr "선택한 기록 삭제"
 
-#: src/components/tables/InvenTreeTableHeader.tsx:262
+#: src/components/tables/InvenTreeTableHeader.tsx:260
 msgid "Refresh data"
 msgstr "데이터 새로 고침"
 
-#: src/components/tables/InvenTreeTableHeader.tsx:311
+#: src/components/tables/InvenTreeTableHeader.tsx:309
 msgid "Active Filters"
 msgstr "활성 필터"
+
+#: src/components/tables/InvenTreeTableHeader.tsx:330
+msgid "Exportar para planilha"
+msgstr ""
 
 #: src/components/tables/PartStockCell.tsx:11
 #: src/tables/bom/BomTable.tsx:343
@@ -5260,7 +5281,7 @@ msgstr ""
 #: src/forms/OabForms.tsx:56
 #: src/forms/OabForms.tsx:122
 #: src/pages/part/PartDetailsPanel.tsx:276
-#: src/tables/oab/MaterialTable.tsx:210
+#: src/tables/oab/MaterialTable.tsx:217
 #: src/tables/oab/SectorTable.tsx:79
 #: src/tables/oab/SectorTable.tsx:91
 msgid "Ativo"
@@ -7742,7 +7763,7 @@ msgid "Saídas hoje"
 msgstr ""
 
 #: src/pages/oab/Dashboard.tsx:208
-#: src/tables/oab/MaterialTable.tsx:198
+#: src/tables/oab/MaterialTable.tsx:205
 #: src/tables/oab/StockSituation.tsx:48
 msgid "Estoque baixo"
 msgstr ""
@@ -7793,7 +7814,7 @@ msgid "Mínimo"
 msgstr ""
 
 #: src/pages/oab/Dashboard.tsx:303
-#: src/tables/oab/MaterialTable.tsx:153
+#: src/tables/oab/MaterialTable.tsx:160
 msgid "Situação"
 msgstr ""
 
@@ -7809,24 +7830,81 @@ msgstr ""
 msgid "Clique em uma linha para ver todos os detalhes da operação"
 msgstr ""
 
-#: src/pages/oab/ReportsPage.tsx:28
-msgid "Consultas operacionais com filtro por período e exportação"
+#: src/pages/oab/ReportsPage.tsx:159
+msgid "Escolha o relatório, confira a prévia e gere o arquivo"
 msgstr ""
 
-#: src/pages/oab/ReportsPage.tsx:32
-msgid "Como exportar"
+#: src/pages/oab/ReportsPage.tsx:167
+msgid "Relatório"
 msgstr ""
 
-#: src/pages/oab/ReportsPage.tsx:34
-msgid "Aplique os filtros desejados e utilize o botão de download acima da tabela para exportar o resultado em CSV ou Excel."
+#: src/pages/oab/ReportsPage.tsx:168
+msgid "O que será listado"
 msgstr ""
 
-#: src/pages/oab/ReportsPage.tsx:45
-msgid "Entradas"
+#: src/pages/oab/ReportsPage.tsx:183
+msgid "Período"
 msgstr ""
 
-#: src/pages/oab/ReportsPage.tsx:46
-msgid "Saídas"
+#: src/pages/oab/ReportsPage.tsx:185
+msgid "Recorte de datas do relatório"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:196
+msgid "Escolher datas"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:230
+#: src/pages/oab/ReportsPage.tsx:245
+msgid "Deixe em branco para todos"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:231
+msgid "Todos os materiais"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:244
+msgid "Setor de destino"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:246
+msgid "Todos os setores"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:262
+msgid "Formato"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:263
+msgid "Como o arquivo será gerado"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:267
+msgid "PDF (para imprimir e arquivar)"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:270
+msgid "Excel (para planilha)"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:271
+msgid "CSV"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:285
+msgid "A prévia abaixo mostra exatamente o que entrará no arquivo."
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:286
+msgid "O estoque atual sai em planilha; o PDF é dos relatórios de movimentação."
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:294
+msgid "Gerar relatório"
+msgstr ""
+
+#: src/pages/oab/ReportsPage.tsx:301
+msgid "Prévia"
 msgstr ""
 
 #: src/pages/oab/SectorsPage.tsx:16
@@ -7839,7 +7917,7 @@ msgstr ""
 
 #: src/pages/oab/StockAdjustPage.tsx:100
 #: src/pages/oab/StockAdjustPage.tsx:141
-#: src/tables/oab/MaterialTable.tsx:147
+#: src/tables/oab/MaterialTable.tsx:154
 #: src/tables/oab/MovementTable.tsx:242
 #: src/tables/oab/StockBalanceTable.tsx:80
 #: src/tables/oab/StockBalanceTable.tsx:127
@@ -7943,7 +8021,7 @@ msgstr ""
 #: src/pages/oab/StockEntryPage.tsx:240
 #: src/pages/oab/StockIssuePage.tsx:267
 #: src/pages/part/PartDetailsPanel.tsx:135
-#: src/tables/oab/MaterialTable.tsx:142
+#: src/tables/oab/MaterialTable.tsx:149
 #: src/tables/oab/StockBalanceTable.tsx:98
 msgid "Unidade"
 msgstr ""
@@ -10326,63 +10404,63 @@ msgstr "공고"
 msgid "Message"
 msgstr "메시지"
 
-#: src/tables/oab/MaterialTable.tsx:66
-#: src/tables/oab/MaterialTable.tsx:239
+#: src/tables/oab/MaterialTable.tsx:73
+#: src/tables/oab/MaterialTable.tsx:246
 msgid "Novo Material"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:68
+#: src/tables/oab/MaterialTable.tsx:75
 msgid "Material cadastrado"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:79
+#: src/tables/oab/MaterialTable.tsx:86
 msgid "Material cadastrado. Informe a quantidade que já existe em estoque, ou cancele se ainda não houver nenhuma."
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:88
+#: src/tables/oab/MaterialTable.tsx:95
 msgid "Editar Material"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:134
+#: src/tables/oab/MaterialTable.tsx:141
 msgid "mín."
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:159
+#: src/tables/oab/MaterialTable.tsx:166
 #: src/tables/oab/StockBalanceTable.tsx:104
 msgid "Movimentar"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:183
+#: src/tables/oab/MaterialTable.tsx:190
 #: src/tables/oab/MovementTable.tsx:225
 #: src/tables/oab/StockBalanceTable.tsx:136
 msgid "Filtrar por categoria de material"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:190
+#: src/tables/oab/MaterialTable.tsx:197
 msgid "Local de estoque"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:191
+#: src/tables/oab/MaterialTable.tsx:198
 msgid "Filtrar por local onde o material está armazenado"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:199
+#: src/tables/oab/MaterialTable.tsx:206
 msgid "Mostrar apenas materiais com estoque baixo"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:204
+#: src/tables/oab/MaterialTable.tsx:211
 msgid "Com estoque"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:205
+#: src/tables/oab/MaterialTable.tsx:212
 msgid "Mostrar apenas materiais com saldo disponível"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:211
+#: src/tables/oab/MaterialTable.tsx:218
 msgid "Mostrar apenas materiais ativos"
 msgstr ""
 
-#: src/tables/oab/MaterialTable.tsx:272
+#: src/tables/oab/MaterialTable.tsx:280
 msgid "Nenhum material encontrado"
 msgstr ""
 
@@ -10427,19 +10505,19 @@ msgstr ""
 msgid "Movimentações até esta data"
 msgstr ""
 
-#: src/tables/oab/MovementTable.tsx:313
-msgid "Relatório em PDF"
+#: src/tables/oab/MovementTable.tsx:310
+msgid "Gerar relatório em PDF"
 msgstr ""
 
-#: src/tables/oab/MovementTable.tsx:323
+#: src/tables/oab/MovementTable.tsx:330
 msgid "Emitir termo de entrega"
 msgstr ""
 
-#: src/tables/oab/MovementTable.tsx:324
+#: src/tables/oab/MovementTable.tsx:331
 msgid "Gerar o documento em PDF para assinatura"
 msgstr ""
 
-#: src/tables/oab/MovementTable.tsx:332
+#: src/tables/oab/MovementTable.tsx:339
 msgid "Nenhuma movimentação encontrada"
 msgstr ""
 

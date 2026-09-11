@@ -215,10 +215,7 @@ export const routes = (
         <Route path='ajuste' element={<StockAdjustPage />} />
         <Route path='historico' element={<MovementHistoryPage />} />
       </Route>
-      <Route path='relatorios/'>
-        <Route index element={<Navigate to='estoque' />} />
-        <Route path=':report' element={<ReportsPage />} />
-      </Route>
+      <Route path='relatorios/' element={<ReportsPage />} />
       <Route path='administracao/'>
         <Route index element={<Navigate to='setores' />} />
         <Route path='setores' element={<SectorsPage />} />
