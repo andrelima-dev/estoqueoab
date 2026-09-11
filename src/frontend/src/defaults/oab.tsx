@@ -167,6 +167,7 @@ export const OAB_ADMIN_CENTER_PANELS = [
   'user',
   'import',
   'export',
+  'part-categories',
   'custom-units',
   'labels',
   'reports'

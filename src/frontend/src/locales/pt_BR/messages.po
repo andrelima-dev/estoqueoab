@@ -170,7 +170,7 @@ msgstr "Parâmetro"
 #: src/components/details/ParameterDetailsGrid.tsx:49
 #: src/components/panels/ParametersPanel.tsx:23
 #: src/components/wizards/ImportPartWizard.tsx:807
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:216
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:232
 #: src/pages/Index/Settings/SystemSettings.tsx:207
 #: src/pages/part/PartDetail.tsx:501
 msgid "Parameters"
@@ -238,6 +238,7 @@ msgstr ""
 
 #: lib/enums/ModelInformation.tsx:118
 #: src/components/nav/NavigationDrawer.tsx:76
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:219
 #: src/pages/part/CategoryDetail.tsx:211
 #: src/pages/part/CategoryDetail.tsx:312
 #: src/pages/part/CategoryDetail.tsx:322
@@ -347,7 +348,7 @@ msgid "Project Code"
 msgstr "Código do projeto"
 
 #: lib/enums/ModelInformation.tsx:193
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:193
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:202
 msgid "Project Codes"
 msgstr "Códigos de projeto"
 
@@ -529,7 +530,7 @@ msgstr "Modelo de etiqueta"
 
 #: lib/enums/ModelInformation.tsx:316
 #: src/defaults/actions.tsx:221
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:244
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:260
 msgid "Label Templates"
 msgstr "Modelos de etiqueta"
 
@@ -539,7 +540,7 @@ msgstr "Modelo de relatório"
 
 #: lib/enums/ModelInformation.tsx:324
 #: src/defaults/actions.tsx:211
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:250
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:266
 msgid "Report Templates"
 msgstr "Modelos de relatório"
 
@@ -566,7 +567,7 @@ msgid "Selection List"
 msgstr "Lista de seleção"
 
 #: lib/enums/ModelInformation.tsx:346
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:223
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:239
 msgid "Selection Lists"
 msgstr "Listas de seleção"
 
@@ -637,7 +638,7 @@ msgid "Note Template"
 msgstr "Template de nota"
 
 #: lib/enums/ModelInformation.tsx:374
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:230
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:246
 #: src/pages/Index/Settings/AdminCenter/NoteTemplatePanel.tsx:9
 msgid "Note Templates"
 msgstr "Templates de nota"
@@ -1972,7 +1973,7 @@ msgid "API Version"
 msgstr "Versão da API"
 
 #: src/components/forms/InstanceOptions.tsx:143
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:275
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:291
 #: src/pages/Index/Settings/AdminCenter/PluginManagementPanel.tsx:58
 #: src/pages/Index/Settings/SystemSettings.tsx:349
 msgid "Plugins"
@@ -2613,7 +2614,7 @@ msgid "The background worker process is not running"
 msgstr "O processo de fundo do \"worker\" não está em execução"
 
 #: src/components/modals/ServerInfoModal.tsx:115
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:150
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:159
 msgid "Email Settings"
 msgstr "Configurações de e-mail"
 
@@ -2743,8 +2744,8 @@ msgstr "Configurações do sistema"
 #: src/components/nav/MainMenu.tsx:78
 #: src/components/nav/SettingsHeader.tsx:42
 #: src/defaults/actions.tsx:191
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:355
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:360
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:372
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:377
 msgid "Admin Center"
 msgstr "Centro de administração"
 
@@ -3209,13 +3210,13 @@ msgid "Nenhum local com saldo deste material"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockIssuePage.tsx:54
-msgid "Saída registrada"
+#: src/pages/oab/StockEntryPage.tsx:56
+msgid "Entrada registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockEntryPage.tsx:56
-msgid "Entrada registrada"
+#: src/pages/oab/StockIssuePage.tsx:54
+msgid "Saída registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:178
@@ -6789,96 +6790,96 @@ msgstr "Status do sistema"
 msgid "Quick Actions"
 msgstr "Ações rápidas"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:136
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:145
 msgid "Home"
 msgstr "Início"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:143
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:152
 msgid "Users / Access"
 msgstr "Usuários / acesso"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:157
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:166
 msgid "Data Import"
 msgstr "Importador de dados"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:163
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:172
 msgid "Data Export"
 msgstr "Exportar dados"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:169
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:178
 msgid "Barcode Scans"
 msgstr "Leituras de código de barras"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:175
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:184
 msgid "Background Tasks"
 msgstr "Tarefas de segundo plano"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:181
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:190
 msgid "Error Reports"
 msgstr "Relatórios de erro"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:187
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:196
 msgid "Currencies"
 msgstr "Moedas"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:204
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:213
 msgid "Custom States"
 msgstr "Estados personalizados"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:210
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:226
 #: src/pages/Index/Settings/AdminCenter/UnitManagementPanel.tsx:57
 msgid "Custom Units"
 msgstr "Unidades personalizadas"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:237
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:253
 msgid "Category Parameters"
 msgstr "Parâmetros de categoria"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:256
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:272
 msgid "Report Snippets"
 msgstr "Snippets de relatório"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:262
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:278
 msgid "Report Assets"
 msgstr "Assets de relatório"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:268
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:284
 msgid "Location Types"
 msgstr "Tipos de local"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:282
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:298
 #: src/pages/Index/Settings/AdminCenter/MachineManagementPanel.tsx:52
 #: src/tables/machine/MachineTypeTable.tsx:326
 msgid "Machines"
 msgstr "Máquinas"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:289
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:305
 msgid "Identity"
 msgstr "Identidade"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:304
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:320
 msgid "Operations"
 msgstr "Operações"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:317
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:333
 msgid "Data Management"
 msgstr "Gerenciamento de dados"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:328
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:345
 #: src/pages/Index/Settings/SystemSettings.tsx:189
 #: src/pages/Index/Settings/UserSettings.tsx:126
 msgid "Reporting"
 msgstr "Relatórios"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:333
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:350
 msgid "PLM"
 msgstr "PLM"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:345
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:362
 msgid "Extend / Integrate"
 msgstr "Estender / Integrar"
 
-#: src/pages/Index/Settings/AdminCenter/Index.tsx:361
+#: src/pages/Index/Settings/AdminCenter/Index.tsx:378
 msgid "Advanced Options"
 msgstr "Opções avançadas"
 

@@ -287,6 +287,13 @@ MUST NOT ser expostas na interface: o histórico de movimentação é a prova de
 quem retirou e para quem foi entregue, e não deve ser descartável por
 configuração.
 
+#### Scenario: Cadastros ficam juntos na administração
+
+- **WHEN** um administrador abre o Centro de administração
+- **THEN** encontra Categorias ao lado das Unidades personalizadas, em
+  Gerenciamento de dados
+- **AND** consegue criar e alterar categorias por ali
+
 #### Scenario: Barra lateral sem módulos industriais
 
 - **WHEN** um administrador abre as Configurações do sistema

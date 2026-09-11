@@ -109,6 +109,15 @@ const CustomStateTable = Loadable(
   lazy(() => import('../../../../tables/settings/CustomStateTable'))
 );
 
+const PartCategoryTable = Loadable(
+  // Export nomeado: o carregamento tardio espera um export padrão.
+  lazy(() =>
+    import('../../../../tables/part/PartCategoryTable').then((m) => ({
+      default: m.PartCategoryTable
+    }))
+  )
+);
+
 const PartCategoryTemplateTable = Loadable(
   lazy(() => import('../../../../tables/part/PartCategoryTemplateTable'))
 );
@@ -204,6 +213,13 @@ export default function AdminCenter() {
           label: t`Custom States`,
           icon: <IconListDetails />,
           content: <CustomStateTable />
+        },
+        {
+          name: 'part-categories',
+          label: t`Categorias`,
+          icon: <IconSitemap />,
+          content: <PartCategoryTable />,
+          hidden: !user.hasViewRole(UserRoles.part_category)
         },
         {
           name: 'custom-units',
@@ -318,6 +334,7 @@ export default function AdminCenter() {
           panelIDs: [
             'import',
             'export',
+            'part-categories',
             'project-codes',
             'custom-states',
             'custom-units'
