@@ -13,7 +13,9 @@ import { useMemo } from 'react';
  */
 export function useMaterialFields({
   create = false
-}: { create?: boolean } = {}): ApiFormFieldSet {
+}: {
+  create?: boolean;
+} = {}): ApiFormFieldSet {
   return useMemo(() => {
     const fields: ApiFormFieldSet = {
       IPN: {
@@ -81,15 +83,18 @@ export function useMaterialFields({
 export function useCategoryFields(): ApiFormFieldSet {
   return useMemo(
     () => ({
-      parent: {
-        label: t`Categoria superior`,
-        required: false
+      name: {
+        label: t`Nome`,
+        description: t`Nome da categoria (ex.: Material de Escritório)`
       },
-      name: { label: t`Nome` },
-      description: { label: t`Descrição` },
-      default_location: {
-        label: t`Local padrão`,
-        filters: { structural: false }
+      description: {
+        label: t`Descrição`,
+        description: t`O que esta categoria agrupa (opcional)`
+      },
+      parent: {
+        label: t`Categoria pai`,
+        description: t`Deixe em branco para uma categoria principal`,
+        required: false
       }
     }),
     []

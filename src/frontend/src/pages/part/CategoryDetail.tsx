@@ -1,5 +1,12 @@
+import { ApiEndpoints } from '@lib/enums/ApiEndpoints';
+import { ModelType } from '@lib/enums/ModelType';
+import { UserRoles } from '@lib/enums/Roles';
+import { getDetailUrl } from '@lib/functions/Navigation';
+import type { StockOperationProps } from '@lib/types/Forms';
+import type { PanelType } from '@lib/types/Panel';
 import { t } from '@lingui/core/macro';
 import { LoadingOverlay, Stack } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
 import {
   IconCategory,
   IconInfoCircle,
@@ -11,14 +18,6 @@ import {
 } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import { ApiEndpoints } from '@lib/enums/ApiEndpoints';
-import { ModelType } from '@lib/enums/ModelType';
-import { UserRoles } from '@lib/enums/Roles';
-import { getDetailUrl } from '@lib/functions/Navigation';
-import type { StockOperationProps } from '@lib/types/Forms';
-import type { PanelType } from '@lib/types/Panel';
-import { useLocalStorage } from '@mantine/hooks';
 import AdminButton from '../../components/buttons/AdminButton';
 import StarredToggleButton from '../../components/buttons/StarredToggleButton';
 import {
@@ -33,7 +32,7 @@ import { PageDetail } from '../../components/nav/PageDetail';
 import { PanelGroup } from '../../components/panels/PanelGroup';
 import ParametersPanel from '../../components/panels/ParametersPanel';
 import SegmentedControlPanel from '../../components/panels/SegmentedControlPanel';
-import { partCategoryFields } from '../../forms/PartForms';
+import { useCategoryFields } from '../../forms/OabForms';
 import {
   useDeleteApiFormModal,
   useEditApiFormModal
@@ -111,8 +110,8 @@ export default function CategoryDetail() {
   const editCategory = useEditApiFormModal({
     url: ApiEndpoints.category_list,
     pk: id,
-    title: t`Edit Part Category`,
-    fields: partCategoryFields({}),
+    title: t`Editar Categoria`,
+    fields: useCategoryFields(),
     onFormSuccess: refreshInstance
   });
 
@@ -132,11 +131,11 @@ export default function CategoryDetail() {
   const deleteCategory = useDeleteApiFormModal({
     url: ApiEndpoints.category_list,
     pk: id,
-    title: t`Delete Part Category`,
+    title: t`Excluir Categoria`,
     fields: {
       delete_parts: {
-        label: t`Parts Action`,
-        description: t`Action for parts in this category`,
+        label: t`Materiais da categoria`,
+        description: t`O que fazer com os materiais desta categoria`,
         choices: deleteOptions,
         required: true,
         field_type: 'choice'
@@ -180,12 +179,12 @@ export default function CategoryDetail() {
         actions={[
           EditItemAction({
             hidden: !id || !user.hasChangeRole(UserRoles.part_category),
-            tooltip: t`Edit Part Category`,
+            tooltip: t`Editar Categoria`,
             onClick: () => editCategory.open()
           }),
           DeleteItemAction({
             hidden: !id || !user.hasDeleteRole(UserRoles.part_category),
-            tooltip: t`Delete Part Category`,
+            tooltip: t`Excluir Categoria`,
             onClick: () => deleteCategory.open()
           })
         ]}
@@ -209,13 +208,13 @@ export default function CategoryDetail() {
       },
       {
         name: 'subcategories',
-        label: id ? t`Subcategories` : t`Part Categories`,
+        label: id ? t`Subcategorias` : t`Categorias`,
         icon: <IconSitemap />,
         content: <PartCategoryTable parentId={id} />
       },
       SegmentedControlPanel({
         name: 'parts',
-        label: t`Parts`,
+        label: t`Materiais`,
         icon: <IconCategory />,
         selection: partsView,
         onChange: setPartsView,
@@ -276,7 +275,7 @@ export default function CategoryDetail() {
 
   const breadcrumbs = useMemo(
     () => [
-      { name: t`Parts`, url: '/part' },
+      { name: t`Materiais`, url: '/part' },
       ...(category.path ?? []).map((c: any) => ({
         name: c.name,
         url: getDetailUrl(ModelType.partcategory, c.pk),
@@ -310,7 +309,7 @@ export default function CategoryDetail() {
           <LoadingOverlay visible={instanceQuery.isFetching} />
           <NavigationTree
             modelType={ModelType.partcategory}
-            title={t`Part Categories`}
+            title={t`Categorias`}
             endpoint={ApiEndpoints.category_tree}
             childIdentifier='subcategories'
             opened={treeOpen}
@@ -320,7 +319,7 @@ export default function CategoryDetail() {
             selectedId={category?.pk}
           />
           <PageDetail
-            title={(category?.name ?? id) ? t`Part Category` : t`Parts`}
+            title={(category?.name ?? id) ? t`Categoria` : t`Categorias`}
             subtitle={category?.description}
             icon={category?.icon && <ApiIcon name={category?.icon} />}
             breadcrumbs={breadcrumbs}

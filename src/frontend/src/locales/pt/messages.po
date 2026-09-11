@@ -155,7 +155,10 @@ msgstr ""
 #: src/pages/Index/Settings/SystemSettings.tsx:213
 #: src/pages/oab/MaterialsPage.tsx:13
 #: src/pages/oab/MaterialsPage.tsx:15
+#: src/pages/part/CategoryDetail.tsx:217
+#: src/pages/part/CategoryDetail.tsx:278
 #: src/pages/part/PartDetail.tsx:571
+#: src/tables/part/PartCategoryTable.tsx:75
 msgid "Materiais"
 msgstr ""
 
@@ -179,7 +182,7 @@ msgid "Parameter Template"
 msgstr "Modelo do Parâmetro"
 
 #: lib/enums/ModelInformation.tsx:78
-#: src/pages/part/CategoryDetail.tsx:268
+#: src/pages/part/CategoryDetail.tsx:267
 msgid "Parameter Templates"
 msgstr ""
 
@@ -224,7 +227,8 @@ msgid "Manufacturer Parts"
 msgstr "Peças do fabricante"
 
 #: lib/enums/ModelInformation.tsx:117
-#: src/forms/OabForms.tsx:32
+#: src/forms/OabForms.tsx:34
+#: src/pages/part/CategoryDetail.tsx:322
 #: src/tables/oab/MaterialTable.tsx:118
 #: src/tables/oab/MaterialTable.tsx:182
 #: src/tables/oab/MovementTable.tsx:199
@@ -234,6 +238,9 @@ msgstr ""
 
 #: lib/enums/ModelInformation.tsx:118
 #: src/components/nav/NavigationDrawer.tsx:76
+#: src/pages/part/CategoryDetail.tsx:211
+#: src/pages/part/CategoryDetail.tsx:312
+#: src/pages/part/CategoryDetail.tsx:322
 #: src/pages/part/PartDetail.tsx:837
 msgid "Categorias"
 msgstr ""
@@ -640,22 +647,17 @@ msgid "Admin"
 msgstr ""
 
 #: lib/enums/Roles.tsx:37
-#: src/pages/part/CategoryDetail.tsx:218
-#: src/pages/part/CategoryDetail.tsx:279
-#: src/pages/part/CategoryDetail.tsx:323
 #: src/pages/part/PartCategoryDetailsPanel.tsx:69
 msgid "Parts"
 msgstr "Peças"
 
 #: lib/enums/Roles.tsx:39
-#: src/pages/part/CategoryDetail.tsx:212
-#: src/pages/part/CategoryDetail.tsx:313
 msgid "Part Categories"
 msgstr "Categorias da Peça"
 
 #: lib/enums/Roles.tsx:49
 #: src/pages/company/CompanyDetail.tsx:132
-#: src/pages/part/CategoryDetail.tsx:247
+#: src/pages/part/CategoryDetail.tsx:246
 #: src/pages/part/PartStockHistoryDetail.tsx:120
 #: src/pages/stock/LocationDetail.tsx:157
 #: src/pages/stock/StockLocationDetailsPanel.tsx:60
@@ -2007,6 +2009,14 @@ msgstr "Parado"
 msgid "Running"
 msgstr ""
 
+#: src/components/forms/KeepFormOpenSwitch.tsx:21
+msgid "Manter o formulário aberto"
+msgstr ""
+
+#: src/components/forms/KeepFormOpenSwitch.tsx:22
+msgid "Continuar no formulário depois de salvar, para cadastrar outro"
+msgstr ""
+
 #: src/components/forms/fields/ApiFormField.tsx:148
 msgid "Select location"
 msgstr ""
@@ -3017,7 +3027,7 @@ msgstr ""
 
 #: src/components/oab/MovementDetailModal.tsx:75
 #: src/components/tables/ColumnRenderers.tsx:125
-#: src/forms/OabForms.tsx:20
+#: src/forms/OabForms.tsx:22
 #: src/pages/oab/StockEntryPage.tsx:235
 #: src/pages/oab/StockIssuePage.tsx:262
 #: src/pages/part/PartDetailsPanel.tsx:84
@@ -3201,13 +3211,13 @@ msgid "Nenhum local com saldo deste material"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockEntryPage.tsx:56
-msgid "Entrada registrada"
+#: src/pages/oab/StockIssuePage.tsx:54
+msgid "Saída registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockIssuePage.tsx:54
-msgid "Saída registrada"
+#: src/pages/oab/StockEntryPage.tsx:56
+msgid "Entrada registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:178
@@ -3462,7 +3472,6 @@ msgstr ""
 
 #: src/components/previews/models/PartCategoryPreview.tsx:12
 #: src/components/tables/Filter.tsx:496
-#: src/pages/part/CategoryDetail.tsx:323
 msgid "Part Category"
 msgstr "Categoria da peça"
 
@@ -5174,63 +5183,62 @@ msgstr ""
 msgid "Optionally pre-fill this note from an existing template"
 msgstr ""
 
-#: src/forms/OabForms.tsx:21
+#: src/forms/OabForms.tsx:23
 msgid "Código interno do material (ex.: MAT-000123)"
 msgstr ""
 
-#: src/forms/OabForms.tsx:24
-#: src/forms/OabForms.tsx:88
-#: src/forms/OabForms.tsx:124
+#: src/forms/OabForms.tsx:26
+#: src/forms/OabForms.tsx:87
+#: src/forms/OabForms.tsx:129
 msgid "Nome"
 msgstr ""
 
-#: src/forms/OabForms.tsx:25
+#: src/forms/OabForms.tsx:27
 msgid "Nome do material como ele é conhecido no almoxarifado"
 msgstr ""
 
-#: src/forms/OabForms.tsx:28
-#: src/forms/OabForms.tsx:89
-#: src/forms/OabForms.tsx:107
-#: src/forms/OabForms.tsx:125
+#: src/forms/OabForms.tsx:30
+#: src/forms/OabForms.tsx:91
+#: src/forms/OabForms.tsx:112
+#: src/forms/OabForms.tsx:130
 #: src/tables/oab/SectorTable.tsx:74
 msgid "Descrição"
 msgstr ""
 
-#: src/forms/OabForms.tsx:29
+#: src/forms/OabForms.tsx:31
 msgid "Detalhe que ajude a identificar o material (opcional)"
 msgstr ""
 
-#: src/forms/OabForms.tsx:33
+#: src/forms/OabForms.tsx:35
 msgid "Categoria à qual o material pertence"
 msgstr ""
 
-#: src/forms/OabForms.tsx:39
+#: src/forms/OabForms.tsx:41
 msgid "Unidade de medida"
 msgstr ""
 
-#: src/forms/OabForms.tsx:40
+#: src/forms/OabForms.tsx:42
 msgid "Unidade utilizada no controle (ex.: unidade, caixa, resma)"
 msgstr ""
 
-#: src/forms/OabForms.tsx:43
+#: src/forms/OabForms.tsx:45
 msgid "Estoque mínimo"
 msgstr ""
 
-#: src/forms/OabForms.tsx:44
+#: src/forms/OabForms.tsx:46
 msgid "Quantidade a partir da qual o material é sinalizado como estoque baixo"
 msgstr ""
 
-#: src/forms/OabForms.tsx:47
-#: src/forms/OabForms.tsx:91
+#: src/forms/OabForms.tsx:49
 msgid "Local padrão"
 msgstr ""
 
-#: src/forms/OabForms.tsx:48
+#: src/forms/OabForms.tsx:50
 msgid "Onde este material fica normalmente guardado"
 msgstr ""
 
-#: src/forms/OabForms.tsx:54
-#: src/forms/OabForms.tsx:108
+#: src/forms/OabForms.tsx:56
+#: src/forms/OabForms.tsx:113
 #: src/pages/part/PartDetailsPanel.tsx:276
 #: src/tables/oab/MaterialTable.tsx:210
 #: src/tables/oab/SectorTable.tsx:79
@@ -5238,24 +5246,36 @@ msgstr ""
 msgid "Ativo"
 msgstr ""
 
-#: src/forms/OabForms.tsx:55
+#: src/forms/OabForms.tsx:57
 msgid "Materiais inativos não podem receber novas entradas"
 msgstr ""
 
-#: src/forms/OabForms.tsx:85
-msgid "Categoria superior"
+#: src/forms/OabForms.tsx:88
+msgid "Nome da categoria (ex.: Material de Escritório)"
 msgstr ""
 
-#: src/forms/OabForms.tsx:105
+#: src/forms/OabForms.tsx:92
+msgid "O que esta categoria agrupa (opcional)"
+msgstr ""
+
+#: src/forms/OabForms.tsx:95
+msgid "Categoria pai"
+msgstr ""
+
+#: src/forms/OabForms.tsx:96
+msgid "Deixe em branco para uma categoria principal"
+msgstr ""
+
+#: src/forms/OabForms.tsx:110
 msgid "Nome do setor"
 msgstr ""
 
-#: src/forms/OabForms.tsx:106
+#: src/forms/OabForms.tsx:111
 #: src/tables/oab/SectorTable.tsx:64
 msgid "Sigla"
 msgstr ""
 
-#: src/forms/OabForms.tsx:121
+#: src/forms/OabForms.tsx:126
 msgid "Local superior"
 msgstr ""
 
@@ -7373,7 +7393,7 @@ msgid "External"
 msgstr "Externos"
 
 #: src/pages/build/BuildIndex.tsx:94
-#: src/pages/part/CategoryDetail.tsx:225
+#: src/pages/part/CategoryDetail.tsx:224
 #: src/pages/purchasing/PurchasingIndex.tsx:103
 #: src/pages/purchasing/PurchasingIndex.tsx:130
 #: src/pages/purchasing/PurchasingIndex.tsx:159
@@ -7396,7 +7416,7 @@ msgid "Calendar View"
 msgstr ""
 
 #: src/pages/build/BuildIndex.tsx:106
-#: src/pages/part/CategoryDetail.tsx:239
+#: src/pages/part/CategoryDetail.tsx:238
 #: src/pages/purchasing/PurchasingIndex.tsx:115
 #: src/pages/purchasing/PurchasingIndex.tsx:142
 #: src/pages/purchasing/PurchasingIndex.tsx:165
@@ -7982,59 +8002,62 @@ msgstr ""
 msgid "O local de destino deve ser diferente do local de origem."
 msgstr ""
 
-#: src/pages/part/CategoryDetail.tsx:114
-#: src/pages/part/CategoryDetail.tsx:183
+#: src/pages/part/CategoryDetail.tsx:113
+#: src/pages/part/CategoryDetail.tsx:182
 #: src/tables/part/PartCategoryTable.tsx:124
-msgid "Edit Part Category"
-msgstr "Editar Categoria da Peça"
+msgid "Editar Categoria"
+msgstr ""
 
-#: src/pages/part/CategoryDetail.tsx:123
+#: src/pages/part/CategoryDetail.tsx:122
 msgid "Move items to parent category"
 msgstr ""
 
-#: src/pages/part/CategoryDetail.tsx:127
+#: src/pages/part/CategoryDetail.tsx:126
 #: src/pages/stock/LocationDetail.tsx:239
 msgid "Delete items"
 msgstr "Eliminar itens"
 
-#: src/pages/part/CategoryDetail.tsx:135
-#: src/pages/part/CategoryDetail.tsx:188
-msgid "Delete Part Category"
-msgstr "Definir Categoria da Peça"
+#: src/pages/part/CategoryDetail.tsx:134
+#: src/pages/part/CategoryDetail.tsx:187
+msgid "Excluir Categoria"
+msgstr ""
+
+#: src/pages/part/CategoryDetail.tsx:137
+msgid "Materiais da categoria"
+msgstr ""
 
 #: src/pages/part/CategoryDetail.tsx:138
-msgid "Parts Action"
-msgstr "Ações da peça"
+msgid "O que fazer com os materiais desta categoria"
+msgstr ""
 
-#: src/pages/part/CategoryDetail.tsx:139
-msgid "Action for parts in this category"
-msgstr "Ações para peças nesta categoria"
-
-#: src/pages/part/CategoryDetail.tsx:145
+#: src/pages/part/CategoryDetail.tsx:144
 msgid "Child Categories Action"
 msgstr "Ações para Categorias Filhas"
 
-#: src/pages/part/CategoryDetail.tsx:146
+#: src/pages/part/CategoryDetail.tsx:145
 msgid "Action for child categories in this category"
 msgstr "Ações para Caregorias Filhas nesta Categoria"
 
-#: src/pages/part/CategoryDetail.tsx:179
+#: src/pages/part/CategoryDetail.tsx:178
 #: src/tables/part/PartCategoryTable.tsx:145
 msgid "Category Actions"
 msgstr "Ações da Categoria"
 
-#: src/pages/part/CategoryDetail.tsx:205
+#: src/pages/part/CategoryDetail.tsx:204
 msgid "Category Details"
 msgstr "Detalhes da Categoria"
 
-#: src/pages/part/CategoryDetail.tsx:212
-#: src/pages/part/PartCategoryDetailsPanel.tsx:76
-msgid "Subcategories"
-msgstr "Sub-categorias"
+#: src/pages/part/CategoryDetail.tsx:211
+msgid "Subcategorias"
+msgstr ""
 
 #: src/pages/part/PartCategoryDetailsPanel.tsx:50
 msgid "Parent Category"
 msgstr "Categoria Parente"
+
+#: src/pages/part/PartCategoryDetailsPanel.tsx:76
+msgid "Subcategories"
+msgstr "Sub-categorias"
 
 #: src/pages/part/PartCategoryDetailsPanel.tsx:83
 #: src/pages/stock/StockLocationDetailsPanel.tsx:73
@@ -10464,7 +10487,7 @@ msgstr ""
 msgid "View Build Order"
 msgstr ""
 
-#: src/tables/part/PartCategoryTable.tsx:54
+#: src/tables/part/PartCategoryTable.tsx:53
 msgid "You are subscribed to notifications for this category"
 msgstr ""
 
@@ -10486,8 +10509,9 @@ msgid "Show categories to which the user is subscribed"
 msgstr ""
 
 #: src/tables/part/PartCategoryTable.tsx:105
-msgid "New Part Category"
-msgstr "Nova Categoria de Peça"
+#: src/tables/part/PartCategoryTable.tsx:163
+msgid "Nova Categoria"
+msgstr ""
 
 #: src/tables/part/PartCategoryTable.tsx:132
 msgid "Set Parent Category"
@@ -10501,10 +10525,6 @@ msgstr ""
 #: src/tables/part/PartCategoryTable.tsx:152
 msgid "Set parent category for the selected items"
 msgstr ""
-
-#: src/tables/part/PartCategoryTable.tsx:163
-msgid "Add Part Category"
-msgstr "Adicionar Categoria de Peça"
 
 #: src/tables/part/PartCategoryTemplateTable.tsx:56
 #: src/tables/part/PartCategoryTemplateTable.tsx:152

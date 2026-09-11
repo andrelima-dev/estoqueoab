@@ -1,9 +1,12 @@
+import { t } from '@lingui/core/macro';
 import { Switch } from '@mantine/core';
 import { useEffect, useState } from 'react';
 
 export function KeepFormOpenSwitch({
   onChange
-}: { onChange?: (v: boolean) => void }) {
+}: {
+  onChange?: (v: boolean) => void;
+}) {
   const [keepOpen, setKeepOpen] = useState(false);
 
   useEffect(() => {
@@ -15,8 +18,8 @@ export function KeepFormOpenSwitch({
       checked={keepOpen}
       radius='lg'
       size='sm'
-      label='Keep form open'
-      description='Keep form open after submitting'
+      label={t`Manter o formulário aberto`}
+      description={t`Continuar no formulário depois de salvar, para cadastrar outro`}
       onChange={(e) => setKeepOpen(e.currentTarget.checked)}
     />
   );

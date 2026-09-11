@@ -201,6 +201,16 @@ MUST NOT aparecer ao usuário.
 A troca SHALL ser feita nos rótulos (`ModelInformationDict`, colunas e painéis),
 não nos nomes de modelos ou rotas da API.
 
+Rótulos escritos como texto puro, fora do macro de tradução, MUST NOT existir:
+eles não são extraídos para os catálogos e ficam em inglês para sempre, sem
+aparecer em nenhuma medição de cobertura de tradução.
+
+#### Scenario: Tela de categorias sem termos da plataforma
+
+- **WHEN** um usuário abre Estoque → Categorias
+- **THEN** vê Categorias, Materiais e Categoria pai
+- **AND** não vê Peça, Part Category nem Parts
+
 #### Scenario: Ficha do material sem termos industriais
 
 - **WHEN** um usuário abre a ficha de um material

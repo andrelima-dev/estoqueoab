@@ -1,8 +1,3 @@
-import { t } from '@lingui/core/macro';
-import { Group, Tooltip } from '@mantine/core';
-import { IconBell } from '@tabler/icons-react';
-import { useCallback, useMemo, useState } from 'react';
-
 import { AddItemButton } from '@lib/components/AddItemButton';
 import { type RowAction, RowEditAction } from '@lib/components/RowActions';
 import { ApiEndpoints } from '@lib/enums/ApiEndpoints';
@@ -12,6 +7,10 @@ import { apiUrl } from '@lib/functions/Api';
 import useTable from '@lib/hooks/UseTable';
 import type { TableFilter } from '@lib/types/Filters';
 import type { TableColumn } from '@lib/types/Tables';
+import { t } from '@lingui/core/macro';
+import { Group, Tooltip } from '@mantine/core';
+import { IconBell } from '@tabler/icons-react';
+import { useCallback, useMemo, useState } from 'react';
 import { ActionDropdown } from '../../components/items/ActionDropdown';
 import { ApiIcon } from '../../components/items/ApiIcon';
 import {
@@ -19,7 +18,7 @@ import {
   DescriptionColumn
 } from '../../components/tables/ColumnRenderers';
 import { InvenTreeTable } from '../../components/tables/InvenTreeTable';
-import { partCategoryFields } from '../../forms/PartForms';
+import { useCategoryFields } from '../../forms/OabForms';
 import { InvenTreeIcon } from '../../functions/icons';
 import {
   useBulkEditApiFormModal,
@@ -73,6 +72,7 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
       }),
       {
         accessor: 'part_count',
+        title: t`Materiais`,
         sortable: true
       }
     ];
@@ -98,11 +98,11 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
     ];
   }, []);
 
-  const newCategoryFields = partCategoryFields({ create: true });
+  const newCategoryFields = useCategoryFields();
 
   const newCategory = useCreateApiFormModal({
     url: ApiEndpoints.category_list,
-    title: t`New Part Category`,
+    title: t`Nova Categoria`,
     fields: newCategoryFields,
     focus: 'name',
     initialData: {
@@ -116,12 +116,12 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
 
   const [selectedCategory, setSelectedCategory] = useState<number>(-1);
 
-  const editCategoryFields = partCategoryFields({ create: false });
+  const editCategoryFields = useCategoryFields();
 
   const editCategory = useEditApiFormModal({
     url: ApiEndpoints.category_list,
     pk: selectedCategory,
-    title: t`Edit Part Category`,
+    title: t`Editar Categoria`,
     fields: editCategoryFields,
     onFormSuccess: (record: any) => table.updateRecord(record)
   });
@@ -160,7 +160,7 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
       />,
       <AddItemButton
         key='add-part-category'
-        tooltip={t`Add Part Category`}
+        tooltip={t`Nova Categoria`}
         onClick={() => newCategory.open()}
         hidden={!can_add}
       />
