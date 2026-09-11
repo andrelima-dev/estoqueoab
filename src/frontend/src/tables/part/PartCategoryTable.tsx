@@ -9,7 +9,7 @@ import type { TableFilter } from '@lib/types/Filters';
 import type { TableColumn } from '@lib/types/Tables';
 import { t } from '@lingui/core/macro';
 import { Group, Tooltip } from '@mantine/core';
-import { IconBell } from '@tabler/icons-react';
+import { IconBell, IconSitemap } from '@tabler/icons-react';
 import { useCallback, useMemo, useState } from 'react';
 import { ActionDropdown } from '../../components/items/ActionDropdown';
 import { ApiIcon } from '../../components/items/ApiIcon';
@@ -98,6 +98,10 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
     ];
   }, []);
 
+  // Pai da próxima categoria a ser criada: vem da linha, quando a criação
+  // parte de "Nova subcategoria", ou do nível em que a tabela está.
+  const [parentForNew, setParentForNew] = useState<any>(parentId);
+
   const newCategoryFields = useCategoryFields();
 
   const newCategory = useCreateApiFormModal({
@@ -106,7 +110,7 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
     fields: newCategoryFields,
     focus: 'name',
     initialData: {
-      parent: parentId
+      parent: parentForNew
     },
     follow: true,
     modelType: ModelType.partcategory,
@@ -161,7 +165,10 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
       <AddItemButton
         key='add-part-category'
         tooltip={t`Nova Categoria`}
-        onClick={() => newCategory.open()}
+        onClick={() => {
+          setParentForNew(parentId);
+          newCategory.open();
+        }}
         hidden={!can_add}
       />
     ];
@@ -170,8 +177,19 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
   const rowActions = useCallback(
     (record: any): RowAction[] => {
       const can_edit = user.hasChangeRole(UserRoles.part_category);
+      const can_add = user.hasAddRole(UserRoles.part_category);
 
       return [
+        {
+          title: t`Nova subcategoria`,
+          tooltip: t`Criar uma categoria dentro desta`,
+          icon: <IconSitemap />,
+          hidden: !can_add,
+          onClick: () => {
+            setParentForNew(record.pk);
+            newCategory.open();
+          }
+        },
         RowEditAction({
           hidden: !can_edit,
           onClick: () => {
@@ -181,7 +199,7 @@ export function PartCategoryTable({ parentId }: Readonly<{ parentId?: any }>) {
         })
       ];
     },
-    [user]
+    [user, newCategory, editCategory]
   );
 
   return (

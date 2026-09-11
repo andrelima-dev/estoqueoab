@@ -7996,7 +7996,7 @@ msgstr "O local de destino deve ser diferente do local de origem."
 
 #: src/pages/part/CategoryDetail.tsx:113
 #: src/pages/part/CategoryDetail.tsx:182
-#: src/tables/part/PartCategoryTable.tsx:124
+#: src/tables/part/PartCategoryTable.tsx:128
 msgid "Editar Categoria"
 msgstr "Editar Categoria"
 
@@ -8031,7 +8031,7 @@ msgid "Action for child categories in this category"
 msgstr "Action for child categories in this category"
 
 #: src/pages/part/CategoryDetail.tsx:178
-#: src/tables/part/PartCategoryTable.tsx:145
+#: src/tables/part/PartCategoryTable.tsx:149
 msgid "Category Actions"
 msgstr "Category Actions"
 
@@ -10500,23 +10500,31 @@ msgstr "Show structural categories"
 msgid "Show categories to which the user is subscribed"
 msgstr "Show categories to which the user is subscribed"
 
-#: src/tables/part/PartCategoryTable.tsx:105
-#: src/tables/part/PartCategoryTable.tsx:163
+#: src/tables/part/PartCategoryTable.tsx:109
+#: src/tables/part/PartCategoryTable.tsx:167
 msgid "Nova Categoria"
 msgstr "Nova Categoria"
 
-#: src/tables/part/PartCategoryTable.tsx:132
+#: src/tables/part/PartCategoryTable.tsx:136
 msgid "Set Parent Category"
 msgstr "Set Parent Category"
 
-#: src/tables/part/PartCategoryTable.tsx:150
+#: src/tables/part/PartCategoryTable.tsx:154
 #: src/tables/stock/StockLocationTable.tsx:154
 msgid "Set Parent"
 msgstr "Set Parent"
 
-#: src/tables/part/PartCategoryTable.tsx:152
+#: src/tables/part/PartCategoryTable.tsx:156
 msgid "Set parent category for the selected items"
 msgstr "Set parent category for the selected items"
+
+#: src/tables/part/PartCategoryTable.tsx:184
+msgid "Nova subcategoria"
+msgstr "Nova subcategoria"
+
+#: src/tables/part/PartCategoryTable.tsx:185
+msgid "Criar uma categoria dentro desta"
+msgstr "Criar uma categoria dentro desta"
 
 #: src/tables/part/PartCategoryTemplateTable.tsx:56
 #: src/tables/part/PartCategoryTemplateTable.tsx:152

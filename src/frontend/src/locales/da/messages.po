@@ -8001,7 +8001,7 @@ msgstr ""
 
 #: src/pages/part/CategoryDetail.tsx:113
 #: src/pages/part/CategoryDetail.tsx:182
-#: src/tables/part/PartCategoryTable.tsx:124
+#: src/tables/part/PartCategoryTable.tsx:128
 msgid "Editar Categoria"
 msgstr ""
 
@@ -8036,7 +8036,7 @@ msgid "Action for child categories in this category"
 msgstr "Handling for underliggende kategorier i denne kategori"
 
 #: src/pages/part/CategoryDetail.tsx:178
-#: src/tables/part/PartCategoryTable.tsx:145
+#: src/tables/part/PartCategoryTable.tsx:149
 msgid "Category Actions"
 msgstr "Kategori Handlinger"
 
@@ -10505,23 +10505,31 @@ msgstr "Vis strukturelle kategorier"
 msgid "Show categories to which the user is subscribed"
 msgstr "Vis kategorier, som brugeren abonnerer på"
 
-#: src/tables/part/PartCategoryTable.tsx:105
-#: src/tables/part/PartCategoryTable.tsx:163
+#: src/tables/part/PartCategoryTable.tsx:109
+#: src/tables/part/PartCategoryTable.tsx:167
 msgid "Nova Categoria"
 msgstr ""
 
-#: src/tables/part/PartCategoryTable.tsx:132
+#: src/tables/part/PartCategoryTable.tsx:136
 msgid "Set Parent Category"
 msgstr "Sæt Overordnet Kategori"
 
-#: src/tables/part/PartCategoryTable.tsx:150
+#: src/tables/part/PartCategoryTable.tsx:154
 #: src/tables/stock/StockLocationTable.tsx:154
 msgid "Set Parent"
 msgstr "Sæt Overordnet"
 
-#: src/tables/part/PartCategoryTable.tsx:152
+#: src/tables/part/PartCategoryTable.tsx:156
 msgid "Set parent category for the selected items"
 msgstr "Sæt overordnet kategori for de valgte elementer"
+
+#: src/tables/part/PartCategoryTable.tsx:184
+msgid "Nova subcategoria"
+msgstr ""
+
+#: src/tables/part/PartCategoryTable.tsx:185
+msgid "Criar uma categoria dentro desta"
+msgstr ""
 
 #: src/tables/part/PartCategoryTemplateTable.tsx:56
 #: src/tables/part/PartCategoryTemplateTable.tsx:152

@@ -287,6 +287,11 @@ MUST NOT ser expostas na interface: o histórico de movimentação é a prova de
 quem retirou e para quem foi entregue, e não deve ser descartável por
 configuração.
 
+#### Scenario: Subcategoria criada a partir da categoria
+
+- **WHEN** o usuário aciona "Nova subcategoria" na linha de uma categoria
+- **THEN** o formulário abre com a categoria pai já preenchida
+
 #### Scenario: Cadastros ficam juntos na administração
 
 - **WHEN** um administrador abre o Centro de administração
