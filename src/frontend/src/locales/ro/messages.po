@@ -3210,13 +3210,13 @@ msgid "Nenhum local com saldo deste material"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockEntryPage.tsx:56
-msgid "Entrada registrada"
+#: src/pages/oab/StockIssuePage.tsx:54
+msgid "Saída registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockIssuePage.tsx:54
-msgid "Saída registrada"
+#: src/pages/oab/StockEntryPage.tsx:56
+msgid "Entrada registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:178
@@ -5888,16 +5888,16 @@ msgstr "Cele două câmpuri de parolă nu se potrivesc"
 msgid "Password Changed"
 msgstr "Parolă schimbată"
 
-#: src/hooks/UseDataExport.tsx:34
-msgid "Exporting Data"
+#: src/hooks/UseDataExport.tsx:35
+msgid "Exportando dados"
 msgstr ""
 
-#: src/hooks/UseDataExport.tsx:111
-msgid "Export Data"
+#: src/hooks/UseDataExport.tsx:117
+msgid "Exportar dados"
 msgstr ""
 
-#: src/hooks/UseDataExport.tsx:114
-msgid "Export"
+#: src/hooks/UseDataExport.tsx:120
+msgid "Exportar"
 msgstr ""
 
 #: src/hooks/UseForm.tsx:106

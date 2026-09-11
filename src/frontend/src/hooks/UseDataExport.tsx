@@ -3,6 +3,7 @@ import { t } from '@lingui/core/macro';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useApi } from '../contexts/ApiContext';
+import { OAB_SIMPLIFY_SETTINGS } from '../defaults/oab';
 import { extractAvailableFields } from '../functions/forms';
 import useDataOutput from './UseDataOutput';
 import { useCreateApiFormModal } from './UseForm';
@@ -31,7 +32,7 @@ export default function useDataExport({
   const [exportId, setExportId] = useState<number | undefined>(undefined);
 
   useDataOutput({
-    title: t`Exporting Data`,
+    title: t`Exportando dados`,
     id: exportId
   });
 
@@ -94,6 +95,11 @@ export default function useDataExport({
     fields.export_plugin = {
       ...fields.export_plugin,
       required: true,
+      // As demais extensões de exportação pertencem a módulos que este sistema
+      // não usa (estrutura de produto, parâmetros de peça, balanço). Sobra uma
+      // opção só, e um campo com uma opção só é ruído: fica oculto, com o
+      // exportador padrão já selecionado.
+      hidden: OAB_SIMPLIFY_SETTINGS,
       onValueChange: (value: string) => {
         if (!!value) {
           setPluginKey(value);
@@ -108,10 +114,10 @@ export default function useDataExport({
   const exportModal = useCreateApiFormModal({
     url: url,
     queryParams: new URLSearchParams(exportParams),
-    title: t`Export Data`,
+    title: t`Exportar dados`,
     method: 'GET',
     fields: exportFields,
-    submitText: t`Export`,
+    submitText: t`Exportar`,
     successMessage: null,
     timeout: 30 * 1000,
     onOpen: () => {

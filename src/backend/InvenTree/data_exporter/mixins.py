@@ -429,6 +429,13 @@ class DataExportViewMixin:
             output.mark_failure(error=str(e))
             raise ValidationError(_('Error occurred during data export'))
 
+        if isinstance(datafile, str):
+            # CSV e TSV saem de `tablib` como texto. Sem codificar aqui, o
+            # arquivo é gravado no encoding padrão do sistema (cp1252 no
+            # Windows) e os acentos chegam corrompidos ao usuário. A marca de
+            # ordem de bytes faz o Excel abrir o arquivo como UTF-8.
+            datafile = datafile.encode('utf-8-sig')
+
         # Update the output object with the exported data
         output.mark_complete(output=ContentFile(datafile, filename))
 

@@ -273,7 +273,12 @@ class StockMovement(InvenTree.models.InvenTreeModel):
     )
 
     date = models.DateTimeField(
-        auto_now_add=True, editable=False, db_index=True, verbose_name=_('Data')
+        auto_now_add=True,
+        editable=False,
+        db_index=True,
+        # 'Data' isolada colide com a palavra inglesa "Data" no catálogo de
+        # tradução e seria exibida como "Dados".
+        verbose_name=_('Data e hora'),
     )
 
     def save(self, *args, **kwargs):

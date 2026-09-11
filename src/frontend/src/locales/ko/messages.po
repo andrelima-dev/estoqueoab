@@ -3210,13 +3210,13 @@ msgid "Nenhum local com saldo deste material"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockEntryPage.tsx:56
-msgid "Entrada registrada"
+#: src/pages/oab/StockIssuePage.tsx:54
+msgid "Saída registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockIssuePage.tsx:54
-msgid "Saída registrada"
+#: src/pages/oab/StockEntryPage.tsx:56
+msgid "Entrada registrada"
 msgstr ""
 
 #: src/components/oab/QuickMovementModal.tsx:178
@@ -5888,17 +5888,17 @@ msgstr "두 개의 비밀번호 필드가 일치하지 않습니다"
 msgid "Password Changed"
 msgstr "비밀번호가 변경되었습니다."
 
-#: src/hooks/UseDataExport.tsx:34
-msgid "Exporting Data"
-msgstr "데이터 내보내기"
+#: src/hooks/UseDataExport.tsx:35
+msgid "Exportando dados"
+msgstr ""
 
-#: src/hooks/UseDataExport.tsx:111
-msgid "Export Data"
-msgstr "데이터 내보내기"
+#: src/hooks/UseDataExport.tsx:117
+msgid "Exportar dados"
+msgstr ""
 
-#: src/hooks/UseDataExport.tsx:114
-msgid "Export"
-msgstr "내보내다"
+#: src/hooks/UseDataExport.tsx:120
+msgid "Exportar"
+msgstr ""
 
 #: src/hooks/UseForm.tsx:106
 msgid "Item Created"

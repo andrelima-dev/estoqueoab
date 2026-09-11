@@ -217,6 +217,30 @@ editando registros anteriores.
 - **AND** registra uma movimentação do tipo AJUSTE com justificativa
   obrigatória
 
+### Requirement: Exportação legível
+
+A exportação de um relatório SHALL conter colunas legíveis: nomes de local,
+setor e usuário, e não as chaves estrangeiras. Um relatório com "Local de
+origem = 1" não serve a quem precisa lê-lo.
+
+Colunas técnicas — identificadores internos, código bruto do tipo de
+movimentação, referência ao registro de auditoria — MUST ficar fora.
+
+Arquivos de texto (CSV, TSV) MUST ser gravados em UTF-8 com marca de ordem de
+bytes. `tablib` devolve texto, e sem codificação explícita o arquivo sai no
+encoding padrão do sistema — cp1252 no Windows — corrompendo todos os acentos.
+A marca também faz o Excel abrir o arquivo corretamente.
+
+Etiquetas em português MUST NOT coincidir com palavras inglesas presentes no
+catálogo de tradução: `_('Data')` é traduzido para "Dados", porque "Data" é
+também a palavra inglesa.
+
+#### Scenario: Relatório legível por quem não conhece o banco
+
+- **WHEN** o histórico é exportado em CSV
+- **THEN** as colunas de local, setor e usuário trazem nomes
+- **AND** os acentos aparecem corretamente ao abrir no Excel
+
 ### Requirement: Horário no fuso da Seccional
 
 O servidor SHALL operar no fuso do Maranhão (`timezone: America/Fortaleza`, UTC−3

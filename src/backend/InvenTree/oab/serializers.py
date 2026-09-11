@@ -52,6 +52,11 @@ class StockMovementSerializer(
             'reference_date',
             'movement_type',
             'movement_type_display',
+            'part_label',
+            'location_from_name',
+            'location_to_name',
+            'sector_label',
+            'user_label',
             'part',
             'part_detail',
             'part_name',
@@ -77,8 +82,65 @@ class StockMovementSerializer(
 
         read_only_fields = fields
 
+    # Colunas usadas apenas na exportação: no lugar das chaves estrangeiras
+    # (que saem como números do banco e não dizem nada a quem lê o relatório),
+    # o nome correspondente.
+    export_only_fields = [
+        'part_label',
+        'location_from_name',
+        'location_to_name',
+        'sector_label',
+        'user_label',
+    ]
+
+    export_exclude_fields = [
+        'pk',
+        'movement_type',
+        'part',
+        'part_detail',
+        'part_name',
+        'location_from',
+        'location_from_detail',
+        'location_to',
+        'location_to_detail',
+        'sector',
+        'sector_detail',
+        'supplier',
+        'user',
+        'user_detail',
+        'tracking',
+    ]
+
+    part_label = serializers.CharField(
+        source='part_name', read_only=True, label=_('Material')
+    )
+
+    location_from_name = serializers.CharField(
+        source='location_from.name',
+        read_only=True,
+        default='',
+        label=_('Local de origem'),
+    )
+
+    location_to_name = serializers.CharField(
+        source='location_to.name',
+        read_only=True,
+        default='',
+        label=_('Local de destino'),
+    )
+
+    sector_label = serializers.CharField(
+        source='sector.name', read_only=True, default='', label=_('Setor')
+    )
+
+    user_label = serializers.CharField(
+        source='user.username', read_only=True, default='', label=_('Registrado por')
+    )
+
     movement_type_display = serializers.CharField(
-        source='get_movement_type_display', read_only=True
+        source='get_movement_type_display',
+        read_only=True,
+        label=_('Tipo (por extenso)')
     )
 
     part_detail = part_serializers.PartBriefSerializer(
