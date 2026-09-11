@@ -1,0 +1,216 @@
+{% load report %}
+{% load static %}
+
+{% comment %}
+  Termo de Entrega de Material — OAB Maranhão.
+
+  Documento que acompanha a saída de material do almoxarifado. Registra o que
+  saiu, para onde foi, quem retirou e quem registrou a operação, com espaço de
+  assinatura: é a peça que permite responsabilizar quem recebeu o material.
+
+  Cores conforme o Manual de Identidade Visual: azul Pantone 301 C (#004B87) e
+  vermelho Pantone 200 C (#BA0C2F).
+{% endcomment %}
+
+<head>
+  <style>
+    @page {
+      size: A4;
+      margin: 2cm 2cm 3cm 2cm;
+
+      @bottom-center {
+        content: "Documento gerado pelo Sistema de Estoque da OAB Maranhão";
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 8pt;
+        color: #6b7280;
+      }
+
+      @bottom-right {
+        content: "Página " counter(page) " de " counter(pages);
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 8pt;
+        color: #6b7280;
+      }
+    }
+
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+      color: #111827;
+    }
+
+    .cabecalho {
+      border-bottom: 3px solid #BA0C2F;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+    }
+
+    .marca {
+      display: inline-block;
+      background: #BA0C2F;
+      color: #fff;
+      font-size: 20pt;
+      font-weight: bold;
+      letter-spacing: 2px;
+      padding: 6px 14px;
+      vertical-align: middle;
+    }
+
+    .instituicao {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 14px;
+    }
+
+    .instituicao .nome {
+      font-size: 13pt;
+      font-weight: bold;
+      color: #004B87;
+    }
+
+    .instituicao .setor {
+      font-size: 9pt;
+      color: #6b7280;
+    }
+
+    h1 {
+      font-size: 14pt;
+      color: #004B87;
+      margin: 0 0 4px 0;
+    }
+
+    .numero {
+      font-size: 9pt;
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    table.dados {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 22px;
+    }
+
+    table.dados th,
+    table.dados td {
+      border: 1px solid #d1d5db;
+      padding: 7px 9px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    table.dados th {
+      background: #f3f4f6;
+      color: #004B87;
+      font-size: 9pt;
+      width: 32%;
+    }
+
+    .declaracao {
+      line-height: 1.6;
+      text-align: justify;
+      margin-bottom: 36px;
+    }
+
+    .destaque {
+      font-weight: bold;
+    }
+
+    .assinaturas {
+      width: 100%;
+      margin-top: 48px;
+    }
+
+    .assinaturas td {
+      width: 50%;
+      padding: 0 12px;
+      text-align: center;
+      vertical-align: bottom;
+    }
+
+    .linha {
+      border-top: 1px solid #111827;
+      padding-top: 6px;
+      font-size: 9pt;
+    }
+
+    .papel {
+      color: #6b7280;
+      font-size: 8pt;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cabecalho">
+    <span class="marca">OAB</span>
+    <span class="instituicao">
+      <div class="nome">Ordem dos Advogados do Brasil — Seccional Maranhão</div>
+      <div class="setor">Almoxarifado</div>
+    </span>
+  </div>
+
+  <h1>Termo de Entrega de Material</h1>
+  <div class="numero">Registro nº {{ movement.pk }} — emitido em {{ data }}</div>
+
+  <table class="dados">
+    <tr>
+      <th>Material</th>
+      <td>{{ material }}</td>
+    </tr>
+    <tr>
+      <th>Quantidade</th>
+      <td>{{ quantidade }}{% if movement.part.units %} {{ movement.part.units }}{% endif %}</td>
+    </tr>
+    <tr>
+      <th>Destino</th>
+      <td>{{ destino|default:"—" }}</td>
+    </tr>
+    <tr>
+      <th>Local de origem</th>
+      <td>{{ movement.location_from.name|default:"—" }}</td>
+    </tr>
+    {% if movement.requester %}
+    <tr>
+      <th>Solicitante</th>
+      <td>{{ movement.requester }}</td>
+    </tr>
+    {% endif %}
+    {% if movement.document %}
+    <tr>
+      <th>Documento de referência</th>
+      <td>{{ movement.document }}</td>
+    </tr>
+    {% endif %}
+    {% if movement.notes %}
+    <tr>
+      <th>Observações</th>
+      <td>{{ movement.notes }}</td>
+    </tr>
+    {% endif %}
+  </table>
+
+  <p class="declaracao">
+    Declaro, para os devidos fins, ter recebido do Almoxarifado da Seccional do
+    Maranhão da Ordem dos Advogados do Brasil o material discriminado acima, na
+    quantidade indicada, comprometendo-me a zelar por sua guarda e utilizá-lo
+    exclusivamente no interesse do serviço.
+  </p>
+
+  <table class="assinaturas">
+    <tr>
+      <td>
+        <div class="linha">
+          <span class="destaque">{{ responsavel|default:"—" }}</span><br />
+          <span class="papel">Recebedor do material</span>
+        </div>
+      </td>
+      <td>
+        <div class="linha">
+          <span class="destaque">{{ registrado_por|default:"—" }}</span><br />
+          <span class="papel">Responsável pelo registro no sistema</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>

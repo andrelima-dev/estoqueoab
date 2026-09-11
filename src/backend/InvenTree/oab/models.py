@@ -14,10 +14,12 @@ InvenTree:
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.timezone import localtime
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 import InvenTree.models
+from report.mixins import BaseReportContext, InvenTreeReportMixin
 
 
 class MovementType(models.TextChoices):
@@ -110,7 +112,23 @@ class Sector(InvenTree.models.InvenTreeModel):
         return self.name
 
 
-class StockMovement(InvenTree.models.InvenTreeModel):
+class StockMovementReportContext(BaseReportContext):
+    """Dados entregues ao modelo de relatório de uma movimentação.
+
+    `movement` é o registro em si; os demais são atalhos para o que um termo de
+    entrega precisa mostrar sem navegar relações dentro do template.
+    """
+
+    movement: 'StockMovement'
+    material: str
+    quantidade: str
+    destino: str
+    responsavel: str
+    registrado_por: str
+    data: str
+
+
+class StockMovement(InvenTreeReportMixin, InvenTree.models.InvenTreeModel):
     """Registro institucional de uma movimentação de estoque.
 
     Cada registro aponta para a entrada de auditoria do InvenTree
@@ -134,6 +152,36 @@ class StockMovement(InvenTree.models.InvenTreeModel):
     def get_api_url():
         """Retorna a URL da API para este modelo."""
         return reverse('api-oab-movement-list')
+
+    def report_context(self) -> StockMovementReportContext:
+        """Dados do termo de entrega desta movimentação."""
+        destino = self.sector.name if self.sector else ''
+
+        if not destino and self.location_to:
+            destino = self.location_to.name
+
+        quantidade = f'{self.quantity:.2f}'
+        if quantidade.endswith('.00'):
+            quantidade = quantidade[:-3]
+
+        if self.user:
+            registrado_por = self.user.get_full_name() or self.user.username
+        else:
+            registrado_por = ''
+
+        return {
+            'movement': self,
+            'material': self.part_name,
+            'quantidade': quantidade,
+            'destino': destino,
+            'responsavel': self.handler,
+            'registrado_por': registrado_por,
+            # `date` é guardado em UTC; sem converter, o termo sai com três
+            # horas a mais do que o relógio de quem assinou.
+            'data': localtime(self.date).strftime('%d/%m/%Y às %H:%M')
+            if self.date
+            else '',
+        }
 
     tracking = models.ForeignKey(
         'stock.StockItemTracking',

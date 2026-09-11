@@ -137,8 +137,8 @@ msgstr "No"
 #: src/pages/oab/StockTransferPage.tsx:111
 #: src/pages/part/PartDetail.tsx:849
 #: src/tables/oab/MaterialTable.tsx:103
-#: src/tables/oab/MovementTable.tsx:114
-#: src/tables/oab/MovementTable.tsx:191
+#: src/tables/oab/MovementTable.tsx:118
+#: src/tables/oab/MovementTable.tsx:195
 #: src/tables/oab/StockBalanceTable.tsx:64
 msgid "Material"
 msgstr "Material"
@@ -226,7 +226,7 @@ msgstr "Manufacturer Parts"
 #: src/pages/part/CategoryDetail.tsx:322
 #: src/tables/oab/MaterialTable.tsx:118
 #: src/tables/oab/MaterialTable.tsx:182
-#: src/tables/oab/MovementTable.tsx:199
+#: src/tables/oab/MovementTable.tsx:203
 #: src/tables/oab/StockBalanceTable.tsx:135
 msgid "Categoria"
 msgstr "Categoria"
@@ -494,7 +494,7 @@ msgid "Owners"
 msgstr "Owners"
 
 #: lib/enums/ModelInformation.tsx:292
-#: src/tables/oab/MovementTable.tsx:225
+#: src/tables/oab/MovementTable.tsx:229
 msgid "Usuário"
 msgstr "Usuário"
 
@@ -2779,8 +2779,8 @@ msgid "Nova Saída"
 msgstr "Nova Saída"
 
 #: src/components/nav/NavigationDrawer.tsx:119
-#: src/tables/oab/MovementTable.tsx:35
-#: src/tables/oab/MovementTable.tsx:185
+#: src/tables/oab/MovementTable.tsx:38
+#: src/tables/oab/MovementTable.tsx:189
 msgid "Transferência"
 msgstr "Transferência"
 
@@ -2973,6 +2973,19 @@ msgstr "No Results"
 msgid "No results available for search query"
 msgstr "No results available for search query"
 
+#: src/components/oab/DeliveryNoteButton.tsx:64
+#: src/components/oab/DeliveryNoteButton.tsx:71
+msgid "Termo de entrega"
+msgstr "Termo de entrega"
+
+#: src/components/oab/DeliveryNoteButton.tsx:65
+msgid "O documento não foi gerado"
+msgstr "O documento não foi gerado"
+
+#: src/components/oab/DeliveryNoteButton.tsx:72
+msgid "Não foi possível gerar o documento"
+msgstr "Não foi possível gerar o documento"
+
 #: src/components/oab/LocationInput.tsx:93
 msgid "Digite o nome do local"
 msgstr "Digite o nome do local"
@@ -2989,16 +3002,16 @@ msgstr "Desmarcado, serve apenas a esta movimentação e sai da lista quando fic
 #: src/components/oab/MovementButtons.tsx:42
 #: src/components/oab/MovementFields.tsx:191
 #: src/components/oab/QuickMovementModal.tsx:162
-#: src/tables/oab/MovementTable.tsx:31
-#: src/tables/oab/MovementTable.tsx:183
+#: src/tables/oab/MovementTable.tsx:34
+#: src/tables/oab/MovementTable.tsx:187
 msgid "Entrada"
 msgstr "Entrada"
 
 #: src/components/oab/MovementButtons.tsx:56
 #: src/components/oab/MovementFields.tsx:191
 #: src/components/oab/QuickMovementModal.tsx:162
-#: src/tables/oab/MovementTable.tsx:33
-#: src/tables/oab/MovementTable.tsx:184
+#: src/tables/oab/MovementTable.tsx:36
+#: src/tables/oab/MovementTable.tsx:188
 msgid "Saída"
 msgstr "Saída"
 
@@ -3011,7 +3024,7 @@ msgid "Voltar"
 msgstr "Voltar"
 
 #: src/components/oab/MovementDetailModal.tsx:64
-#: src/tables/oab/MovementTable.tsx:106
+#: src/tables/oab/MovementTable.tsx:110
 msgid "Tipo"
 msgstr "Tipo"
 
@@ -3069,7 +3082,7 @@ msgid "Local de destino"
 msgstr "Local de destino"
 
 #: src/components/oab/MovementDetailModal.tsx:106
-#: src/tables/oab/MovementTable.tsx:207
+#: src/tables/oab/MovementTable.tsx:211
 #: src/tables/oab/SectorTable.tsx:69
 msgid "Setor"
 msgstr "Setor"
@@ -3102,7 +3115,7 @@ msgid "Responsável pela retirada"
 msgstr "Responsável pela retirada"
 
 #: src/components/oab/MovementDetailModal.tsx:123
-#: src/tables/oab/MovementTable.tsx:161
+#: src/tables/oab/MovementTable.tsx:165
 msgid "Registrado por"
 msgstr "Registrado por"
 
@@ -3115,7 +3128,7 @@ msgstr "Documentação"
 #: src/pages/oab/StockAdjustPage.tsx:157
 #: src/pages/oab/StockEntryPage.tsx:117
 #: src/pages/oab/StockIssuePage.tsx:120
-#: src/tables/oab/MovementTable.tsx:167
+#: src/tables/oab/MovementTable.tsx:171
 msgid "Documento"
 msgstr "Documento"
 
@@ -3175,7 +3188,7 @@ msgid "De"
 msgstr "De"
 
 #: src/components/oab/MovementPeriodFilter.tsx:139
-#: src/tables/oab/MovementTable.tsx:234
+#: src/tables/oab/MovementTable.tsx:238
 msgid "Data inicial"
 msgstr "Data inicial"
 
@@ -3184,7 +3197,7 @@ msgid "Até"
 msgstr "Até"
 
 #: src/components/oab/MovementPeriodFilter.tsx:152
-#: src/tables/oab/MovementTable.tsx:240
+#: src/tables/oab/MovementTable.tsx:244
 msgid "Data final"
 msgstr "Data final"
 
@@ -3205,14 +3218,14 @@ msgid "Nenhum local com saldo deste material"
 msgstr "Nenhum local com saldo deste material"
 
 #: src/components/oab/QuickMovementModal.tsx:73
-#: src/pages/oab/StockIssuePage.tsx:54
-msgid "Saída registrada"
-msgstr "Saída registrada"
-
-#: src/components/oab/QuickMovementModal.tsx:73
 #: src/pages/oab/StockEntryPage.tsx:56
 msgid "Entrada registrada"
 msgstr "Entrada registrada"
+
+#: src/components/oab/QuickMovementModal.tsx:73
+#: src/pages/oab/StockIssuePage.tsx:54
+msgid "Saída registrada"
+msgstr "Saída registrada"
 
 #: src/components/oab/QuickMovementModal.tsx:178
 #: src/pages/oab/Dashboard.tsx:239
@@ -3222,7 +3235,7 @@ msgstr "Entrada registrada"
 #: src/pages/oab/StockIssuePage.tsx:171
 #: src/pages/oab/StockTransferPage.tsx:112
 #: src/pages/oab/StockTransferPage.tsx:165
-#: src/tables/oab/MovementTable.tsx:131
+#: src/tables/oab/MovementTable.tsx:135
 msgid "Quantidade"
 msgstr "Quantidade"
 
@@ -3243,7 +3256,7 @@ msgstr "Mais opções"
 
 #: src/components/oab/QuickMovementModal.tsx:239
 #: src/pages/oab/StockEntryPage.tsx:171
-#: src/tables/oab/MovementTable.tsx:138
+#: src/tables/oab/MovementTable.tsx:142
 msgid "Origem"
 msgstr "Origem"
 
@@ -3276,7 +3289,7 @@ msgstr "Confirmar"
 
 #: src/components/oab/SectorInput.tsx:45
 #: src/pages/oab/StockIssuePage.tsx:117
-#: src/tables/oab/MovementTable.tsx:145
+#: src/tables/oab/MovementTable.tsx:149
 msgid "Destino"
 msgstr "Destino"
 
@@ -7738,7 +7751,7 @@ msgid "Operação"
 msgstr "Operação"
 
 #: src/pages/oab/Dashboard.tsx:240
-#: src/tables/oab/MovementTable.tsx:153
+#: src/tables/oab/MovementTable.tsx:157
 msgid "Responsável"
 msgstr "Responsável"
 
@@ -7814,7 +7827,7 @@ msgstr "Ajuste registrado"
 #: src/pages/oab/StockAdjustPage.tsx:100
 #: src/pages/oab/StockAdjustPage.tsx:141
 #: src/tables/oab/MaterialTable.tsx:147
-#: src/tables/oab/MovementTable.tsx:217
+#: src/tables/oab/MovementTable.tsx:221
 #: src/tables/oab/StockBalanceTable.tsx:80
 #: src/tables/oab/StockBalanceTable.tsx:127
 msgid "Local"
@@ -10327,7 +10340,7 @@ msgid "Movimentar"
 msgstr "Movimentar"
 
 #: src/tables/oab/MaterialTable.tsx:183
-#: src/tables/oab/MovementTable.tsx:200
+#: src/tables/oab/MovementTable.tsx:204
 #: src/tables/oab/StockBalanceTable.tsx:136
 msgid "Filtrar por categoria de material"
 msgstr "Filtrar por categoria de material"
@@ -10360,48 +10373,56 @@ msgstr "Mostrar apenas materiais ativos"
 msgid "Nenhum material encontrado"
 msgstr "Nenhum material encontrado"
 
-#: src/tables/oab/MovementTable.tsx:37
-#: src/tables/oab/MovementTable.tsx:186
+#: src/tables/oab/MovementTable.tsx:40
+#: src/tables/oab/MovementTable.tsx:190
 msgid "Ajuste"
 msgstr "Ajuste"
 
-#: src/tables/oab/MovementTable.tsx:100
+#: src/tables/oab/MovementTable.tsx:104
 msgid "Data / Hora"
 msgstr "Data / Hora"
 
-#: src/tables/oab/MovementTable.tsx:179
+#: src/tables/oab/MovementTable.tsx:183
 msgid "Tipo de movimentação"
 msgstr "Tipo de movimentação"
 
-#: src/tables/oab/MovementTable.tsx:180
+#: src/tables/oab/MovementTable.tsx:184
 msgid "Filtrar por tipo de movimentação"
 msgstr "Filtrar por tipo de movimentação"
 
-#: src/tables/oab/MovementTable.tsx:192
+#: src/tables/oab/MovementTable.tsx:196
 msgid "Filtrar por material"
 msgstr "Filtrar por material"
 
-#: src/tables/oab/MovementTable.tsx:208
+#: src/tables/oab/MovementTable.tsx:212
 msgid "Filtrar por setor de destino"
 msgstr "Filtrar por setor de destino"
 
-#: src/tables/oab/MovementTable.tsx:218
+#: src/tables/oab/MovementTable.tsx:222
 msgid "Filtrar por local de origem ou destino"
 msgstr "Filtrar por local de origem ou destino"
 
-#: src/tables/oab/MovementTable.tsx:226
+#: src/tables/oab/MovementTable.tsx:230
 msgid "Filtrar pelo usuário que registrou a operação"
 msgstr "Filtrar pelo usuário que registrou a operação"
 
-#: src/tables/oab/MovementTable.tsx:235
+#: src/tables/oab/MovementTable.tsx:239
 msgid "Movimentações a partir desta data"
 msgstr "Movimentações a partir desta data"
 
-#: src/tables/oab/MovementTable.tsx:241
+#: src/tables/oab/MovementTable.tsx:245
 msgid "Movimentações até esta data"
 msgstr "Movimentações até esta data"
 
-#: src/tables/oab/MovementTable.tsx:279
+#: src/tables/oab/MovementTable.tsx:288
+msgid "Emitir termo de entrega"
+msgstr "Emitir termo de entrega"
+
+#: src/tables/oab/MovementTable.tsx:289
+msgid "Gerar o documento em PDF para assinatura"
+msgstr "Gerar o documento em PDF para assinatura"
+
+#: src/tables/oab/MovementTable.tsx:297
 msgid "Nenhuma movimentação encontrada"
 msgstr "Nenhuma movimentação encontrada"
 

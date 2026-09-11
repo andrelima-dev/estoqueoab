@@ -9,6 +9,8 @@ Uso::
     python manage.py oab_setup --with-sectors
 """
 
+from pathlib import Path
+
 from django.contrib.auth.models import Group, User
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -25,6 +27,18 @@ INSTANCE_NAME = 'Estoque OAB-MA'
 # Moeda da instituição. O padrão do InvenTree não inclui o Real, então o
 # seletor de moeda aparece sem a opção brasileira até que a lista de moedas
 # suportadas seja redefinida. USD e EUR permanecem para material importado.
+# Modelos de relatório da Seccional. O arquivo fica no próprio app, e é
+# reinstalado a cada `oab_setup`.
+REPORT_TEMPLATES = [
+    {
+        'file': 'oab_termo_entrega.html',
+        'name': 'Termo de Entrega de Material',
+        'description': 'Documento de entrega, com assinatura de quem recebeu',
+        'model_type': 'stockmovement',
+        'filename_pattern': 'Termo-Entrega-{{ movement.pk }}.pdf',
+    }
+]
+
 # Formato de data brasileiro (dia-mês-ano).
 DATE_FORMAT = 'DD-MM-YYYY'
 
@@ -101,6 +115,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Executa a configuração inicial."""
         self.apply_branding()
+        self.create_report_templates()
         self.apply_date_format()
         self.apply_currency()
         self.apply_stock_policy()
@@ -139,6 +154,44 @@ class Command(BaseCommand):
             )
 
         self.stdout.write(f'Formato de data aplicado: {DATE_FORMAT}')
+
+    def create_report_templates(self):
+        """Instala os modelos de relatório da Seccional, de forma idempotente.
+
+        O arquivo é relido a cada execução: assim uma correção no modelo entra
+        com um `oab_setup`, sem exigir reinstalação.
+        """
+        from django.core.files.base import ContentFile
+
+        from report.models import ReportTemplate
+
+        base = Path(__file__).resolve().parents[2] / 'templates' / 'report'
+
+        for modelo in REPORT_TEMPLATES:
+            caminho = base / modelo['file']
+
+            if not caminho.exists():
+                self.stdout.write(
+                    self.style.WARNING(f'Modelo não encontrado: {caminho.name}')
+                )
+                continue
+
+            conteudo = ContentFile(caminho.read_bytes(), caminho.name)
+
+            existente = ReportTemplate.objects.filter(
+                name=modelo['name'], model_type=modelo['model_type']
+            ).first()
+
+            if existente:
+                existente.template = conteudo
+                existente.description = modelo['description']
+                existente.filename_pattern = modelo['filename_pattern']
+                existente.save()
+                self.stdout.write(f'Modelo de relatório atualizado: {modelo["name"]}')
+            else:
+                campos = {k: v for k, v in modelo.items() if k != 'file'}
+                ReportTemplate.objects.create(template=conteudo, **campos)
+                self.stdout.write(f'Modelo de relatório criado: {modelo["name"]}')
 
     def apply_currency(self):
         """Define o Real como moeda da instituição.

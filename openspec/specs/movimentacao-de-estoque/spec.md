@@ -217,6 +217,34 @@ editando registros anteriores.
 - **AND** registra uma movimentação do tipo AJUSTE com justificativa
   obrigatória
 
+### Requirement: Termo de entrega em PDF
+
+Uma saída de material SHALL poder emitir um **Termo de Entrega** em PDF, com a
+identidade da Seccional, o material, a quantidade, o destino e duas linhas de
+assinatura: quem recebeu e quem registrou. É o documento que materializa a
+responsabilização de terceiro fora do sistema.
+
+O termo SHALL ser oferecido apenas em movimentações de saída — é nelas que
+alguém retira o material e assume a responsabilidade por ele.
+
+`StockMovement` SHALL declarar `InvenTreeReportMixin` e `report_context()`: é o
+ponto de extensão da plataforma para tornar um modelo imprimível, e evita
+alterar o mecanismo de relatórios.
+
+Datas no contexto do relatório MUST ser convertidas para o fuso local: o campo é
+guardado em UTC, e o termo sairia com três horas a mais do que o relógio de quem
+assinou.
+
+Comentários no modelo MUST usar `{% comment %}`: a forma `{# #}` só vale para
+uma linha, e um comentário de várias linhas é impresso no documento.
+
+#### Scenario: Termo emitido a partir da saída
+
+- **WHEN** o operador aciona "Emitir termo de entrega" numa saída
+- **THEN** um PDF é gerado com o material, a quantidade e o destino
+- **AND** traz o nome de quem recebeu e de quem registrou, sobre linhas de
+  assinatura
+
 ### Requirement: Exportação legível
 
 A exportação de um relatório SHALL conter colunas legíveis: nomes de local,

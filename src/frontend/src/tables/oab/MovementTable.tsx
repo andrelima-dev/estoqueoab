@@ -1,3 +1,4 @@
+import type { RowAction } from '@lib/components/RowActions';
 import { ApiEndpoints } from '@lib/enums/ApiEndpoints';
 import { ModelType } from '@lib/enums/ModelType';
 import { apiUrl } from '@lib/functions/Api';
@@ -7,10 +8,12 @@ import type { TableColumn } from '@lib/types/Tables';
 import { t } from '@lingui/core/macro';
 import { Badge, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconFileText } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 
 import { api } from '../../App';
+import { useDeliveryNote } from '../../components/oab/DeliveryNoteButton';
 import { MovementDetailModal } from '../../components/oab/MovementDetailModal';
 import { MovementPeriodFilter } from '../../components/oab/MovementPeriodFilter';
 import { InvenTreeTable } from '../../components/tables/InvenTreeTable';
@@ -80,6 +83,7 @@ export function MovementTable({
   const table = useTable(tableName);
 
   const [selected, setSelected] = useState<any>(null);
+  const { emitir, emitindo, disponivel } = useDeliveryNote();
   const [detailOpened, detailHandlers] = useDisclosure(false);
 
   // Opções do filtro por setor (lista curta, carregada de uma só vez)
@@ -275,6 +279,20 @@ export function MovementTable({
           enableSelection: false,
           enableSearch: true,
           tableFilters: filters,
+          rowActions: (record: any): RowAction[] =>
+            // Só a saída gera termo: é a operação em que alguém retira o
+            // material e assume a responsabilidade por ele.
+            disponivel && record.movement_type === MOVEMENT_TYPES.OUT
+              ? [
+                  {
+                    title: t`Emitir termo de entrega`,
+                    tooltip: t`Gerar o documento em PDF para assinatura`,
+                    icon: <IconFileText />,
+                    disabled: emitindo,
+                    onClick: () => emitir(record.pk)
+                  }
+                ]
+              : [],
           onRowClick: onRowClick,
           noRecordsText: t`Nenhuma movimentação encontrada`
         }}
